@@ -8,16 +8,14 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     <ReactLenis
       root
       options={{
-        lerp: 0.12,           // faster interpolation — less lag, still smooth
+        lerp: 0.1,
         smoothWheel: true,
-        wheelMultiplier: 0.8,  // slightly calmer wheel response
-        touchMultiplier: 1.5,  // snappy mobile touch
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
         infinite: false,
       }}
     >
-      <div style={{ position: 'relative' }}>
-        {children}
-      </div>
+      {children}
     </ReactLenis>
   );
 }
