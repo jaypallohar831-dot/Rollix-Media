@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="dark relative h-full antialiased" data-scroll-behavior="smooth">
+    <html lang="en" suppressHydrationWarning className="dark relative antialiased" data-scroll-behavior="smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} relative min-h-full font-sans`}
         style={{ position: 'relative' }}

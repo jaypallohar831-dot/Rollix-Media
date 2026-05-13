@@ -179,9 +179,9 @@
     contain: layout style;
   }
 
-  /* Sections should not affect each other's layout */
+  /* Sections should allow natural overflow for scroll libraries */
   section {
-    contain: content;
+    position: relative;
   }
 
   /* Images in cards should be GPU-composited */
