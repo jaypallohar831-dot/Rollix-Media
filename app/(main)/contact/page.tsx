@@ -1,10 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Section } from '@/components/layout';
-import { Check, Loader2, AlertCircle } from 'lucide-react';
+import { 
+  Check, 
+  Loader2, 
+  AlertCircle, 
+  Instagram, 
+  Twitter, 
+  Linkedin, 
+  Youtube, 
+  MessageSquare 
+} from 'lucide-react';
+import { servicesService } from '@/services/services.service';
 
 export default function ContactPage() {
+  const [services, setServices] = useState<any[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -15,6 +26,18 @@ export default function ContactPage() {
 
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    async function loadServices() {
+      try {
+        const data = await servicesService.getServices();
+        if (data) setServices(data);
+      } catch (err) {
+        console.error('Failed to load services:', err);
+      }
+    }
+    loadServices();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +65,14 @@ export default function ContactPage() {
       setErrorMessage(err.message);
     }
   };
+
+  const socialLinks = [
+    { name: 'Instagram', icon: Instagram, href: 'https://instagram.com/rollix.media', color: 'hover:text-pink-500' },
+    { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/911234567890', color: 'hover:text-green-500' },
+    { name: 'Twitter', icon: Twitter, href: 'https://twitter.com/rollixmedia', color: 'hover:text-blue-400' },
+    { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com/company/rollix-media', color: 'hover:text-blue-700' },
+    { name: 'YouTube', icon: Youtube, href: 'https://youtube.com/@rollixmedia', color: 'hover:text-red-600' },
+  ];
 
   return (
     <main className="relative min-h-screen pt-32 sm:pt-40 lg:pt-48">
@@ -124,23 +155,39 @@ export default function ContactPage() {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none"
-                        placeholder="+1 (555) 000-0000"
+                        placeholder="+91 00000-00000"
                       />
                     </div>
                     <div className="flex flex-col gap-2">
                       <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Service of Interest</label>
-                      <select 
-                        required
-                        value={formData.service_interest}
-                        onChange={(e) => setFormData({ ...formData, service_interest: e.target.value })}
-                        className="border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none appearance-none cursor-pointer"
-                      >
-                        <option value="" className="bg-[#0a0a0a]">Select a service</option>
-                        <option value="wedding" className="bg-[#0a0a0a]">Wedding Film</option>
-                        <option value="commercial" className="bg-[#0a0a0a]">Commercial Ad</option>
-                        <option value="brand" className="bg-[#0a0a0a]">Brand Story</option>
-                        <option value="photography" className="bg-[#0a0a0a]">Photography</option>
-                      </select>
+                      <div className="relative">
+                        <select 
+                          required
+                          value={formData.service_interest}
+                          onChange={(e) => setFormData({ ...formData, service_interest: e.target.value })}
+                          className="w-full border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none appearance-none cursor-pointer pr-10"
+                        >
+                          <option value="" className="bg-[#0a0a0a]">Select a service</option>
+                          {services.map(service => (
+                            <option key={service.id} value={service.title} className="bg-[#0a0a0a]">
+                              {service.title}
+                            </option>
+                          ))}
+                          {services.length === 0 && (
+                            <>
+                              <option value="Wedding Film" className="bg-[#0a0a0a]">Wedding Film</option>
+                              <option value="Commercial Ad" className="bg-[#0a0a0a]">Commercial Ad</option>
+                              <option value="Brand Story" className="bg-[#0a0a0a]">Brand Story</option>
+                              <option value="Photography" className="bg-[#0a0a0a]">Photography</option>
+                            </>
+                          )}
+                        </select>
+                        <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-white/40">
+                          <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                          </svg>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -184,14 +231,14 @@ export default function ContactPage() {
 
             {/* Contact Info */}
             <div className="flex flex-col gap-16 lg:pt-12">
-              <div className="space-y-6">
+              <div className="space-y-10">
                 <div>
                   <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-cinematic-orange/80">
-                    Office
+                    Location
                   </h3>
                   <p className="text-xl leading-relaxed text-white/70 font-light">
-                    124 Cinematic Blvd, Suite 400<br />
-                    Los Angeles, CA 90028
+                    Available Worldwide<br />
+                    Based in Mumbai, India
                   </p>
                 </div>
 
@@ -199,30 +246,36 @@ export default function ContactPage() {
                   <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-cinematic-orange/80">
                     Inquiries
                   </h3>
-                  <p className="text-xl leading-relaxed text-white/70 font-light">
-                    hello@rollix.media<br />
-                    +1 (555) 123-4567
+                  <p className="text-xl leading-relaxed text-white/70 font-light underline-offset-4 decoration-cinematic-orange/30">
+                    <a href="mailto:hello@rollix.media" className="hover:text-white transition-colors">hello@rollix.media</a><br />
+                    <a href="tel:+911234567890" className="hover:text-white transition-colors">+91 12345 67890</a>
                   </p>
                 </div>
               </div>
 
               <div>
-                <h3 className="mb-6 text-[10px] font-bold uppercase tracking-[0.3em] text-cinematic-orange/80">
+                <h3 className="mb-8 text-[10px] font-bold uppercase tracking-[0.3em] text-cinematic-orange/80">
                   Follow the Story
                 </h3>
-                <div className="flex flex-col gap-4 text-xl font-light text-white/70">
-                  <a href="#" className="group flex items-center gap-3 w-fit transition-colors hover:text-white">
-                    <span className="h-[1px] w-0 bg-cinematic-orange transition-all duration-500 group-hover:w-8" />
-                    Instagram
-                  </a>
-                  <a href="#" className="group flex items-center gap-3 w-fit transition-colors hover:text-white">
-                    <span className="h-[1px] w-0 bg-cinematic-orange transition-all duration-500 group-hover:w-8" />
-                    Vimeo
-                  </a>
-                  <a href="#" className="group flex items-center gap-3 w-fit transition-colors hover:text-white">
-                    <span className="h-[1px] w-0 bg-cinematic-orange transition-all duration-500 group-hover:w-8" />
-                    LinkedIn
-                  </a>
+                <div className="grid grid-cols-1 gap-6">
+                  {socialLinks.map((social) => (
+                    <a 
+                      key={social.name}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={cn(
+                        "group flex items-center gap-4 text-xl font-light text-white/70 transition-all duration-500",
+                        social.color
+                      )}
+                    >
+                      <social.icon className="h-6 w-6 transition-transform duration-500 group-hover:scale-110" />
+                      <span className="relative overflow-hidden">
+                        {social.name}
+                        <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-500 group-hover:w-full" />
+                      </span>
+                    </a>
+                  ))}
                 </div>
               </div>
             </div>

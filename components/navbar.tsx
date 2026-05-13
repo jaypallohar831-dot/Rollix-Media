@@ -71,7 +71,7 @@ export const Navbar = memo(function Navbar() {
           <div className="flex items-center gap-4">
             {/* Desktop CTA */}
             <motion.a
-              href="#contact"
+              href="/contact"
               className={cn(
                 'hidden items-center justify-center rounded-full px-6 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-[border-color,color,background-color] duration-500 lg:inline-flex cursor-pointer',
                 isScrolled

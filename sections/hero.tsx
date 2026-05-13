@@ -103,10 +103,10 @@ export function HeroSection() {
           variants={fadeUp}
           className="mt-10 flex flex-col items-center gap-4 sm:mt-14 sm:flex-row sm:gap-5"
         >
-          <CinematicButton variant="primary" href="#work">
+          <CinematicButton variant="primary" href="#portfolio">
             View Our Films
           </CinematicButton>
-          <CinematicButton variant="outline" href="#contact" showArrow={false}>
+          <CinematicButton variant="outline" href="/contact" showArrow={false}>
             Begin Your Story
           </CinematicButton>
         </motion.div>

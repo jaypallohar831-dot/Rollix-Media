@@ -158,17 +158,34 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Video URL (Optional)</label>
-                <div className="relative">
-                  <Video className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
-                  <input
-                    type="text"
-                    value={formData.video_url}
-                    onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] pl-11 pr-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
-                    placeholder="https://vimeo.com/... or /assets/... mp4"
-                  />
+                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Video Source</label>
+                <div className="flex gap-4 items-center">
+                  <div className="relative flex-1">
+                    <Video className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
+                    <input
+                      type="text"
+                      value={formData.video_url}
+                      onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
+                      className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] pl-11 pr-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
+                      placeholder="Cloudinary URL or /assets/... mp4"
+                    />
+                  </div>
+                  <label className="shrink-0 flex items-center justify-center h-12 px-6 rounded-xl bg-white/[0.05] hover:bg-cinematic-orange/20 hover:text-cinematic-orange border border-white/[0.1] hover:border-cinematic-orange/30 cursor-pointer transition-all">
+                    {uploading === 'video' ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
+                    <span className="text-xs font-bold uppercase tracking-wider">{uploading === 'video' ? 'Uploading...' : 'Upload Video'}</span>
+                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept="video/*" />
+                  </label>
                 </div>
+                {formData.video_url && (
+                  <div className="mt-4 rounded-xl overflow-hidden border border-white/[0.1] bg-black aspect-video max-w-sm">
+                    <video 
+                      src={formData.video_url} 
+                      className="h-full w-full object-cover"
+                      controls
+                      muted
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
