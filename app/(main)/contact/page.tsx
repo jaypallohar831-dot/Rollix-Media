@@ -13,6 +13,7 @@ import {
   MessageSquare 
 } from 'lucide-react';
 import { servicesService } from '@/services/services.service';
+import { cn } from '@/lib/utils';
 
 export default function ContactPage() {
   const [services, setServices] = useState<any[]>([]);
