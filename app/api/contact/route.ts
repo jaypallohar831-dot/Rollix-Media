@@ -45,7 +45,23 @@ export async function POST(request: Request) {
 
     // 2. Send Email Notification
     try {
-      const transporter = nodemailer.createTransport({
+      console.log('Attempting to send email notification...');
+      console.log('SMTP Config:', {
+        host: process.env.SMTP_HOST || 'smtp.gmail.com',
+        port: process.env.SMTP_PORT || '587',
+        user: process.env.SMTP_USER,
+        adminEmail: process.env.ADMIN_EMAIL
+      });
+
+      const isGmail = (process.env.SMTP_HOST || 'smtp.gmail.com').includes('gmail.com');
+      
+      const transporter = nodemailer.createTransport(isGmail ? {
+        service: 'gmail',
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      } : {
         host: process.env.SMTP_HOST || 'smtp.gmail.com',
         port: parseInt(process.env.SMTP_PORT || '587'),
         secure: process.env.SMTP_PORT === '465',
@@ -55,8 +71,17 @@ export async function POST(request: Request) {
         },
       });
 
+      // Verify connection configuration
+      try {
+        await transporter.verify();
+        console.log('SMTP connection verified successfully.');
+      } catch (verifyError) {
+        console.error('SMTP Verification Failed:', verifyError);
+        throw verifyError;
+      }
+
       const mailOptions = {
-        from: `"${name}" <${process.env.SMTP_USER}>`, // Send from the authenticated user to avoid spam filters
+        from: `"Rollix Media Lead" <${process.env.SMTP_USER}>`,
         replyTo: email,
         to: process.env.ADMIN_EMAIL,
         subject: `New Lead: ${service_interest || 'General Inquiry'} from ${name}`,
@@ -97,15 +122,19 @@ export async function POST(request: Request) {
       };
 
       // Only attempt to send if SMTP settings exist
-      if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-        await transporter.sendMail(mailOptions);
-        console.log('Email notification sent successfully.');
+      if (process.env.SMTP_USER && process.env.SMTP_PASS && process.env.ADMIN_EMAIL) {
+        const info = await transporter.sendMail(mailOptions);
+        console.log('Email notification sent successfully:', info.messageId);
       } else {
-        console.warn('SMTP settings are missing. Email notification skipped.');
+        console.warn('SMTP settings or ADMIN_EMAIL are missing. Email notification skipped.');
+        console.log('Current status:', {
+          hasUser: !!process.env.SMTP_USER,
+          hasPass: !!process.env.SMTP_PASS,
+          hasAdmin: !!process.env.ADMIN_EMAIL
+        });
       }
     } catch (emailError) {
       console.error('Failed to send email notification:', emailError);
-      // We don't fail the whole request if the email fails, as the data is already saved to Supabase
     }
 
     return NextResponse.json({ success: true, data });

@@ -20,20 +20,23 @@ export function PortfolioSection() {
         const data = await portfolioService.getProjects();
         if (data && data.length > 0) {
           // Map DB data to PortfolioItem type
-          const mappedItems: PortfolioItem[] = data.map((item: any) => ({
-            id: item.slug,
-            title: item.title,
-            category: (item.categories as any)?.title || 'Uncategorized',
-            tagline: item.seo_title || item.title,
-            description: item.description,
-            year: new Date(item.created_at).getFullYear().toString(),
-            image: item.thumbnail || '/assets/portfolio/wedding.png',
-            mediaType: item.video_url ? 'video' : 'image',
-            videoUrl: item.video_url || undefined,
-            tags: item.tags || [],
-            featured: item.featured,
-            group: item.featured ? 'featured' : 'trending'
-          }));
+          const mappedItems: PortfolioItem[] = data.map((item: any) => {
+            const fallback = PORTFOLIO_ITEMS.find(p => p.id === item.slug);
+            return {
+              id: item.slug,
+              title: item.title,
+              category: (item.categories as any)?.title || 'Uncategorized',
+              tagline: item.seo_title || item.title,
+              description: item.description,
+              year: new Date(item.created_at).getFullYear().toString(),
+              image: item.thumbnail || fallback?.image || '/assets/portfolio/wedding.png',
+              mediaType: (item.video_url || fallback?.videoUrl) ? 'video' : 'image',
+              videoUrl: item.video_url || fallback?.videoUrl || undefined,
+              tags: item.tags || fallback?.tags || [],
+              featured: item.featured,
+              group: item.featured ? 'featured' : 'trending'
+            };
+          });
           setItems(mappedItems);
         } else {
           // Fallback to hardcoded items if DB is empty
@@ -95,7 +98,7 @@ export function PortfolioSection() {
 
             <motion.p
               variants={fadeUp}
-              className="max-w-[380px] text-base leading-relaxed text-muted-foreground/60 lg:text-right"
+              className="max-w-[380px] text-base leading-relaxed text-muted-foreground/80 lg:text-right"
             >
               A curated archive of authentic emotions, cinematic grandeur, and timeless Indian visual stories.
             </motion.p>

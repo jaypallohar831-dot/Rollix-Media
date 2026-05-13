@@ -138,11 +138,11 @@ export const PortfolioCard = memo(function PortfolioCard({
         {/* Top-right year + duration */}
         <div className="absolute right-4 top-4 z-10 flex items-center gap-3 sm:right-6 sm:top-6">
           {item.duration && (
-            <span className="text-[10px] font-medium tracking-[0.15em] text-white/40 transition-colors duration-500 group-hover:text-white/60">
+            <span className="text-[10px] font-medium tracking-[0.15em] text-white/80 transition-colors duration-500 group-hover:text-white/90">
               {item.duration}
             </span>
           )}
-          <span className="text-[10px] font-medium tracking-[0.15em] text-white/30 transition-colors duration-500 group-hover:text-white/50">
+          <span className="text-[10px] font-medium tracking-[0.15em] text-white/70 transition-colors duration-500 group-hover:text-white/80">
             {item.year}
           </span>
         </div>

@@ -19,7 +19,7 @@ import { MobileMenu } from '@/components/mobile-menu';
 
 export const Navbar = memo(function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const { isScrolled, isVisible } = useScrollDirection(50, 300);
+  const { isScrolled } = useScrollDirection(50, 300);
   const pathname = usePathname();
 
   const toggleMobile = useCallback(() => {
@@ -39,10 +39,10 @@ export const Navbar = memo(function Navbar() {
             ? 'border-b border-white/[0.04] bg-[#050505]/60 backdrop-blur-md'
             : 'border-b border-transparent bg-transparent'
         )}
-        initial={{ y: -100, opacity: 0 }}
+        initial={{ y: -20, opacity: 0 }}
         animate={{
-          y: isVisible || isMobileOpen ? 0 : -100,
-          opacity: isVisible || isMobileOpen ? 1 : 0,
+          y: 0,
+          opacity: 1,
         }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >

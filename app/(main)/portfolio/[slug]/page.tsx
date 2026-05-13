@@ -42,6 +42,7 @@ export default function FilmDetailPage() {
         const res = await portfolioService.getProjectBySlug(slug);
         if (res) {
           const data = res as any;
+          const fallback = getFallbackItem(slug);
           const mapped: PortfolioItem = {
             id: data.slug,
             title: data.title,
@@ -49,15 +50,15 @@ export default function FilmDetailPage() {
             tagline: data.seo_title || data.title,
             description: data.description,
             year: new Date(data.created_at).getFullYear().toString(),
-            image: data.thumbnail || '/assets/portfolio/wedding.png',
-            mediaType: (data.video_url ? 'video' : 'image') as 'video' | 'image',
-            videoUrl: data.video_url || undefined,
-            tags: data.tags || [],
+            image: data.thumbnail || fallback?.image || '/assets/portfolio/wedding.png',
+            mediaType: (data.video_url || fallback?.videoUrl ? 'video' : 'image') as 'video' | 'image',
+            videoUrl: data.video_url || fallback?.videoUrl || undefined,
+            tags: data.tags || fallback?.tags || [],
             location: data.location || 'India',
-            client: (data as any).client,
-            duration: (data as any).duration,
-            crew: (data as any).crew || [],
-            gallery: (data as any).gallery_images?.map((img: string) => ({ type: 'image', src: img })) || []
+            client: (data as any).client || fallback?.client,
+            duration: (data as any).duration || fallback?.duration,
+            crew: (data as any).crew || fallback?.crew || [],
+            gallery: (data as any).gallery_images?.map((img: string) => ({ type: 'image', src: img })) || fallback?.gallery || []
           };
           setItem(mapped);
         } else {

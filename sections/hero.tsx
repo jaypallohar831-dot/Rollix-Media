@@ -65,7 +65,7 @@ export function HeroSection() {
       >
         {/* Eyebrow tag — removed backdrop-blur for performance */}
         <motion.div variants={fadeUp} className="mb-8 sm:mb-10">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-black/40 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-black/60 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-cinematic-orange animate-pulse" />
             Premium Cinematic Studio
           </span>
