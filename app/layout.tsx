@@ -24,6 +24,7 @@ export default function RootLayout({
           <SmoothScroll>
             {children}
           </SmoothScroll>
+          <SpeedInsights />
       </body>
     </html>
   );
