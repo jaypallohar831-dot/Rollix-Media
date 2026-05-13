@@ -38,10 +38,10 @@ export interface PortfolioItem {
 export const PORTFOLIO_CATEGORIES = [
   'All',
   'Wedding Film',
-  'Photography',
   'Commercial Ad',
   'Brand Story',
   'Cinematic Reel',
+  'Photography',
   'Social Campaign',
   'Motion Graphics',
 ] as const;

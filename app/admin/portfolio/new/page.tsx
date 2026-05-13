@@ -175,6 +175,16 @@ export default function NewPortfolioPage() {
                     <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept="video/*" />
                   </label>
                 </div>
+                {formData.video_url && (
+                  <div className="mt-4 rounded-xl overflow-hidden border border-white/[0.1] bg-black aspect-video max-w-sm">
+                    <video 
+                      src={formData.video_url} 
+                      className="h-full w-full object-cover"
+                      controls
+                      muted
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="space-y-2">
