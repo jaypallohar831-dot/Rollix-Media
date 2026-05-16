@@ -125,7 +125,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     year: '2024',
     month: 'MAY',
     location: 'Global',
-    image: '/assets/portfolio/reel.png',
+    image: '/assets/portfolio/social.png',
     mediaType: 'video',
     videoUrl: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4',
     tags: ['Reel', 'Cinematic', 'Visuals'],
@@ -136,7 +136,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { role: 'Lead Editor', name: 'Varun Sharma' },
     ],
     gallery: [
-      { type: 'video', src: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4', poster: '/assets/portfolio/reel.png' },
+      { type: 'video', src: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4', poster: '/assets/portfolio/social.png' },
     ],
   },
   {

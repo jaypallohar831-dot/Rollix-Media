@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
+import { AdminAuthError, requireAdmin } from '@/lib/admin-auth';
 
 export async function GET(request: Request) {
   try {
@@ -17,9 +18,9 @@ export async function GET(request: Request) {
           getAll() {
             return cookieStore.getAll();
           },
-          setAll(cookiesToSet) {
-            // Read-only, no need to set
-          },
+setAll() {
+             // Read-only, no need to set
+           },
         },
       }
     );
@@ -31,9 +32,19 @@ export async function GET(request: Request) {
       .order('created_at', { ascending: false });
 
     if (category) {
-      // Find category ID first or assume frontend passes slug and do an inner join
-      // We will just do a simple filter if needed, but for now let's just return all
-      // Or we can query category and use its id.
+      const normalizedCategory = category.trim().toLowerCase();
+      if (!/^[a-z0-9-]+$/.test(normalizedCategory)) {
+        return NextResponse.json({ error: 'Invalid category' }, { status: 400 });
+      }
+
+      const { data: categoryRow, error: categoryError } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('slug', normalizedCategory)
+        .maybeSingle();
+
+      if (categoryError) throw categoryError;
+      query = categoryRow ? query.eq('category_id', categoryRow.id) : query.eq('category_id', '00000000-0000-0000-0000-000000000000');
     }
 
     if (featured === 'true') {
@@ -56,33 +67,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-          setAll(cookiesToSet) {
-            try {
-              cookiesToSet.forEach(({ name, value, options }) =>
-                cookieStore.set(name, value, options)
-              );
-            } catch {}
-          },
-        },
-      }
-    );
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    const { supabase } = await requireAdmin();
 
     const body = await request.json();
     const {
@@ -126,6 +111,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, data }, { status: 201 });
   } catch (error) {
+    if (error instanceof AdminAuthError) {
+      return NextResponse.json({ error: error.message }, { status: error.status });
+    }
+
     console.error('Create Portfolio Error:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },

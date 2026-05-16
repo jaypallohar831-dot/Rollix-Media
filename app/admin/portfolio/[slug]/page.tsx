@@ -1,30 +1,31 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, use, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import type { Database } from '@/types/database.types';
 import { 
   Upload, 
   X, 
   Check, 
   Loader2, 
-  Image as ImageIcon, 
   ChevronLeft,
   Sparkles,
-  Search,
   Plus,
   Video
 } from 'lucide-react';
+
+type Category = Database['public']['Tables']['categories']['Row'];
 
 export default function EditPortfolioPage({ params }: { params: Promise<{ slug: string }> }) {
   const router = useRouter();
   const resolvedParams = use(params);
   const slug = resolvedParams.slug;
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [uploading, setUploading] = useState<string | null>(null);
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -68,9 +69,9 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
       setFetching(false);
     }
     loadData();
-  }, [slug]);
+  }, [slug, supabase]);
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'thumbnail' | 'gallery') => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'thumbnail' | 'gallery' | 'video') => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -89,6 +90,8 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
       if (data.success) {
         if (type === 'thumbnail') {
           setFormData(prev => ({ ...prev, thumbnail: data.url }));
+        } else if (type === 'video') {
+          setFormData(prev => ({ ...prev, video_url: data.url }));
         } else {
           setFormData(prev => ({ ...prev, gallery_images: [...prev.gallery_images, data.url] }));
         }
@@ -134,7 +137,7 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
         <h1 className="font-heading text-4xl font-light text-white">
           Edit <span className="text-gradient-warm italic font-medium">Work</span>
         </h1>
-        <p className="mt-2 text-muted-foreground font-light">Update the details for "{formData.title}".</p>
+        <p className="mt-2 text-muted-foreground font-light">Update the details for &ldquo;{formData.title}&rdquo;.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -204,9 +207,10 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
           <section className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 space-y-6">
             <h2 className="font-heading text-lg text-white">Gallery Showcase</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {formData.gallery_images.map((img, idx) => (
-                <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-white/[0.1] group">
-                  <img src={img} className="h-full w-full object-cover" />
+{formData.gallery_images.map((img, idx) => (
+                 <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-white/[0.1] group">
+                   {/* eslint-disable-next-line @next/next/no-img-element */}
+                   <img src={img} alt={`Gallery image ${idx + 1}`} className="h-full w-full object-cover" />
                   <button 
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, gallery_images: prev.gallery_images.filter((_, i) => i !== idx) }))}
@@ -266,7 +270,8 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/[0.08] bg-black/40 group">
               {formData.thumbnail ? (
                 <>
-                  <img src={formData.thumbnail} className="h-full w-full object-cover" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={formData.thumbnail} alt="Project cover" className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                      <label className="cursor-pointer p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-cinematic-orange hover:text-black transition-all">
                        <Upload className="h-5 w-5" />

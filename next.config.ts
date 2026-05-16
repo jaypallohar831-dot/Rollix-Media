@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["10.196.1.136", "10.196.4.136", "localhost", "10.47.81.136"],
+  allowedDevOrigins: ["10.196.1.136", "10.196.4.136", "localhost", "10.47.81.136", "192.168.29.77"],
 
   // Image optimization — auto WebP/AVIF conversion
   images: {

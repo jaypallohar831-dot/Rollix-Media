@@ -1,5 +1,5 @@
 import { ServicesSection } from '@/sections/services';
-import { Container, Section, SectionHeader, Divider } from '@/components/layout';
+import { Container, Divider } from '@/components/layout';
 
 export default function ServicesOverviewPage() {
   return (

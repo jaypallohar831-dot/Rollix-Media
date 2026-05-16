@@ -189,7 +189,8 @@ export default function NewTestimonialPage() {
             <div className="relative h-24 w-24 mx-auto rounded-full overflow-hidden border border-white/[0.08] bg-black/40 group">
               {formData.avatar_url ? (
                 <>
-                  <img src={formData.avatar_url} className="h-full w-full object-cover" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={formData.avatar_url} alt="Client avatar" className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                      <label className="cursor-pointer p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-cinematic-orange hover:text-black transition-all">
                        <Upload className="h-4 w-4" />

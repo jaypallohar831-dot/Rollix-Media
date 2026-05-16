@@ -1,12 +1,12 @@
 import {
-  Film,
-  Video,
   Scissors,
-  TrendingUp,
-  Sparkles,
+  Monitor,
   Share2,
+  TrendingUp,
+  Video,
   Megaphone,
-  Layers,
+  Zap,
+  Sparkles,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -16,71 +16,73 @@ export interface ServiceItem {
   title: string;
   description: string;
   icon: LucideIcon;
+  featured?: boolean;
 }
 
 export const SERVICES: ServiceItem[] = [
   {
     index: '01',
-    slug: 'wedding-films',
-    title: 'Luxury Wedding Films',
+    slug: 'video-editing',
+    title: 'Professional Video Editing',
     description:
-      'Cinematic Indian love stories captured with emotional depth, artful composition, and a documentary sensibility that turns your big day into a timeless heirloom.',
-    icon: Film,
+      'High-end post-production, color grading, and sound design. We transform raw footage into cinematic masterpieces that command attention.',
+    icon: Scissors,
+    featured: true,
   },
   {
     index: '02',
-    slug: 'pre-wedding',
-    title: 'Pre-Wedding Narratives',
+    slug: 'web-design',
+    title: 'Strategic Web Designing',
     description:
-      'Emotional, visually stunning pre-wedding films shot with premium cinematography, capturing the chemistry and anticipation of your journey.',
-    icon: Video,
+      'Conversion-focused, premium websites designed to provide an immersive experience while turning visitors into loyal clients.',
+    icon: Monitor,
   },
   {
     index: '03',
-    slug: 'reels-shorts',
-    title: 'Reels & Short Films',
+    slug: 'social-media',
+    title: 'Social Media Management',
     description:
-      'High-impact, cinematic reels and short-form storytelling designed to capture the vibrant essence of your celebrations for modern platforms.',
-    icon: Scissors,
-  },
-  {
-    index: '04',
-    slug: 'creative-production',
-    title: 'Creative Production',
-    description:
-      'End-to-end creative production for luxury brands and lifestyle—bringing a premium Indian aesthetic and cinematic scale to your vision.',
-    icon: Sparkles,
-  },
-  {
-    index: '05',
-    slug: 'brand-films',
-    title: 'Brand Films',
-    description:
-      'High-impact brand documentaries and commercial films that combine cinematic production quality with deeply human storytelling.',
-    icon: Megaphone,
-  },
-  {
-    index: '06',
-    slug: 'visual-identity',
-    title: 'Visual Identity',
-    description:
-      'Elegant brand identities and visual systems for premium businesses, crafted with the same luxurious attention to detail as our films.',
-    icon: Layers,
-  },
-  {
-    index: '07',
-    slug: 'social-campaigns',
-    title: 'Cinematic Campaigns',
-    description:
-      'Scroll-stopping social media campaigns that leverage our cinematic expertise to build luxury brands and engage premium audiences.',
+      'Data-driven social strategies and content creation that build a powerful digital presence and foster community engagement.',
     icon: Share2,
   },
   {
-    index: '08',
-    slug: 'digital-experiences',
-    title: 'Digital Experiences',
+    index: '04',
+    slug: 'seo-dominance',
+    title: 'SEO & Search Dominance',
     description:
-      'Minimal, premium, and immersive web design that extends your brand\'s luxury narrative into the digital space.',
+      'Technical SEO and content strategy designed to put your brand at the top of search results and drive organic growth.',
     icon: TrendingUp,
+  },
+  {
+    index: '05',
+    slug: 'videography',
+    title: 'Cinematic Videography',
+    description:
+      'On-site production for commercials, brand stories, and events, captured with industry-leading equipment and artistic vision.',
+    icon: Video,
+  },
+  {
+    index: '06',
+    slug: 'digital-marketing',
+    title: 'Digital Marketing Strategy',
+    description:
+      'Full-funnel marketing campaigns combining paid media, email marketing, and funnel optimization for maximum ROI.',
+    icon: Megaphone,
+  },
+  {
+    index: '07',
+    slug: 'business-growth',
+    title: 'Business Growth Consulting',
+    description:
+      'Strategic scaling solutions that identify bottlenecks and leverage digital tools to accelerate your business revenue.',
+    icon: Zap,
+  },
+  {
+    index: '08',
+    slug: 'creative-direction',
+    title: 'Creative Direction',
+    description:
+      'Developing unique visual languages and brand narratives that differentiate your business in a crowded marketplace.',
+    icon: Sparkles,
   },
 ];

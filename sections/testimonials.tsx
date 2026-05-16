@@ -7,8 +7,18 @@ import { Quote, Star, User, ChevronLeft, ChevronRight, Loader2 } from 'lucide-re
 import { testimonialsService } from '@/services/testimonials.service';
 import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
 
+interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  company?: string;
+  content: string;
+  rating: number;
+  avatar_url?: string;
+}
+
 export function TestimonialsSection() {
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -17,10 +27,10 @@ export function TestimonialsSection() {
       try {
         const data = await testimonialsService.getTestimonials();
         if (data && data.length > 0) {
-          setTestimonials(data as any[]);
+          setTestimonials(data as Testimonial[]);
         }
-      } catch (err: any) {
-        console.error('Failed to fetch testimonials:', err?.message || err);
+      } catch (err: unknown) {
+        console.error('Failed to fetch testimonials:', err instanceof Error ? err.message : String(err));
       } finally {
         setLoading(false);
       }
@@ -39,7 +49,10 @@ export function TestimonialsSection() {
     <section className="relative overflow-hidden bg-[#030303] py-28 sm:py-36">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cinematic-orange/5 blur-[120px] rounded-full opacity-30" />
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-30"
+          style={{ background: 'radial-gradient(circle, rgba(212,118,60,0.08) 0%, transparent 60%)' }}
+        />
       </div>
 
       <Container>
@@ -74,7 +87,7 @@ export function TestimonialsSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.05 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 sm:p-16 backdrop-blur-sm text-center"
+                className="relative rounded-3xl border border-white/[0.08] bg-[#0c0c0c]/95 p-8 sm:p-16 text-center"
               >
                 <Quote className="absolute top-8 left-8 h-12 w-12 text-cinematic-orange/10" />
                 
@@ -87,13 +100,16 @@ export function TestimonialsSection() {
                 </div>
 
                 <p className="text-xl sm:text-2xl font-light leading-relaxed text-white/90 italic mb-10">
-                  "{current.content}"
+                  &ldquo;{current.content}&rdquo;
                 </p>
 
                 <div className="flex flex-col items-center">
                   <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-cinematic-orange/20 mb-4 bg-black/40">
                     {current.avatar_url ? (
-                      <img src={current.avatar_url} alt={current.name} className="h-full w-full object-cover" />
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={current.avatar_url} alt={current.name} className="h-full w-full object-cover" />
+                      </>
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-white/20">
                         <User className="h-8 w-8" />

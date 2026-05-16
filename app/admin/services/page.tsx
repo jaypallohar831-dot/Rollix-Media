@@ -1,11 +1,11 @@
-import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { Plus, Pencil, Trash2, Zap, ExternalLink } from 'lucide-react';
+import { Plus, Pencil, Trash2, Zap } from 'lucide-react';
+import { requireAdminOrRedirect } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminServicesPage() {
-  const supabase = await createClient();
+  const { supabase } = await requireAdminOrRedirect();
   
   // Fetch services from Supabase
   const { data: services, error } = await supabase

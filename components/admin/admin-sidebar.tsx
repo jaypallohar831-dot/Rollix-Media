@@ -9,7 +9,8 @@ import {
   Users, 
   MessageSquare, 
   Settings, 
-  LogOut 
+  LogOut,
+  type LucideIcon
 } from 'lucide-react';
 
 export function AdminSidebar() {
@@ -33,7 +34,8 @@ export function AdminSidebar() {
         <div className="mb-12 px-4">
           <Link href="/admin" className="flex items-center gap-3">
             <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden">
-              <img src="/assets/logo.png" alt="Logo" className="object-contain" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/assets/logo.png" alt="Rollix Media logo" className="object-contain" />
             </div>
             <span className="font-heading text-sm uppercase tracking-[0.2em] text-foreground font-bold">
               Studio <span className="text-cinematic-orange">Admin</span>
@@ -66,7 +68,7 @@ export function AdminSidebar() {
   );
 }
 
-function NavItem({ href, icon: Icon, label, active = false }: { href: string, icon: any, label: string, active?: boolean }) {
+function NavItem({ href, icon: Icon, label, active = false }: { href: string, icon: LucideIcon, label: string, active?: boolean }) {
   return (
     <Link
       href={href}

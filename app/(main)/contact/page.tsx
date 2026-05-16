@@ -13,10 +13,11 @@ import {
   MessageSquare 
 } from 'lucide-react';
 import { servicesService } from '@/services/services.service';
+import type { Service } from '@/services/services.service';
 import { cn } from '@/lib/utils';
 
 export default function ContactPage() {
-  const [services, setServices] = useState<any[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -60,10 +61,10 @@ export default function ContactPage() {
 
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', service_interest: '', message: '' });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Submission error:', err);
       setStatus('error');
-      setErrorMessage(err.message);
+      setErrorMessage(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     }
   };
 

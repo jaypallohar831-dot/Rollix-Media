@@ -1,10 +1,12 @@
 'use client';
 
 import { memo, useRef } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Play } from 'lucide-react';
+import { MarketingMotionVisual } from '@/components/marketing-motion-visual';
 import type { PortfolioItem } from '@/lib/portfolio';
 
 /**
@@ -23,7 +25,9 @@ interface FilmCardProps {
   /** Size variant */
   size?: 'default' | 'large' | 'hero';
   className?: string;
+  href?: string;
   priority?: boolean;
+  visual?: 'media' | 'marketing3d';
   /** Whether title should highlight orange on hover (TWF style) */
   highlightOnHover?: boolean;
 }
@@ -38,10 +42,13 @@ export const FilmCard = memo(function FilmCard({
   item,
   size = 'default',
   className,
+  href,
   priority = false,
+  visual = 'media',
   highlightOnHover = true,
 }: FilmCardProps) {
-  const isVideo = item.mediaType === 'video';
+  const showMarketingMotion = visual === 'marketing3d';
+  const isVideo = !showMarketingMotion && item.mediaType === 'video';
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleMouseEnter = () => {
@@ -57,28 +64,33 @@ export const FilmCard = memo(function FilmCard({
   };
 
   return (
+    <div
+      className={cn('group block transition-transform duration-400 ease-out hover:-translate-y-2 hover:scale-[1.01]', className)}
+    >
     <Link
-      href={`/portfolio/${item.id}`}
-      className={cn('group block', className)}
+      href={href ?? `/portfolio/${item.id}`}
+      className="block"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* ── THUMBNAIL ── */}
       <div
         className={cn(
-          'relative overflow-hidden rounded-2xl bg-[#111]',
+          'relative overflow-hidden rounded-2xl bg-[#050505]',
           aspectMap[size]
         )}
       >
-        {isVideo && item.videoUrl ? (
+        {showMarketingMotion ? (
+          <MarketingMotionVisual />
+        ) : isVideo && item.videoUrl ? (
           <video
             ref={videoRef}
             src={`${item.videoUrl}#t=1.0`}
-            preload="auto"
+            preload="metadata"
             muted
             loop
             playsInline
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-[1.04]"
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
           <Image
@@ -86,7 +98,7 @@ export const FilmCard = memo(function FilmCard({
             alt={`${item.title} — ${item.category}`}
             fill
             priority={priority}
-            className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-[1.04]"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             sizes={
               size === 'hero'
                 ? '100vw'
@@ -131,7 +143,7 @@ export const FilmCard = memo(function FilmCard({
         )}
 
         {/* Duration badge — bottom-right */}
-        {item.duration && (
+        {!showMarketingMotion && item.duration && (
           <div className="absolute bottom-3 right-3 rounded bg-black/60 px-2 py-0.5 text-[10px] font-medium tracking-wide text-white">
             {item.duration}
           </div>
@@ -178,5 +190,6 @@ export const FilmCard = memo(function FilmCard({
         </div>
       )}
     </Link>
+    </div>
   );
 });

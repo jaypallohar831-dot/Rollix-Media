@@ -10,12 +10,15 @@ import { usePathname } from 'next/navigation';
 import { NavLogo } from '@/components/nav-logo';
 import { NavLink } from '@/components/nav-link';
 import { MobileMenu } from '@/components/mobile-menu';
+import Link from 'next/link';
 
 /*
  * Performance changes vs. original:
  * 1. Replaced `transition-all` on header with specific properties.
  * 2. Memoized component to reduce re-renders from layout.
  */
+
+const MotionLink = motion.create(Link);
 
 export const Navbar = memo(function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -36,7 +39,7 @@ export const Navbar = memo(function Navbar() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color] duration-500 ease-out',
           isScrolled
-            ? 'border-b border-white/[0.04] bg-[#050505]/60 backdrop-blur-md'
+            ? 'border-b border-white/[0.04] bg-[#050505]/90'
             : 'border-b border-transparent bg-transparent'
         )}
         initial={{ y: -20, opacity: 0 }}
@@ -70,7 +73,7 @@ export const Navbar = memo(function Navbar() {
           {/* Right side — CTA + hamburger */}
           <div className="flex items-center gap-4">
             {/* Desktop CTA */}
-            <motion.a
+            <MotionLink
               href="/contact"
               className={cn(
                 'hidden items-center justify-center rounded-full px-6 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-[border-color,color,background-color] duration-500 lg:inline-flex cursor-pointer',
@@ -83,7 +86,7 @@ export const Navbar = memo(function Navbar() {
               transition={{ duration: 0.3 }}
             >
               Start a Project
-            </motion.a>
+            </MotionLink>
 
             {/* Mobile hamburger */}
             <motion.button

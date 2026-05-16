@@ -38,12 +38,12 @@ export default function Home() {
 
       <Divider />
 
-      <Section spacing="lg" withBackground>
+      <Section id="contact" spacing="lg" withBackground>
         <Container>
           <div className="text-center">
             <span className="mb-6 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80">
               <span className="h-[1px] w-6 bg-cinematic-orange/40" />
-              Let's Connect
+              Let&rsquo;s Connect
             </span>
             <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.02em] text-foreground">
               Ready to create your cinematic <span className="text-gradient-warm italic">Legacy</span>?

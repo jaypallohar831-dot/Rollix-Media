@@ -24,7 +24,7 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('contact_leads')
       .select('*')
       .order('created_at', { ascending: false });

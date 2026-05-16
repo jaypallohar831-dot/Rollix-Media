@@ -62,15 +62,15 @@ export function ProcessSection() {
                 variants={fadeUp}
                 className="font-heading text-[clamp(2.5rem,5vw,4rem)] font-light leading-[1.05] tracking-[-0.02em] text-foreground"
               >
-                Crafting the <br />
-                <span className="text-gradient-warm italic">Legacy</span>
+                Our Execution <br />
+                <span className="text-gradient-warm italic">Strategy</span>
               </motion.h2>
 
               <motion.p
                 variants={fadeUp}
                 className="mt-6 max-w-[340px] text-base leading-relaxed text-foreground/80 sm:text-lg"
               >
-                We don&rsquo;t just point a camera. We capture the soul of your most cherished moments through a deliberate, cinematic approach.
+                We deliver high-performance creative solutions through a precise, cinematic methodology designed for market impact.
               </motion.p>
               
               {/* Subtle visual anchor line for desktop — uses scaleX instead of width */}

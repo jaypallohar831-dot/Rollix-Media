@@ -1,11 +1,11 @@
-import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Plus, Pencil, Trash2, Quote, Star, User } from 'lucide-react';
+import { requireAdminOrRedirect } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminTestimonialsPage() {
-  const supabase = await createClient();
+  const { supabase } = await requireAdminOrRedirect();
   
   // Fetch testimonials from Supabase
   const { data: testimonials, error } = await supabase
@@ -49,7 +49,10 @@ export default async function AdminTestimonialsPage() {
                 <div className="flex items-center gap-4">
                   <div className="relative h-12 w-12 overflow-hidden rounded-full border border-white/[0.1] bg-black/40">
                     {item.avatar_url ? (
-                      <img src={item.avatar_url} className="h-full w-full object-cover" />
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={item.avatar_url} alt={item.name} className="h-full w-full object-cover" />
+                      </>
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-muted-foreground/30">
                         <User className="h-6 w-6" />
@@ -71,7 +74,7 @@ export default async function AdminTestimonialsPage() {
               <div className="relative">
                 <Quote className="absolute -top-2 -left-2 h-8 w-8 text-cinematic-orange/10" />
                 <p className="text-sm text-foreground/80 leading-relaxed font-light italic pl-4">
-                  "{item.content}"
+                  &ldquo;{item.content}&rdquo;
                 </p>
               </div>
 
@@ -97,7 +100,7 @@ export default async function AdminTestimonialsPage() {
             </div>
             <h3 className="mb-2 font-heading text-2xl text-white font-light">Silent Appreciation</h3>
             <p className="max-w-sm text-sm text-muted-foreground font-light leading-relaxed">
-              You haven't added any client testimonials yet. Showcase the love from your audience.
+              You haven&rsquo;t added any client testimonials yet. Showcase the love from your audience.
             </p>
           </div>
         )}

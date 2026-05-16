@@ -1,12 +1,23 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { PORTFOLIO_ITEMS } from '@/lib/portfolio';
+import { AdminAuthError, requireAdmin } from '@/lib/admin-auth';
 
-export async function GET() {
+export async function POST() {
   try {
+    await requireAdmin();
+
+    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!serviceRoleKey) {
+      return NextResponse.json(
+        { success: false, error: 'Service role key is not configured' },
+        { status: 500 }
+      );
+    }
+
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      serviceRoleKey
     );
 
     let count = 0;
@@ -28,7 +39,12 @@ export async function GET() {
     }
     
     return NextResponse.json({ success: true, count, message: 'Database seeded successfully' });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof AdminAuthError) {
+      return NextResponse.json({ success: false, error: error.message }, { status: error.status });
+    }
+
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }

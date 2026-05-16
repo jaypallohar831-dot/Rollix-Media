@@ -1,19 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Settings, Globe, Mail, Shield, Save, Check } from 'lucide-react';
+import { Globe, Mail, Shield, Lock } from 'lucide-react';
 
 export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState<'general' | 'email' | 'security'>('general');
-  const [saving, setSaving] = useState(false);
-
-  const handleSave = () => {
-    setSaving(true);
-    setTimeout(() => {
-      setSaving(false);
-      alert('Settings saved successfully!');
-    }, 1000);
-  };
 
   return (
     <div className="space-y-10 pb-20">
@@ -23,16 +14,16 @@ export default function AdminSettingsPage() {
             Site <span className="text-gradient-warm italic font-medium">Settings</span>
           </h1>
           <p className="mt-2 text-muted-foreground font-light tracking-wide">
-            Manage your studio's global configuration and preferences.
+            Manage your studio&rsquo;s global configuration and preferences.
           </p>
         </div>
         <button 
-          onClick={handleSave}
-          disabled={saving}
-          className="flex items-center gap-2 rounded-xl bg-cinematic-orange px-6 py-3 text-sm font-bold text-black transition-all hover:shadow-[0_0_20px_rgba(212,118,60,0.3)] hover:scale-[1.02] disabled:opacity-50"
+          type="button"
+          disabled
+          className="flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-6 py-3 text-sm font-bold text-white/50"
         >
-          {saving ? <Check className="h-4 w-4" /> : <Save className="h-4 w-4" />}
-          {saving ? 'Saved' : 'Save Changes'}
+          <Lock className="h-4 w-4" />
+          Read Only
         </button>
       </div>
 
@@ -152,9 +143,9 @@ export default function AdminSettingsPage() {
                   <input type="password" placeholder="••••••••" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
                 </div>
                 <div className="pt-4 border-t border-white/[0.08]">
-                  <p className="text-sm text-muted-foreground mb-4">To update your password, click the save button. You will be logged out automatically after a password change.</p>
-                  <button className="rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-2 text-sm text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors">
-                    Reset Two-Factor Auth
+                  <p className="text-sm text-muted-foreground mb-4">Password and two-factor changes are managed through Supabase authentication.</p>
+                  <button disabled className="rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-2 text-sm text-white/40">
+                    Two-Factor Controls Unavailable
                   </button>
                 </div>
               </div>

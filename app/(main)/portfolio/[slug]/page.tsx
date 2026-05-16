@@ -36,54 +36,54 @@ export default function FilmDetailPage() {
   const [loading, setLoading] = useState(true);
   const [relatedItems, setRelatedItems] = useState<PortfolioItem[]>([]);
 
-  useEffect(() => {
+useEffect(() => {
     async function loadProject() {
       try {
         const res = await portfolioService.getProjectBySlug(slug);
         if (res) {
-          const data = res as any;
+          const data = res;
           const fallback = getFallbackItem(slug);
           const mapped: PortfolioItem = {
             id: data.slug,
             title: data.title,
-            category: (data.categories as any)?.title || 'Uncategorized',
+            category: data.categories?.title || 'Uncategorized',
             tagline: data.seo_title || data.title,
             description: data.description,
             year: new Date(data.created_at).getFullYear().toString(),
+            month: data.month,
             image: data.thumbnail || fallback?.image || '/assets/portfolio/wedding.png',
             mediaType: (data.video_url || fallback?.videoUrl ? 'video' : 'image') as 'video' | 'image',
             videoUrl: data.video_url || fallback?.videoUrl || undefined,
             tags: data.tags || fallback?.tags || [],
             location: data.location || 'India',
-            client: (data as any).client || fallback?.client,
-            duration: (data as any).duration || fallback?.duration,
-            crew: (data as any).crew || fallback?.crew || [],
-            gallery: (data as any).gallery_images?.map((img: string) => ({ type: 'image', src: img })) || fallback?.gallery || []
+            client: data.client || fallback?.client,
+            duration: data.duration || fallback?.duration,
+            crew: data.crew || fallback?.crew || [],
+            gallery: (data.gallery_images || []).map(img => ({ type: 'image' as const, src: img, alt: '' }))
           };
           setItem(mapped);
         } else {
           setItem(getFallbackItem(slug) || null);
         }
 
-        // Load related items (simple random selection for now)
         const allProjects = await portfolioService.getProjects();
         if (allProjects && allProjects.length > 0) {
            const mappedRelated = allProjects
-             .filter((p: any) => p.slug !== slug)
-             .sort(() => 0.5 - Math.random())
-             .slice(0, 3)
-             .map((p: any) => ({
-               id: p.slug,
-               title: p.title,
-               category: (p.categories as any)?.title || 'Uncategorized',
-               tagline: p.seo_title || p.title,
-               description: p.description,
-               image: p.thumbnail || '/assets/portfolio/wedding.png',
-               year: new Date(p.created_at).getFullYear().toString(),
-               mediaType: (p.video_url ? 'video' : 'image') as 'video' | 'image',
-               videoUrl: p.video_url || undefined,
-               tags: p.tags || []
-             }));
+              .filter((p) => p.slug !== slug)
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 3)
+              .map((p) => ({
+                id: p.slug,
+                title: p.title,
+                category: p.categories?.title || 'Uncategorized',
+                tagline: p.seo_title || p.title,
+                description: p.description,
+                image: p.thumbnail || '/assets/portfolio/wedding.png',
+                year: new Date(p.created_at).getFullYear().toString(),
+                mediaType: (p.video_url ? 'video' : 'image') as 'video' | 'image',
+                videoUrl: p.video_url || undefined,
+                tags: p.tags || []
+              }));
            setRelatedItems(mappedRelated);
         } else {
            setRelatedItems(fallbackItems.filter(p => p.id !== slug).slice(0, 3));
@@ -335,25 +335,25 @@ export default function FilmDetailPage() {
                 </div>
 
                 {/* ── CREW / AUTHOR SECTION ── */}
-                {item.crew && item.crew.length > 0 && (
-                  <div className="mt-8 border-t border-white/[0.1] pt-8">
-                    <h3 className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-foreground/90">
-                      Crew & Authors
-                    </h3>
-                    <div className="space-y-4">
-                      {item.crew.map((member: any, idx: number) => (
-                        <div key={idx} className="flex flex-col">
-                          <span className="text-[10px] uppercase tracking-[0.15em] text-foreground/70">
-                            {member.role}
-                          </span>
-                          <span className="text-sm text-foreground">
-                            {member.name}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+{item.crew && item.crew.length > 0 && (
+                   <div className="mt-8 border-t border-white/[0.1] pt-8">
+                     <h3 className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-foreground/90">
+                       Crew & Authors
+                     </h3>
+                     <div className="space-y-4">
+                       {item.crew.map((member, idx) => (
+                         <div key={idx} className="flex flex-col">
+                           <span className="text-[10px] uppercase tracking-[0.15em] text-foreground/70">
+                             {member.role}
+                           </span>
+                           <span className="text-sm text-foreground">
+                             {member.name}
+                           </span>
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+                 )}
 
                 {/* Enquire CTA */}
                 <Link
@@ -368,39 +368,39 @@ export default function FilmDetailPage() {
           </motion.div>
 
           {/* ── PHOTO GALLERY (if multiple gallery items) ── */}
-          {item.gallery && item.gallery.length > 1 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="mb-16 sm:mb-20"
-            >
-              <h3 className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-foreground/90 sm:mb-8">
-                Project Gallery
-              </h3>
+{item.gallery && item.gallery.length > 1 && (
+           <motion.div
+             initial={{ opacity: 0 }}
+             whileInView={{ opacity: 1 }}
+             viewport={{ once: true }}
+             transition={{ duration: 0.6 }}
+             className="mb-16 sm:mb-20"
+           >
+             <h3 className="mb-6 text-[10px] font-medium uppercase tracking-[0.2em] text-foreground/90 sm:mb-8">
+               Project Gallery
+             </h3>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
-                {item.gallery
-                  .filter((g: any) => g.type === 'image')
-                  .map((g: any, i: number) => (
-                    <div
-                      key={i}
-                      className="relative aspect-[16/10] overflow-hidden rounded-xl sm:rounded-2xl"
-                    >
-                      <Image
-                        src={g.src}
-                        alt={g.alt || item.title}
-                        fill
-                        className="object-cover transition-transform duration-700 hover:scale-[1.03]"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        quality={80}
-                      />
-                    </div>
-                  ))}
-              </div>
-            </motion.div>
-          )}
+             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+               {item.gallery
+                 .filter((g) => g.type === 'image')
+                 .map((g, i) => (
+                   <div
+                     key={i}
+                     className="relative aspect-[16/10] overflow-hidden rounded-xl sm:rounded-2xl"
+                   >
+                     <Image
+                       src={g.src}
+                       alt={g.alt || item.title}
+                       fill
+                       className="object-cover transition-transform duration-700 hover:scale-[1.03]"
+                       sizes="(max-width: 768px) 100vw, 50vw"
+                       quality={80}
+                     />
+                   </div>
+                 ))}
+             </div>
+           </motion.div>
+         )}
 
           {/* ── PREV / NEXT NAVIGATION ── */}
           <div

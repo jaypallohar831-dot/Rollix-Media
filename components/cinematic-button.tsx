@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { ArrowRight } from 'lucide-react';
 import { buttonHover, buttonTap } from '@/animations/variants';
 import { ReactNode, memo } from 'react';
+import Link from 'next/link';
 
 interface CinematicButtonProps {
   children: ReactNode;
@@ -22,6 +23,8 @@ interface CinematicButtonProps {
  *    Box-shadows with large blur radius trigger expensive repaint.
  * 3. Memoized to prevent re-renders.
  */
+
+const MotionLink = motion.create(Link);
 
 export const CinematicButton = memo(function CinematicButton({
   children,
@@ -47,12 +50,12 @@ export const CinematicButton = memo(function CinematicButton({
     ),
   };
 
-  const Component = href ? motion.a : motion.button;
+  const Component = href ? MotionLink : motion.button;
+  const componentProps = href ? { href } : { onClick };
 
   return (
     <Component
-      href={href}
-      onClick={onClick}
+      {...componentProps}
       className={variants[variant]}
       whileHover={buttonHover}
       whileTap={buttonTap}

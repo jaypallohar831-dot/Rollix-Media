@@ -7,9 +7,7 @@ import {
   Zap, 
   ChevronLeft,
   Check, 
-  Loader2, 
-  Sparkles,
-  Search
+  Loader2
 } from 'lucide-react';
 
 export default function NewServicePage() {
@@ -57,7 +55,7 @@ export default function NewServicePage() {
         <h1 className="font-heading text-4xl font-light text-white">
           Add New <span className="text-gradient-warm italic font-medium">Service</span>
         </h1>
-        <p className="mt-2 text-muted-foreground font-light">Expand your agency's offerings with a new service line.</p>
+        <p className="mt-2 text-muted-foreground font-light">Expand your agency&rsquo;s offerings with a new service line.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">

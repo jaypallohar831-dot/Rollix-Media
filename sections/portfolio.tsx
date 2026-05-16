@@ -1,14 +1,31 @@
 'use client';
 
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Container } from '@/components/layout';
 import { FilmCard } from '@/components/film-card';
-import { getFeaturedItems, getItemsByGroup, PORTFOLIO_ITEMS, type PortfolioItem } from '@/lib/portfolio';
+import { PORTFOLIO_ITEMS, type PortfolioItem } from '@/lib/portfolio';
 import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
 import { ArrowRight, Play, Loader2 } from 'lucide-react';
 import { portfolioService } from '@/services/portfolio.service';
+
+const HOME_IDENTITY_PROJECT: PortfolioItem = {
+  id: 'digital-growth-engine',
+  title: 'Digital Growth Engine',
+  category: 'Performance Marketing',
+  tagline: '3D strategy, motion systems, paid media, SEO, and conversion intelligence in one creative stack.',
+  description:
+    'A technical brand visual for Rollix Media, built to show the agency as a digital growth system instead of a static media portfolio.',
+  year: '2026',
+  month: 'MAY',
+  location: 'Rollix Lab',
+  image: '/assets/portfolio/social.png',
+  mediaType: 'image',
+  tags: ['SEO', 'Paid Ads', '3D Motion', 'Analytics'],
+  featured: true,
+  group: 'featured',
+};
 
 export function PortfolioSection() {
   const [items, setItems] = useState<PortfolioItem[]>([]);
@@ -19,13 +36,12 @@ export function PortfolioSection() {
       try {
         const data = await portfolioService.getProjects();
         if (data && data.length > 0) {
-          // Map DB data to PortfolioItem type
-          const mappedItems: PortfolioItem[] = data.map((item: any) => {
+          const mappedItems: PortfolioItem[] = data.map((item) => {
             const fallback = PORTFOLIO_ITEMS.find(p => p.id === item.slug);
             return {
               id: item.slug,
               title: item.title,
-              category: (item.categories as any)?.title || 'Uncategorized',
+              category: item.categories?.title || 'Uncategorized',
               tagline: item.seo_title || item.title,
               description: item.description,
               year: new Date(item.created_at).getFullYear().toString(),
@@ -39,7 +55,6 @@ export function PortfolioSection() {
           });
           setItems(mappedItems);
         } else {
-          // Fallback to hardcoded items if DB is empty
           setItems(PORTFOLIO_ITEMS);
         }
       } catch (err) {
@@ -53,6 +68,10 @@ export function PortfolioSection() {
   }, []);
 
   const featuredItems = useMemo(() => items.filter(i => i.featured).slice(0, 2), [items]);
+  const showcaseItems = useMemo(
+    () => [HOME_IDENTITY_PROJECT, ...featuredItems].slice(0, 3),
+    [featuredItems]
+  );
   const trendingItems = useMemo(() => items.filter(i => !i.featured).slice(0, 6), [items]);
 
   return (
@@ -83,7 +102,7 @@ export function PortfolioSection() {
           <motion.div variants={fadeIn} className="mb-5 sm:mb-6">
             <span className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80">
               <span className="h-[1px] w-6 bg-cinematic-orange/40" />
-              Featured Films
+              Growth Systems
             </span>
           </motion.div>
 
@@ -92,15 +111,15 @@ export function PortfolioSection() {
               variants={fadeUp}
               className="font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1] tracking-[-0.02em] text-foreground"
             >
-              Indian Wedding{' '}
-              <span className="text-gradient-warm italic">Cinema</span>
+              Digital Growth{' '}
+              <span className="text-gradient-warm italic">Lab</span>
             </motion.h2>
 
             <motion.p
               variants={fadeUp}
               className="max-w-[380px] text-base leading-relaxed text-muted-foreground/80 lg:text-right"
             >
-              A curated archive of authentic emotions, cinematic grandeur, and timeless Indian visual stories.
+              Strategy, cinematic motion, websites, ads, and analytics engineered into one high-performance brand engine.
             </motion.p>
           </div>
         </motion.div>
@@ -119,12 +138,18 @@ export function PortfolioSection() {
               viewport={{ once: true, margin: '-5%' }}
               className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-10"
             >
-              {featuredItems.map((item, index) => (
-                <motion.div key={item.id} variants={fadeUp}>
+              {showcaseItems.map((item, index) => (
+                <motion.div
+                  key={item.id}
+                  variants={fadeUp}
+                  className={index === 0 ? 'md:col-span-2' : undefined}
+                >
                   <FilmCard 
                     item={item} 
-                    size="large" 
-                    priority={index === 0} 
+                    size={index === 0 ? 'hero' : 'large'}
+                    priority={index === 1}
+                    visual={index === 0 ? 'marketing3d' : 'media'}
+                    href={index === 0 ? '/services' : undefined}
                   />
                 </motion.div>
               ))}
@@ -144,7 +169,7 @@ export function PortfolioSection() {
                     <Play className="h-3 w-3 text-cinematic-orange/60" strokeWidth={2} fill="currentColor" />
                   </div>
                   <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/50">
-                    Trending Reels
+                    Campaign Reels
                   </span>
                 </div>
                 <div
@@ -195,7 +220,7 @@ export function PortfolioSection() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-12">
             {[
               { value: '150+', label: 'Projects Delivered' },
-              { value: '40+', label: 'Wedding Films' },
+              { value: '40+', label: 'Growth Campaigns' },
               { value: '25+', label: 'Brand Campaigns' },
               { value: '98%', label: 'Client Satisfaction' },
             ].map((stat) => (

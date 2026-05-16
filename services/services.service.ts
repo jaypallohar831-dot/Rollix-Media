@@ -1,17 +1,26 @@
 import { supabaseClient } from './supabase-client';
 
+export interface Service {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  icon: string;
+  featured?: boolean;
+}
+
 export const servicesService = {
-  async getServices() {
+  async getServices(): Promise<Service[]> {
     const { data, error } = await supabaseClient
       .from('services')
       .select('*')
       .order('created_at', { ascending: true });
 
     if (error) throw error;
-    return data;
+    return data as Service[];
   },
 
-  async getServiceBySlug(slug: string) {
+  async getServiceBySlug(slug: string): Promise<Service | null> {
     const { data, error } = await supabaseClient
       .from('services')
       .select('*')
@@ -19,6 +28,6 @@ export const servicesService = {
       .single();
 
     if (error) throw error;
-    return data;
+    return data as Service;
   },
 };

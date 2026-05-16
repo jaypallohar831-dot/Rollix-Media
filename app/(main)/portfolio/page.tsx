@@ -7,17 +7,14 @@ import Link from 'next/link';
 import { Container } from '@/components/layout';
 import { FilmCard } from '@/components/film-card';
 import {
-  getFeaturedItems as getFallbackFeatured,
-  getItemsByGroup as getFallbackByGroup,
-  PORTFOLIO_GROUPS,
   PORTFOLIO_CATEGORIES,
   PORTFOLIO_ITEMS,
   type PortfolioCategory,
   type PortfolioItem,
 } from '@/lib/portfolio';
-import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
 import { Play, ChevronLeft, ChevronRight, ArrowRight, Loader2 } from 'lucide-react';
 import { portfolioService } from '@/services/portfolio.service';
+import type { PortfolioProject } from '@/services/portfolio.service';
 
 /* ─────────────────────────────────────────
    HERO CAROUSEL  (TWF-style full-width slider)
@@ -42,7 +39,11 @@ function HeroCarousel({ items }: { items: PortfolioItem[] }) {
   const go = useCallback(
     (dir: 'next' | 'prev') => {
       if (timerRef.current) clearInterval(timerRef.current);
-      dir === 'next' ? next() : prev();
+      if (dir === 'next') {
+        next();
+      } else {
+        prev();
+      }
       timerRef.current = setInterval(next, 6000);
     },
     [next, prev]
@@ -275,10 +276,10 @@ export default function PortfolioPage() {
       try {
         const data = await portfolioService.getProjects();
         if (data && data.length > 0) {
-          const mapped: PortfolioItem[] = data.map((item: any) => ({
+          const mapped: PortfolioItem[] = data.map((item: PortfolioProject) => ({
             id: item.slug,
             title: item.title,
-            category: (item.categories as any)?.title || 'Uncategorized',
+            category: item.categories?.title || 'Uncategorized',
             tagline: item.seo_title || item.title,
             description: item.description,
             year: new Date(item.created_at).getFullYear().toString(),

@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Container } from '@/components/layout';
 import { ServiceCard } from '@/components/service-card';
-import { SERVICES as fallbackServices } from '@/lib/services';
+import { SERVICES as fallbackServices, type ServiceItem } from '@/lib/services';
 import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
 import { servicesService } from '@/services/services.service';
-import { 
+import type { LucideIcon } from 'lucide-react';
+import {
   Loader2, 
   Film, 
   Video, 
@@ -16,24 +17,24 @@ import {
   Sparkles, 
   Share2, 
   Megaphone, 
-  Layers, 
+  Monitor,
   Zap 
 } from 'lucide-react';
 
-const iconMap: Record<string, any> = {
-  Film,
-  Video,
-  Scissors,
-  TrendingUp,
-  Sparkles,
-  Share2,
-  Megaphone,
-  Layers,
-  Zap
+const iconMap: Record<string, LucideIcon> = {
+  Film: Film,
+  Video: Video,
+  Scissors: Scissors,
+  TrendingUp: TrendingUp,
+  Sparkles: Sparkles,
+  Share2: Share2,
+  Megaphone: Megaphone,
+  Monitor: Monitor,
+  Zap: Zap
 };
 
 export function ServicesSection() {
-  const [services, setServices] = useState<any[]>([]);
+  const [services, setServices] = useState<ServiceItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,9 +42,8 @@ export function ServicesSection() {
       try {
         const data = await servicesService.getServices();
         if (data && data.length > 0) {
-          // Map DB data to match ServiceCard expectations
-          const mapped = data.map((s: any, idx: number) => ({
-            index: idx + 1,
+          const mapped: ServiceItem[] = data.map((s, idx) => ({
+            index: (idx + 1).toString().padStart(2, '0'),
             slug: s.slug,
             title: s.title,
             description: s.description,
@@ -54,8 +54,8 @@ export function ServicesSection() {
         } else {
           setServices(fallbackServices);
         }
-      } catch (err: any) {
-        console.error('Failed to fetch services:', err?.message || err);
+      } catch (err: unknown) {
+        console.error('Failed to fetch services:', err instanceof Error ? err.message : String(err));
         setServices(fallbackServices);
       } finally {
         setLoading(false);
@@ -110,16 +110,16 @@ export function ServicesSection() {
               variants={fadeUp}
               className="font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1] tracking-[-0.02em] text-foreground"
             >
-              Visual{' '}
-              <span className="text-gradient-warm italic">Storytelling</span>
+              Growth &{' '}
+              <span className="text-gradient-warm italic">Production</span>
             </motion.h2>
 
             <motion.p
               variants={fadeUp}
               className="max-w-[420px] text-base leading-relaxed text-foreground/90 lg:text-right"
             >
-              From luxury wedding cinematography to emotional brand narratives, 
-              we craft experiences that leave a lasting legacy.
+              We engineer strategic digital ecosystems and cinematic content 
+              that turn your vision into market-leading reality.
             </motion.p>
           </div>
         </motion.div>

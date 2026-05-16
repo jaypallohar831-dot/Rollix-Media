@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase/server';
+import { requireAdminOrRedirect } from '@/lib/admin-auth';
 import { MessageList } from '@/components/admin/message-list';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminMessagesPage() {
-  const supabase = await createClient();
+  const { supabase } = await requireAdminOrRedirect();
   
   // Fetch messages from Supabase
   const { data: messages, error } = await supabase
@@ -27,4 +27,3 @@ export default async function AdminMessagesPage() {
     </div>
   );
 }
-

@@ -142,6 +142,7 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
   }
 
   /* Premium selection color */
@@ -169,23 +170,8 @@
     background: rgba(212, 118, 60, 0.2);
   }
 
-  /* ============================================
-     GPU PERFORMANCE RULES
-     ============================================ */
-
-  /* Promote fixed navbar to its own compositor layer */
-  header[class*="fixed"] {
-    will-change: transform;
-    contain: layout style;
-  }
-
-  /* Sections should allow natural overflow for scroll libraries */
+  /* Sections should allow natural overflow */
   section {
     position: relative;
-  }
-
-  /* Images in cards should be GPU-composited */
-  .group img {
-    will-change: transform;
   }
 }

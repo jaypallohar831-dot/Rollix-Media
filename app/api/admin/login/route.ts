@@ -44,17 +44,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: error.message }, { status: 401 });
     }
 
-    // Verify if the user is an admin
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', data.user.id)
-      .single();
+      .maybeSingle();
 
-    // Even if role check fails, we might still let them in if they are authenticated 
-    // depending on your strictness. For now, basic auth is enough since RLS protects data.
+    const isAdminEmail = data.user.email === process.env.ADMIN_EMAIL;
 
-    return NextResponse.json({ success: true, user: data.user, profile });
+    if (!isAdminEmail && (profileError || profile?.role !== 'admin')) {
+      await supabase.auth.signOut();
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
+    }
+
+    return NextResponse.json({ success: true, user: data.user, profile: profile || { role: 'admin' } });
   } catch (error) {
     console.error('Admin Login Error:', error);
     return NextResponse.json(

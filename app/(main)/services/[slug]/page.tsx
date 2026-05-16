@@ -67,7 +67,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <SectionHeader 
                 eyebrow="The Craft"
                 title="Elevating the Standard"
-                description={`Our approach to ${service.title.toLowerCase()} is rooted in emotional storytelling. We don't just deliver files; we engineer feelings.`}
+                description={`Our approach to ${service.title.toLowerCase()} is rooted in emotional storytelling. We don\u2019t just deliver files; we engineer feelings.`}
               />
             </div>
             <div className="flex flex-col justify-center">
@@ -109,7 +109,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
           <div className="text-center">
             <span className="mb-6 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80">
               <span className="h-[1px] w-6 bg-cinematic-orange/40" />
-              Let's Talk
+              Let&rsquo;s Talk
             </span>
             <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.02em] text-foreground">
               Ready to elevate your <span className="text-gradient-warm italic">{service.title.split(' ').pop()}</span>?

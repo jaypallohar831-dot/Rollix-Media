@@ -8,43 +8,43 @@ export interface ProcessStep {
 
 export const PROCESS_STEPS: ProcessStep[] = [
   {
-    id: 'vision',
+    id: 'discovery',
     number: '01',
-    title: 'The Connection',
-    subtitle: 'Discovery & Concept',
+    title: 'Strategic Discovery',
+    subtitle: 'Audit & Insight',
     description:
-      'We begin not with cameras, but with conversations. Understanding your cultural roots, your journey, and the human truth that will drive your wedding or brand story.',
+      'We deep-dive into your business model, identifying market bottlenecks and high-value opportunities to position your brand for undisputed leadership.',
   },
   {
-    id: 'narrative',
+    id: 'architecture',
     number: '02',
-    title: 'The Blueprint',
-    subtitle: 'Story Architecture',
+    title: 'Creative Architecture',
+    subtitle: 'Design & Strategy',
     description:
-      'A structure is built. We craft the pacing, the cultural nuances, and the emotional arcs. This is where ideas become blueprints for a cinematic legacy.',
+      'Designing a high-conversion digital ecosystem. From premium web design to social narrative architecture, we build the foundation for your scale.',
   },
   {
-    id: 'frame',
+    id: 'production',
     number: '03',
-    title: 'The Ceremony',
-    subtitle: 'Cinematic Production',
+    title: 'High-End Production',
+    subtitle: 'Cinematic Creation',
     description:
-      'Light, composition, and authentic Indian grandeur converge. From the quiet morning rituals to the vibrant mandap, we capture not just the events, but how they feel.',
+      'This is where our cinematic heritage meets marketing strategy. We craft visual assets with surgical precision, ensuring every frame drives authority.',
   },
   {
-    id: 'atmosphere',
+    id: 'engineering',
     number: '04',
-    title: 'The Canvas',
-    subtitle: 'Editing & Color',
+    title: 'Growth Engineering',
+    subtitle: 'SEO & Optimization',
     description:
-      'In the edit suite, the story breathes. We sculpt the pacing, paint with warm, rich color grading, and weave emotional soundscapes that pull the viewer into your world.',
+      'Deploying technical SEO and data-driven marketing funnels. We optimize your digital presence to dominate search results and maximize conversion ROI.',
   },
   {
-    id: 'memory',
+    id: 'dominance',
     number: '05',
-    title: 'The Legacy',
-    subtitle: 'Final Delivery',
+    title: 'Market Dominance',
+    subtitle: 'Scale & Leadership',
     description:
-      'The film is presented. It ceases to be just footage and becomes an heirloom. We deliver not just a video, but a permanent, luxurious emotional imprint.',
+      'The final phase: full-scale market dominance. We deliver a permanent, high-performance digital presence that scales your business to new heights.',
   },
 ];

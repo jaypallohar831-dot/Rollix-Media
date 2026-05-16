@@ -1,26 +1,27 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import type { Database } from '@/types/database.types';
 import { 
   Upload, 
   X, 
   Check, 
   Loader2, 
-  Image as ImageIcon, 
   ChevronLeft,
   Sparkles,
-  Search,
   Plus
 } from 'lucide-react';
 
+type Category = Database['public']['Tables']['categories']['Row'];
+
 export default function NewPortfolioPage() {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState<string | null>(null); // 'thumbnail' or 'gallery'
-  const [categories, setCategories] = useState<any[]>([]);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -38,14 +39,15 @@ export default function NewPortfolioPage() {
     tags: [] as string[]
   });
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  async function fetchCategories() {
+  const fetchCategories = useCallback(async () => {
     const { data } = await supabase.from('categories').select('*').eq('status', 'active');
     if (data) setCategories(data);
-  }
+  }, [supabase]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchCategories();
+  }, [fetchCategories]);
 
   const handleCreateCategory = async () => {
     const title = prompt('Enter new category name (e.g. Wedding Film):');
@@ -221,7 +223,8 @@ export default function NewPortfolioPage() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {formData.gallery_images.map((img, idx) => (
                 <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-white/[0.1] group">
-                  <img src={img} className="h-full w-full object-cover" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img} alt={`Gallery image ${idx + 1}`} className="h-full w-full object-cover" />
                   <button 
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, gallery_images: prev.gallery_images.filter((_, i) => i !== idx) }))}
@@ -260,7 +263,7 @@ export default function NewPortfolioPage() {
                   onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3.5 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none appearance-none"
                 >
-                  <option value="">Select Category</option>
+                  <option value="">{categories.length === 0 ? 'No categories found' : 'Select Category'}</option>
                   {categories.map(cat => (
                     <option key={cat.id} value={cat.id}>{cat.title}</option>
                   ))}
@@ -289,7 +292,8 @@ export default function NewPortfolioPage() {
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/[0.08] bg-black/40 group">
               {formData.thumbnail ? (
                 <>
-                  <img src={formData.thumbnail} className="h-full w-full object-cover" />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={formData.thumbnail} alt="Project cover" className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                      <label className="cursor-pointer p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-cinematic-orange hover:text-black transition-all">
                        <Upload className="h-5 w-5" />

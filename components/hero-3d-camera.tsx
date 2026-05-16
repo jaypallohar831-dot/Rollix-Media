@@ -1,196 +1,175 @@
 'use client';
 
-import { Suspense, useRef, useMemo, useEffect, useState } from 'react';
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
-import { Environment, Float } from '@react-three/drei';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
-import { TextureLoader, MeshStandardMaterial, Group, Vector3 } from 'three';
+import { memo } from 'react';
 
-/* ─────────────────────────────────────────
-   POLAROID CAMERA 3D MODEL
-   Loads the .obj file + PBR textures
-   ───────────────────────────────────────── */
-function PolaroidModel({ scrollProgress }: { scrollProgress: number }) {
-  const groupRef = useRef<Group>(null);
-
-  // Load OBJ model
-  const obj = useLoader(OBJLoader, '/assets/3d/camera.obj');
-  // MUST CLONE to avoid mutating the useLoader cache (which causes WebGL Context Lost errors)
-  const clonedObj = useMemo(() => obj.clone(), [obj]);
-
-  // Create a lightweight material (no textures) to prevent WebGL Context Lost
-  const material = useMemo(() => {
-    return new MeshStandardMaterial({
-      color: '#2a2a2a',
-      roughness: 0.4,
-      metalness: 0.6,
-      envMapIntensity: 1.2,
-    });
-  }, []);
-
-  // Apply material to all meshes in the loaded OBJ
-  useEffect(() => {
-    if (clonedObj) {
-      clonedObj.traverse((child: any) => {
-        if (child.isMesh) {
-          child.material = material;
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-    }
-  }, [clonedObj, material]);
-
-  // Animate: slow idle rotation + scroll-driven rotation
-  useFrame((state, delta) => {
-    if (!groupRef.current) return;
-
-    // Idle rotation (slow cinematic spin)
-    groupRef.current.rotation.y += delta * 0.15;
-
-    // Scroll-driven tilt (camera tilts as you scroll)
-    const targetRotX = scrollProgress * Math.PI * 0.4 - 0.2;
-    groupRef.current.rotation.x +=
-      (targetRotX - groupRef.current.rotation.x) * 0.05;
-
-    // Scroll-driven vertical movement (floats up as you scroll)
-    const targetY = -scrollProgress * 2 + 0.5;
-    groupRef.current.position.y +=
-      (targetY - groupRef.current.position.y) * 0.05;
-
-    // Subtle breathing/bobbing
-    groupRef.current.position.y +=
-      Math.sin(state.clock.elapsedTime * 0.8) * 0.003;
-  });
-
+/**
+ * Hero3DCamera — Cinematic floating 3D camera using pure CSS.
+ *
+ * Uses CSS transforms + perspective for the 3D look and CSS
+ * keyframes for the floating animation. Zero JS, zero WebGL,
+ * all compositor thread.
+ */
+export const Hero3DCamera = memo(function Hero3DCamera() {
   return (
-    <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.5}>
-      <group ref={groupRef} scale={0.5} position={[0, -0.2, 0]} rotation={[0.1, 0, 0.05]}>
-        <primitive object={clonedObj} />
-      </group>
-    </Float>
-  );
-}
+    <div
+      className="absolute inset-0 z-[5] pointer-events-none flex items-center justify-center"
+      aria-hidden="true"
+      style={{ perspective: '800px' }}
+    >
+      <div
+        className="relative"
+        style={{
+          width: 180,
+          height: 110,
+          transformStyle: 'preserve-3d',
+          animation: 'cameraFloat 8s ease-in-out infinite',
+        }}
+      >
+        {/* Camera body — front */}
+        <div
+          className="absolute inset-0 rounded-xl"
+          style={{
+            background: 'linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 50%, #111 100%)',
+            boxShadow: '0 0 60px rgba(212,118,60,0.12), 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)',
+            transform: 'translateZ(12px)',
+            border: '1px solid rgba(255,255,255,0.04)',
+          }}
+        />
+        {/* Camera body — back */}
+        <div
+          className="absolute inset-0 rounded-xl"
+          style={{
+            background: '#111',
+            transform: 'translateZ(-12px)',
+          }}
+        />
+        {/* Camera body — top */}
+        <div
+          className="absolute left-0 right-0"
+          style={{
+            height: 24,
+            top: -12,
+            background: 'linear-gradient(180deg, #222, #1a1a1a)',
+            transform: 'rotateX(90deg)',
+            transformOrigin: 'bottom',
+          }}
+        />
 
-/* ─────────────────────────────────────────
-   SCENE SETUP — Lighting, Camera, Env
-   ───────────────────────────────────────── */
-function Scene({ scrollProgress }: { scrollProgress: number }) {
-  const { camera } = useThree();
+        {/* Lens outer ring */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: 64,
+            height: 64,
+            top: '50%',
+            left: '30%',
+            transform: 'translate(-50%, -50%) translateZ(18px)',
+            background: 'linear-gradient(135deg, #222 0%, #111 100%)',
+            border: '2.5px solid rgba(212,118,60,0.35)',
+            boxShadow: '0 0 30px rgba(212,118,60,0.15), inset 0 0 20px rgba(0,0,0,0.5)',
+          }}
+        >
+          {/* Lens inner — glass */}
+          <div
+            className="absolute rounded-full"
+            style={{
+              width: 42,
+              height: 42,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              background: 'radial-gradient(circle at 30% 30%, rgba(120,180,255,0.12) 0%, #080808 40%, rgba(212,118,60,0.06) 100%)',
+              border: '1.5px solid rgba(212,118,60,0.25)',
+              boxShadow: 'inset 0 0 15px rgba(0,0,0,0.6)',
+            }}
+          >
+            {/* Lens reflection highlight */}
+            <div
+              className="absolute rounded-full"
+              style={{
+                width: 10,
+                height: 10,
+                top: '22%',
+                left: '28%',
+                background: 'rgba(255,255,255,0.2)',
+                filter: 'blur(2px)',
+              }}
+            />
+            {/* Inner aperture circle */}
+            <div
+              className="absolute rounded-full"
+              style={{
+                width: 14,
+                height: 14,
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                border: '1px solid rgba(212,118,60,0.15)',
+                animation: 'pulseCore 3s ease-in-out infinite',
+              }}
+            />
+          </div>
+        </div>
 
-  useEffect(() => {
-    camera.position.set(0, 0.5, 3.5);
-    camera.lookAt(new Vector3(0, 0.3, 0));
-  }, [camera]);
+        {/* Viewfinder bump */}
+        <div
+          className="absolute rounded-sm"
+          style={{
+            width: 28,
+            height: 18,
+            top: -6,
+            left: 30,
+            transform: 'translateZ(14px)',
+            background: 'linear-gradient(180deg, #252525, #1a1a1a)',
+            border: '1px solid rgba(255,255,255,0.04)',
+            borderRadius: 4,
+          }}
+        />
 
-  return (
-    <>
-      {/* Main key light — warm cinematic orange */}
-      <directionalLight
-        position={[3, 4, 5]}
-        intensity={2}
-        color="#d4763c"
-        castShadow
-      />
+        {/* Shutter button */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: 14,
+            height: 14,
+            top: -8,
+            right: 30,
+            transform: 'translateZ(14px)',
+            background: 'var(--cinematic-orange, #d4763c)',
+            borderRadius: '50%',
+            boxShadow: '0 0 16px rgba(212,118,60,0.4), inset 0 -2px 4px rgba(0,0,0,0.3)',
+          }}
+        />
 
-      {/* Fill light — cool blue */}
-      <directionalLight
-        position={[-3, 2, -2]}
-        intensity={0.5}
-        color="#7890cc"
-      />
+        {/* Recording indicator — pulsing red dot */}
+        <div
+          className="absolute rounded-full"
+          style={{
+            width: 6,
+            height: 6,
+            top: -4,
+            right: 55,
+            transform: 'translateZ(14px)',
+            background: '#ff4040',
+            boxShadow: '0 0 8px rgba(255,64,64,0.6)',
+            animation: 'pulseCore 2s ease-in-out infinite',
+          }}
+        />
 
-      {/* Rim/back light — strong accent */}
-      <directionalLight
-        position={[0, 3, -4]}
-        intensity={1.5}
-        color="#d4763c"
-      />
-
-      {/* Ambient for base visibility */}
-      <ambientLight intensity={0.3} color="#ffffff" />
-
-      {/* Subtle warm point light */}
-      <pointLight position={[2, 1, 2]} intensity={0.8} color="#ffaa66" distance={8} />
-
-      {/* Environment map for reflections */}
-      <Environment preset="city" />
-
-      {/* The camera model */}
-      <PolaroidModel scrollProgress={scrollProgress} />
-    </>
-  );
-}
-
-/* ─────────────────────────────────────────
-   LOADING FALLBACK
-   ───────────────────────────────────────── */
-function LoadingFallback() {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="flex flex-col items-center gap-3">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-cinematic-orange/30 border-t-cinematic-orange" />
-        <span className="text-[10px] uppercase tracking-[0.2em] text-foreground/40">
-          Loading 3D
-        </span>
+        {/* Side grip texture */}
+        <div
+          className="absolute"
+          style={{
+            width: 16,
+            height: 50,
+            top: '50%',
+            right: 8,
+            transform: 'translateY(-50%) translateZ(14px)',
+            background: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 5px)',
+            borderRadius: 3,
+          }}
+        />
       </div>
     </div>
   );
-}
-
-/* ─────────────────────────────────────────
-   MAIN EXPORT — Hero3DCamera
-   Renders the Three.js canvas with scroll sync
-   ───────────────────────────────────────── */
-export function Hero3DCamera() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [isClient, setIsClient] = useState(false);
-
-  // Avoid SSR hydration issues
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Track scroll progress
-  useEffect(() => {
-    if (!isClient) return;
-
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = Math.min(scrollTop / Math.max(docHeight, 1), 1);
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isClient]);
-
-  if (!isClient) {
-    return <div ref={containerRef} className="absolute inset-0 z-[5]" />;
-  }
-
-  return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 z-[5] pointer-events-none"
-      aria-hidden="true"
-    >
-      <Suspense fallback={<LoadingFallback />}>
-        <Canvas
-          dpr={[1, 1.5]}
-          gl={{
-            antialias: true,
-            alpha: true,
-            powerPreference: 'high-performance',
-          }}
-          camera={{ fov: 35, near: 0.1, far: 100 }}
-          style={{ background: 'transparent' }}
-        >
-          <Scene scrollProgress={scrollProgress} />
-        </Canvas>
-      </Suspense>
-    </div>
-  );
-}
+});

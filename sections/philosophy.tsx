@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Container } from '@/components/layout';
+import { CinematicReveal } from '@/components/cinematic-reveal';
 import { fadeUp, staggerContainer, fadeIn } from '@/animations/variants';
 
 /* ============================================
@@ -10,18 +11,18 @@ import { fadeUp, staggerContainer, fadeIn } from '@/animations/variants';
 const PILLARS = [
   {
     index: '01',
-    title: 'Rooted in Emotion',
-    body: 'Every film begins with a feeling. We capture the cultural richness, the raw emotions, and the untold human truths that make a story unforgettable.',
+    title: 'Strategic Dominance',
+    body: 'We don\'t just design; we architect digital dominance. Every website and campaign is engineered to position your brand as the undisputed leader in your industry.',
   },
   {
     index: '02',
-    title: 'Cinematic Grandeur',
-    body: 'We approach every frame like a blockbuster film. From the vibrant lighting of a mandap to the subtle, quiet glances—everything is crafted with luxury and intention.',
+    title: 'Cinematic Authority',
+    body: 'Leveraging high-end videography to capture your brand\'s authority. We use cinematic storytelling to build trust and emotional resonance with your ideal audience.',
   },
   {
     index: '03',
-    title: 'Timeless Legacies',
-    body: 'Trends fade, but true stories endure. We create premium cinematic experiences that stay with you and your family for generations.',
+    title: 'Exponential Growth',
+    body: 'Creativity without results is just art. We focus on data-driven growth strategies that turn high-end visuals into measurable business revenue and ROI.',
   },
 ];
 
@@ -77,7 +78,7 @@ export function PhilosophySection() {
             <div className="flex items-center gap-4">
               <span className="h-[1px] w-10 bg-cinematic-orange/40" />
               <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-cinematic-orange/70">
-                Our Philosophy
+                Our Mandate
               </span>
             </div>
           </motion.div>
@@ -87,15 +88,21 @@ export function PhilosophySection() {
             variants={fadeUp}
             className="font-heading text-[clamp(2.2rem,6vw,6.5rem)] font-light leading-[0.95] tracking-[-0.03em] text-foreground"
           >
-            <span className="block">Every moment</span>
+            <span className="block">Performance meets</span>
             <span className="block mt-1 sm:mt-3">
-              holds a{' '}
+              high-end{' '}
               <span className="text-gradient-warm italic font-normal">
-                story.
+                artistry.
               </span>
             </span>
           </motion.h2>
         </motion.div>
+        
+        {/* Cinematic Image Reveal — breaking the text flow */}
+        <CinematicReveal 
+          imageSrc="/images/philosophy-hero.png" 
+          alt="Cinematic storytelling atmosphere"
+        />
 
         {/* ──────────────────────────────────────
             PART 2 — Asymmetric editorial body
@@ -119,17 +126,17 @@ export function PhilosophySection() {
             {/* Center — poetic body copy */}
             <div className="lg:col-span-6 lg:col-start-2 lg:pl-10">
               <motion.p variants={fadeUp} className="text-lg leading-[1.8] text-foreground/90 sm:text-xl sm:leading-[1.9] lg:text-[22px] lg:leading-[1.85]">
-                We don&rsquo;t just shoot videos.
+                We don&rsquo;t just create content.
                 <br className="hidden sm:block" />{' '}
-                We craft emotional, cinematic legacies
+                We engineer digital experiences 
                 <br className="hidden sm:block" />{' '}
-                that outlast the test of time.
+                that drive business transformation.
               </motion.p>
 
               <motion.p variants={fadeUp} className="mt-8 text-base leading-relaxed text-muted-foreground/90 sm:text-lg sm:leading-relaxed max-w-[480px]">
-                There is a difference between a video that is watched and a film
-                that is deeply felt. We exist in that difference — bringing modern Indian 
-                storytelling and premium aesthetic to every project we touch.
+                In an era of noise, we bring clarity and cinematic impact. Our 
+                approach blends the meticulous craft of video editing with the 
+                strategic precision of high-end web design and search engine dominance.
               </motion.p>
             </div>
 
@@ -216,9 +223,9 @@ export function PhilosophySection() {
           </div>
 
           <p className="mx-auto max-w-[600px] font-heading text-[clamp(1.4rem,3vw,2.5rem)] font-light italic leading-[1.3] tracking-[-0.01em] text-foreground/90">
-            A beautiful film doesn&rsquo;t just capture a day.
+            A powerful film doesn&rsquo;t just tell a story.
             <br />
-            It preserves a lifetime of emotion.
+            It scales your vision and dominates the digital space.
           </p>
 
           {/* Closing accent */}

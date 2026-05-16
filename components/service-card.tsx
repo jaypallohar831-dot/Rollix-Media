@@ -42,8 +42,14 @@ export const ServiceCard = memo(function ServiceCard({
   return (
     <motion.div
       variants={fadeUp}
+      whileHover={{ 
+        y: -5,
+        rotateX: 2,
+        rotateY: -2,
+        transition: { duration: 0.4, ease: 'easeOut' } 
+      }}
       className={cn(
-        'group relative flex cursor-pointer overflow-hidden rounded-2xl border transition-[border-color,background-color] duration-500',
+        'group relative flex cursor-pointer overflow-hidden rounded-2xl border transition-[border-color,background-color] duration-500 [transform-style:preserve-3d] [perspective:1000px]',
         // Base glass surface
         'border-white/[0.06] bg-white/[0.015]',
         // Hover state

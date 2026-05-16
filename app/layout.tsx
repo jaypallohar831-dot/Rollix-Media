@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import { geistSans, geistMono, playfair } from './fonts';
 import './globals.css';
 import { SmoothScroll } from '@/components/smooth-scroll';
-
+import { MouseFollowLight } from '@/components/mouse-follow-light';
+import { BokehBackground } from '@/components/bokeh-background';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 export const metadata: Metadata = {
   title: 'Cinematic Agency | Premium Digital Experiences',
   description:
@@ -21,10 +23,12 @@ export default function RootLayout({
         style={{ position: 'relative' }}
         suppressHydrationWarning
       >
-          <SmoothScroll>
-            {children}
-          </SmoothScroll>
-          <SpeedInsights />
+        <BokehBackground />
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
+        <MouseFollowLight />
+        <SpeedInsights />
       </body>
     </html>
   );

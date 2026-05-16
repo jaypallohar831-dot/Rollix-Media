@@ -1,11 +1,13 @@
-import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { Plus, Pencil, Trash2, ExternalLink, Star } from 'lucide-react';
+import { Plus, Pencil, Trash2, ExternalLink, Star, Film, ImageIcon } from 'lucide-react';
+import { requireAdminOrRedirect } from '@/lib/admin-auth';
+import { ProjectStatusToggle } from '@/components/admin/project-status-toggle';
+import { DeleteProjectButton } from '@/components/admin/delete-project-button';
 
 export const dynamic = 'force-dynamic';
 
 export default async function AdminPortfolioPage() {
-  const supabase = await createClient();
+  const { supabase } = await requireAdminOrRedirect();
   
   // Fetch projects from Supabase
   const { data: projects, error } = await supabase
@@ -59,6 +61,7 @@ export default async function AdminPortfolioPage() {
                     <td className="px-8 py-6">
                       <div className="relative h-16 w-24 overflow-hidden rounded-lg border border-white/[0.1] bg-black/40">
                         {project.thumbnail ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
                           <img 
                             src={project.thumbnail} 
                             alt={project.title}
@@ -99,9 +102,17 @@ export default async function AdminPortfolioPage() {
                         >
                           <Pencil className="h-4 w-4" />
                         </Link>
-                        <button className="p-2 rounded-lg text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all">
-                          <Trash2 className="h-4 w-4" />
-                        </button>
+                        
+                        <ProjectStatusToggle 
+                          projectId={project.id} 
+                          currentStatus={project.status} 
+                        />
+
+                        <DeleteProjectButton 
+                          projectId={project.id} 
+                          projectTitle={project.title} 
+                        />
+                        
                         <Link 
                           href={`/portfolio/${project.slug}`} 
                           target="_blank"
@@ -123,59 +134,11 @@ export default async function AdminPortfolioPage() {
             </div>
             <h3 className="mb-2 font-heading text-2xl text-white font-light">The Vault is Empty</h3>
             <p className="max-w-sm text-sm text-muted-foreground font-light leading-relaxed">
-              You haven't added any cinematic works yet. Start by creating your first showcase project.
+              You haven&rsquo;t added any cinematic works yet. Start by creating your first showcase project.
             </p>
           </div>
         )}
       </div>
     </div>
-  );
-}
-
-function Film(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="18" height="18" x="3" y="3" rx="2" />
-      <path d="M7 3v18" />
-      <path d="M17 3v18" />
-      <path d="M3 7.5h4" />
-      <path d="M3 12h4" />
-      <path d="M3 16.5h4" />
-      <path d="M17 7.5h4" />
-      <path d="M17 12h4" />
-      <path d="M17 16.5h4" />
-    </svg>
-  );
-}
-
-function ImageIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="18" height="18" x="3" y="3" rx="2" />
-      <circle cx="9" cy="9" r="2" />
-      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-    </svg>
   );
 }

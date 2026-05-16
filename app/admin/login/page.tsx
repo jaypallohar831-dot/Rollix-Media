@@ -32,10 +32,10 @@ export default function AdminLoginPage() {
       // Success
       router.push('/admin');
       router.refresh();
-    } catch (err: any) {
-      setError(err.message);
-      setLoading(false);
-    }
+} catch (err: unknown) {
+       setError(err instanceof Error ? err.message : 'Authentication failed');
+       setLoading(false);
+     }
   };
 
   return (

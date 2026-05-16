@@ -1,19 +1,22 @@
 import { 
   Film, 
-  Image as ImageIcon, 
   Users, 
   MessageSquare, 
   ArrowUpRight, 
   Plus,
   TrendingUp,
   Activity,
-  Zap
+  Zap,
+  type LucideIcon
 } from 'lucide-react';
 import Link from 'next/link';
-import { createClient } from '@/lib/supabase/server';
+import { requireAdminOrRedirect } from '@/lib/admin-auth';
+import type { Database } from '@/types/database.types';
+
+type ContactLead = Database['public']['Tables']['contact_leads']['Row'];
 
 export default async function AdminDashboardPage() {
-  const supabase = await createClient();
+  const { supabase } = await requireAdminOrRedirect();
 
   const [
     { count: projectsCount },
@@ -81,7 +84,7 @@ export default async function AdminDashboardPage() {
 
             {recentLeads && recentLeads.length > 0 ? (
               <div className="space-y-4">
-                {recentLeads.map((lead: any) => (
+                {recentLeads.map((lead: ContactLead) => (
                   <div key={lead.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] transition-colors gap-4">
                     <div>
                       <h4 className="text-white font-medium">{lead.name}</h4>
@@ -137,7 +140,7 @@ export default async function AdminDashboardPage() {
   );
 }
 
-function StatCard({ title, value, icon: Icon, highlight = false, trend }: { title: string, value: string, icon: any, highlight?: boolean, trend?: string }) {
+function StatCard({ title, value, icon: Icon, highlight = false, trend }: { title: string, value: string, icon: LucideIcon, highlight?: boolean, trend?: string }) {
   return (
     <div className={`group relative rounded-3xl border p-8 transition-all duration-500 hover:scale-[1.02] ${
       highlight 
