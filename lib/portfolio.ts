@@ -37,13 +37,13 @@ export interface PortfolioItem {
 
 export const PORTFOLIO_CATEGORIES = [
   'All',
-  'Wedding Film',
-  'Commercial Ad',
-  'Brand Story',
-  'Cinematic Reel',
-  'Photography',
-  'Social Campaign',
-  'Motion Graphics',
+  'Web Development',
+  'Video Editing',
+  'Social Media',
+  'Graphics Designing',
+  'Marketing',
+  'SEO and Growth',
+  'Business Growth',
 ] as const;
 
 export type PortfolioCategory = (typeof PORTFOLIO_CATEGORIES)[number];
@@ -62,7 +62,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   {
     id: 'eternal-vows',
     title: 'Eternal Vows',
-    category: 'Wedding Film',
+    category: 'Video Editing',
     tagline: 'A love story told through light and silence.',
     description:
       'An intimate cinematic journey capturing the union of two souls. Shot across golden-hour landscapes and candlelit interiors, every frame breathes emotion. This film weaves together candid moments and choreographed sequences to tell a story of love that transcends time.',
@@ -91,7 +91,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   {
     id: 'ember-and-oak',
     title: 'Ember & Oak',
-    category: 'Brand Story',
+    category: 'Marketing',
     tagline: 'Craft born from generations of quiet devotion.',
     description:
       'A documentary-style brand film following three generations of artisan woodworkers. Raw textures, warm tones, and honest storytelling create an intimate portrait of dedication and craft.',
@@ -118,7 +118,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   {
     id: 'cinematic-flow',
     title: 'Cinematic Flow',
-    category: 'Cinematic Reel',
+    category: 'Video Editing',
     tagline: 'A seamless journey through space and time.',
     description:
       'A breathtaking visual experience showcasing cinematic motion, vivid colors, and dynamic flow. Perfect for high-end digital marketing and brand storytelling.',
@@ -142,7 +142,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   {
     id: 'bloom',
     title: 'Bloom',
-    category: 'Photography',
+    category: 'Graphics Designing',
     tagline: 'A season of growth, captured in golden light.',
     description:
       'A high-end editorial photography campaign designed for a lifestyle brand. Vibrant visuals and medium-format crispness that drove 3x engagement over the previous quarter.',
@@ -165,7 +165,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   {
     id: 'pulse',
     title: 'Pulse',
-    category: 'Motion Graphics',
+    category: 'Graphics Designing',
     tagline: 'Where sound meets shape and rhythm finds form.',
     description:
       'A motion graphics package for a music festival brand. Pulsing geometries, synchronized typography, and reactive particle systems create an audiovisual experience that lives and breathes.',

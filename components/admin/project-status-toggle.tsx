@@ -47,7 +47,7 @@ export function ProjectStatusToggle({ projectId, currentStatus }: ProjectStatusT
       className={`p-2 rounded-lg transition-all disabled:opacity-50 ${
         isLive 
           ? 'text-cinematic-orange hover:bg-cinematic-orange/10' 
-          : 'text-muted-foreground hover:bg-white/[0.05]'
+          : 'text-stone-400 hover:bg-white/[0.05]'
       }`}
       title={isLive ? 'Set to Draft' : 'Set to Live'}
     >

@@ -44,7 +44,7 @@ export function DeleteProjectButton({ projectId, projectTitle }: DeleteProjectBu
     <button 
       onClick={handleDelete}
       disabled={loading}
-      className="p-2 rounded-lg text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all disabled:opacity-50"
+      className="p-2 rounded-lg text-stone-400 hover:bg-red-500/10 hover:text-red-400 transition-all disabled:opacity-50"
       title="Delete Project"
     >
       {loading ? (

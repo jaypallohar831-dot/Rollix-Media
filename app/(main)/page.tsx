@@ -1,6 +1,5 @@
 import { HeroSection } from '@/sections/hero';
 import { PhilosophySection } from '@/sections/philosophy';
-import { ServicesSection } from '@/sections/services';
 import { PortfolioSection } from '@/sections/portfolio';
 import { TestimonialsSection } from '@/sections/testimonials';
 import { ProcessSection } from '@/sections/process';
@@ -18,12 +17,7 @@ export default function Home() {
 
       <Divider />
 
-      {/* Services — bento grid */}
-      <ServicesSection />
-
-      <Divider />
-
-      {/* Portfolio — cinematic showcase */}
+      {/* Portfolio — Digital Marketing Services Showcase */}
       <PortfolioSection />
 
       <Divider />
@@ -46,14 +40,14 @@ export default function Home() {
               Let&rsquo;s Connect
             </span>
             <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.02em] text-foreground">
-              Ready to create your cinematic <span className="text-gradient-warm italic">Legacy</span>?
+              Ready to accelerate your <span className="text-gradient-warm italic">Digital Growth</span>?
             </h2>
             <div className="mt-12 flex justify-center">
               <a 
                 href="/contact"
                 className="inline-flex h-14 items-center justify-center rounded-full border border-cinematic-orange/30 bg-cinematic-orange/10 px-8 text-[11px] font-medium uppercase tracking-[0.2em] text-cinematic-orange transition-all duration-500 hover:bg-cinematic-orange hover:text-white"
               >
-                Tell Your Story
+                Start Your Project
               </a>
             </div>
           </div>

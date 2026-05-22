@@ -22,67 +22,67 @@ export interface ServiceItem {
 export const SERVICES: ServiceItem[] = [
   {
     index: '01',
-    slug: 'video-editing',
-    title: 'Professional Video Editing',
+    slug: 'wedding-shooting',
+    title: 'Wedding Shooting',
     description:
-      'High-end post-production, color grading, and sound design. We transform raw footage into cinematic masterpieces that command attention.',
-    icon: Scissors,
+      'Cinematic Indian wedding visuals. Emotional storytelling wrapped in warm luxury tones. We capture the unseen moments that last a lifetime.',
+    icon: Sparkles,
     featured: true,
   },
   {
     index: '02',
-    slug: 'web-design',
-    title: 'Strategic Web Designing',
-    description:
-      'Conversion-focused, premium websites designed to provide an immersive experience while turning visitors into loyal clients.',
-    icon: Monitor,
-  },
-  {
-    index: '03',
-    slug: 'social-media',
-    title: 'Social Media Management',
-    description:
-      'Data-driven social strategies and content creation that build a powerful digital presence and foster community engagement.',
-    icon: Share2,
-  },
-  {
-    index: '04',
-    slug: 'seo-dominance',
-    title: 'SEO & Search Dominance',
-    description:
-      'Technical SEO and content strategy designed to put your brand at the top of search results and drive organic growth.',
-    icon: TrendingUp,
-  },
-  {
-    index: '05',
     slug: 'videography',
-    title: 'Cinematic Videography',
+    title: 'Videography',
     description:
-      'On-site production for commercials, brand stories, and events, captured with industry-leading equipment and artistic vision.',
+      'Commercial shoots, brand films, and event production. Premium visual storytelling that elevates your brand\'s presence.',
     icon: Video,
   },
   {
-    index: '06',
-    slug: 'digital-marketing',
-    title: 'Digital Marketing Strategy',
+    index: '03',
+    slug: 'video-editing',
+    title: 'Video Editing',
     description:
-      'Full-funnel marketing campaigns combining paid media, email marketing, and funnel optimization for maximum ROI.',
-    icon: Megaphone,
+      'Dynamic, motion-driven sequences. From color grading to complex transitions, we shape raw footage into high-retention masterpieces.',
+    icon: Scissors,
   },
   {
-    index: '07',
-    slug: 'business-growth',
-    title: 'Business Growth Consulting',
+    index: '04',
+    slug: 'social-media',
+    title: 'Social Media',
     description:
-      'Strategic scaling solutions that identify bottlenecks and leverage digital tools to accelerate your business revenue.',
+      'Energetic, fast-paced creatives. Viral Instagram reels and engagement-focused social content designed to stop the scroll.',
+    icon: Share2,
+  },
+  {
+    index: '05',
+    slug: 'web-design',
+    title: 'Web Design',
+    description:
+      'Minimal, futuristic, elegant. Immersive desktop and mobile interfaces that feel less like websites and more like digital experiences.',
+    icon: Monitor,
+  },
+  {
+    index: '06',
+    slug: 'graphic-design',
+    title: 'Graphic Design',
+    description:
+      'Luxury visual identities. Posters, branding systems, and social creatives engineered with modern typography and asymmetric elegance.',
     icon: Zap,
   },
   {
-    index: '08',
-    slug: 'creative-direction',
-    title: 'Creative Direction',
+    index: '07',
+    slug: 'seo-dominance',
+    title: 'SEO',
     description:
-      'Developing unique visual languages and brand narratives that differentiate your business in a crowded marketplace.',
-    icon: Sparkles,
+      'Clean, trustworthy, and professional. We don\'t guess—we analyze, rank, and grow your organic footprint with data-driven strategy.',
+    icon: TrendingUp,
+  },
+  {
+    index: '08',
+    slug: 'digital-marketing',
+    title: 'Ads (Meta/Google)',
+    description:
+      'Strategic, conversion-focused campaigns. We build premium ad funnels and performance dashboards that scale profitably.',
+    icon: Megaphone,
   },
 ];

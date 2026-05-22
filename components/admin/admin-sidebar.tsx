@@ -2,84 +2,89 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { 
-  LayoutDashboard, 
-  Film, 
-  Image as ImageIcon, 
-  Users, 
-  MessageSquare, 
-  Settings, 
+import {
+  LayoutDashboard,
+  Briefcase,
+  Layers,
+  Star,
+  MessageCircle,
+  Settings,
   LogOut,
-  type LucideIcon
+  type LucideIcon,
 } from 'lucide-react';
 
-export function AdminSidebar() {
+const NAV: { href: string; icon: LucideIcon; label: string }[] = [
+  { href: '/admin',              icon: LayoutDashboard, label: 'Dashboard' },
+  { href: '/admin/portfolio',    icon: Briefcase,       label: 'Portfolio' },
+  { href: '/admin/services',     icon: Layers,          label: 'Services' },
+  { href: '/admin/testimonials', icon: Star,            label: 'Testimonials' },
+  { href: '/admin/messages',     icon: MessageCircle,   label: 'Enquiries' },
+  { href: '/admin/settings',     icon: Settings,        label: 'Settings' },
+];
+
+export function AdminSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      router.push('/admin/login');
-      router.refresh();
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
+  const logout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    router.push('/admin/login');
+    router.refresh();
   };
 
+  const isActive = (href: string) =>
+    href === '/admin' ? pathname === '/admin' : pathname.startsWith(href);
+
   return (
-    <aside className="fixed left-0 top-0 z-40 h-screen w-64 border-r border-white/[0.08] bg-[#030303]">
-      <div className="flex h-full flex-col px-4 py-8">
-        {/* Logo */}
-        <div className="mb-12 px-4">
-          <Link href="/admin" className="flex items-center gap-3">
-            <div className="relative flex h-8 w-8 items-center justify-center overflow-hidden">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/logo.png" alt="Rollix Media logo" className="object-contain" />
-            </div>
-            <span className="font-heading text-sm uppercase tracking-[0.2em] text-foreground font-bold">
-              Studio <span className="text-cinematic-orange">Admin</span>
-            </span>
-          </Link>
-        </div>
+    <aside
+      className={`fixed inset-y-0 left-0 z-40 w-[260px] flex flex-col transition-transform duration-300 md:translate-x-0 ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}
+      style={{ background: 'var(--admin-sidebar)', borderRight: '1px solid var(--admin-border)' }}
+    >
+      {/* Brand */}
+      <div className="hidden md:flex items-center gap-3 px-7 pt-9 pb-10">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/assets/logo.png" alt="Logo" className="h-7 w-7 object-contain" />
+        <span className="font-heading text-[11px] uppercase tracking-[.25em] font-bold" style={{ color: 'var(--admin-text)' }}>
+          Rollix <span style={{ color: 'var(--admin-accent)' }}>Studio</span>
+        </span>
+      </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 space-y-2">
-          <NavItem href="/admin" icon={LayoutDashboard} label="Dashboard" active={pathname === '/admin'} />
-          <NavItem href="/admin/portfolio" icon={Film} label="Portfolio Projects" active={pathname.startsWith('/admin/portfolio')} />
-          <NavItem href="/admin/services" icon={ImageIcon} label="Services" active={pathname.startsWith('/admin/services')} />
-          <NavItem href="/admin/testimonials" icon={Users} label="Testimonials" active={pathname.startsWith('/admin/testimonials')} />
-          <NavItem href="/admin/messages" icon={MessageSquare} label="Enquiries" active={pathname.startsWith('/admin/messages')} />
-          <NavItem href="/admin/settings" icon={Settings} label="Site Settings" active={pathname.startsWith('/admin/settings')} />
-        </nav>
+      {/* Navigation */}
+      <nav className="flex-1 px-4 space-y-1 mt-6 md:mt-0">
+        {NAV.map(({ href, icon: Icon, label }) => {
+          const active = isActive(href);
+          return (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-medium transition-all duration-200"
+              style={
+                active
+                  ? { background: 'var(--admin-card)', color: 'var(--admin-accent)', boxShadow: '0 1px 4px rgba(200,149,108,.12)', border: '1px solid var(--admin-border)' }
+                  : { color: 'var(--admin-text-secondary)', border: '1px solid transparent' }
+              }
+            >
+              <Icon className="h-[18px] w-[18px]" />
+              {label}
+            </Link>
+          );
+        })}
+      </nav>
 
-        {/* Logout */}
-        <div className="mt-auto pt-8">
-          <button 
-            onClick={handleLogout}
-            className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm text-muted-foreground transition-all duration-300 hover:bg-red-500/10 hover:text-red-400 group"
-          >
-            <LogOut className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-            Logout
-          </button>
-        </div>
+      {/* Footer */}
+      <div className="px-4 pb-8">
+        <button
+          onClick={logout}
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[13px] transition-colors"
+          style={{ color: 'var(--admin-text-muted)' }}
+        >
+          <LogOut className="h-4 w-4" />
+          Sign Out
+        </button>
       </div>
     </aside>
-  );
-}
-
-function NavItem({ href, icon: Icon, label, active = false }: { href: string, icon: LucideIcon, label: string, active?: boolean }) {
-  return (
-    <Link
-      href={href}
-      className={`flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm transition-all duration-500 ${
-        active 
-          ? 'bg-cinematic-orange/10 text-cinematic-orange border border-cinematic-orange/20 shadow-[0_0_15px_rgba(212,118,60,0.1)]' 
-          : 'text-muted-foreground/60 border border-transparent hover:bg-white/[0.03] hover:text-foreground'
-      }`}
-    >
-      <Icon className={`h-4 w-4 ${active ? 'animate-pulse' : ''}`} />
-      <span className={active ? 'font-medium tracking-wide' : 'tracking-wide'}>{label}</span>
-    </Link>
   );
 }

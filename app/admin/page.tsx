@@ -40,7 +40,7 @@ export default async function AdminDashboardPage() {
           <h1 className="font-heading text-4xl font-light tracking-tight text-white">
             Studio <span className="text-gradient-warm italic font-medium">Control</span>
           </h1>
-          <p className="mt-2 text-muted-foreground font-light tracking-wide">
+          <p className="mt-2 text-stone-300 font-light tracking-wide">
             Connected to Supabase Cluster: <span className="text-cinematic-orange/80">Active</span>
           </p>
         </div>
@@ -88,7 +88,7 @@ export default async function AdminDashboardPage() {
                   <div key={lead.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-white/[0.02] border border-white/[0.05] hover:bg-white/[0.04] transition-colors gap-4">
                     <div>
                       <h4 className="text-white font-medium">{lead.name}</h4>
-                      <p className="text-sm text-muted-foreground line-clamp-1 mt-1">{lead.message || "No message provided."}</p>
+                      <p className="text-sm text-stone-300 line-clamp-1 mt-1">{lead.message || "No message provided."}</p>
                     </div>
                     <div className="flex items-center gap-4 text-xs font-medium shrink-0">
                       <span className="text-cinematic-orange uppercase tracking-wider">{lead.status || 'New'}</span>
@@ -102,7 +102,7 @@ export default async function AdminDashboardPage() {
                 <div className="p-4 rounded-full bg-white/[0.03] mb-4">
                   <MessageSquare className="h-8 w-8 text-muted-foreground/40" />
                 </div>
-                <p className="text-muted-foreground text-sm font-light">No recent inquiries found.</p>
+                <p className="text-stone-300 text-sm font-light">No recent inquiries found.</p>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground/30 mt-2">Database is waiting for first entry</p>
               </div>
             )}
@@ -126,7 +126,7 @@ export default async function AdminDashboardPage() {
 
           {/* System Health */}
           <div className="rounded-3xl border border-white/[0.08] bg-black/40 p-8">
-            <h2 className="mb-6 font-heading text-sm uppercase tracking-widest text-muted-foreground">System Status</h2>
+            <h2 className="mb-6 font-heading text-sm uppercase tracking-widest text-white">System Status</h2>
             <div className="space-y-4">
               <StatusItem label="Supabase DB" status="Online" color="bg-green-500" />
               <StatusItem label="Cloudinary API" status="Configured" color="bg-cinematic-orange" />
@@ -160,7 +160,7 @@ function StatCard({ title, value, icon: Icon, highlight = false, trend }: { titl
       </div>
       <div>
         <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/60 mb-2">{title}</h3>
-        <p className={`text-4xl font-light tracking-tight ${highlight ? 'text-cinematic-orange' : 'text-white'}`}>
+        <p className="text-4xl font-bold tracking-tight text-white">
           {value}
         </p>
       </div>

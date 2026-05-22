@@ -74,7 +74,7 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
           <h1 className="font-heading text-4xl font-light tracking-tight text-white">
             Client <span className="text-gradient-warm italic font-medium">Enquiries</span>
           </h1>
-          <p className="mt-2 text-muted-foreground font-light tracking-wide">
+          <p className="mt-2 text-stone-300 font-light tracking-wide">
             You have <span className="text-white font-medium">{messages.length}</span> messages from potential clients.
           </p>
         </div>
@@ -132,7 +132,7 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
                       )}
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 opacity-50" />
-                        <span>{new Date(msg.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                        <span className="text-stone-400">{new Date(msg.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                     </div>
 
@@ -140,7 +140,7 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
                       <div className="mb-2 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
                         Service Interest: <span className="text-white/80">{msg.service_interest || 'General'}</span>
                       </div>
-                      <p className="text-white/80 leading-relaxed font-light whitespace-pre-wrap">
+                      <p className="text-stone-300 leading-relaxed font-light whitespace-pre-wrap">
                         {msg.message || "No message provided."}
                       </p>
                     </div>

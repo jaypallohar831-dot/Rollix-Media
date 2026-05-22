@@ -13,7 +13,7 @@ export default function AdminSettingsPage() {
           <h1 className="font-heading text-4xl font-light tracking-tight text-white">
             Site <span className="text-gradient-warm italic font-medium">Settings</span>
           </h1>
-          <p className="mt-2 text-muted-foreground font-light tracking-wide">
+          <p className="mt-2 text-stone-300 font-light tracking-wide">
             Manage your studio&rsquo;s global configuration and preferences.
           </p>
         </div>
@@ -63,38 +63,38 @@ export default function AdminSettingsPage() {
               
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Studio Name</label>
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">Studio Name</label>
                   <input 
                     type="text" 
                     defaultValue="Rollix Media"
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none transition-all focus:border-cinematic-orange/50 focus:bg-white/[0.05]"
+                    className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none transition-all focus:border-cinematic-orange/50 focus:bg-white/[0.05]"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Contact Email</label>
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">Contact Email</label>
                   <input 
                     type="email" 
                     defaultValue="jaypallohar831@gmail.com"
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none transition-all focus:border-cinematic-orange/50 focus:bg-white/[0.05]"
+                    className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none transition-all focus:border-cinematic-orange/50 focus:bg-white/[0.05]"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Contact Phone</label>
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">Contact Phone</label>
                   <input 
                     type="tel" 
                     placeholder="+91 98765 43210"
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none transition-all focus:border-cinematic-orange/50 focus:bg-white/[0.05]"
+                    className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none transition-all focus:border-cinematic-orange/50 focus:bg-white/[0.05]"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">SEO Description</label>
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">SEO Description</label>
                   <textarea 
                     rows={4}
                     defaultValue="Premium cinematic wedding films and visual storytelling."
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none transition-all focus:border-cinematic-orange/50 focus:bg-white/[0.05] resize-none"
+                    className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none transition-all focus:border-cinematic-orange/50 focus:bg-white/[0.05] resize-none"
                   />
                 </div>
               </div>
@@ -106,16 +106,16 @@ export default function AdminSettingsPage() {
               <h2 className="font-heading text-2xl text-white mb-6">Email & Notifications</h2>
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">SMTP Host</label>
-                  <input type="text" placeholder="smtp.gmail.com" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">SMTP Host</label>
+                  <input type="text" placeholder="smtp.gmail.com" className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">SMTP Port</label>
-                  <input type="text" placeholder="587" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">SMTP Port</label>
+                  <input type="text" placeholder="587" className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Notification Email Addresses</label>
-                  <input type="text" defaultValue="jaypallohar831@gmail.com" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">Notification Email Addresses</label>
+                  <input type="text" defaultValue="jaypallohar831@gmail.com" className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
                 </div>
                 <div className="flex items-center justify-between p-4 rounded-xl border border-white/[0.04] bg-white/[0.01]">
                   <div>
@@ -135,12 +135,12 @@ export default function AdminSettingsPage() {
               <h2 className="font-heading text-2xl text-white mb-6">Security & Access</h2>
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Admin Password</label>
-                  <input type="password" placeholder="••••••••" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">Admin Password</label>
+                  <input type="password" placeholder="••••••••" className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Confirm New Password</label>
-                  <input type="password" placeholder="••••••••" className="w-full rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
+                  <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-200 ml-1">Confirm New Password</label>
+                  <input type="password" placeholder="••••••••" className="w-full rounded-xl border border-stone-600 bg-stone-800 px-4 py-3 text-white placeholder-white/20 outline-none focus:border-cinematic-orange/50" />
                 </div>
                 <div className="pt-4 border-t border-white/[0.08]">
                   <p className="text-sm text-muted-foreground mb-4">Password and two-factor changes are managed through Supabase authentication.</p>

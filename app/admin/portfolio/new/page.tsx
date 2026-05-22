@@ -99,7 +99,17 @@ export default function NewPortfolioPage() {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.from('portfolio_projects').insert([formData]);
+    // Strip out fields that do not exist in the Supabase 'portfolio_projects' table schema
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { location, video_url, ...submitData } = formData;
+    
+    // Postgres throws error if empty string is cast to UUID
+    const finalData = {
+      ...submitData,
+      category_id: submitData.category_id || null,
+    };
+
+    const { error } = await supabase.from('portfolio_projects').insert([finalData]);
 
     setLoading(false);
     if (error) {

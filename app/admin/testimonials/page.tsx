@@ -20,7 +20,7 @@ export default async function AdminTestimonialsPage() {
           <h1 className="font-heading text-4xl font-light tracking-tight text-white">
             Client <span className="text-gradient-warm italic font-medium">Voices</span>
           </h1>
-          <p className="mt-2 text-muted-foreground font-light tracking-wide">
+          <p className="mt-2 text-stone-300 font-light tracking-wide">
             Manage the praise and stories from your satisfied clients.
           </p>
         </div>
@@ -60,8 +60,8 @@ export default async function AdminTestimonialsPage() {
                     )}
                   </div>
                   <div>
-                    <h3 className="text-white font-medium">{item.name}</h3>
-                    <p className="text-xs text-muted-foreground font-light">{item.role} {item.company ? `@ ${item.company}` : ''}</p>
+                    <h3 className="text-white font-semibold">{item.name}</h3>
+                    <p className="text-xs text-orange-300 font-light">{item.role} {item.company ? `@ ${item.company}` : ''}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
@@ -73,7 +73,7 @@ export default async function AdminTestimonialsPage() {
               
               <div className="relative">
                 <Quote className="absolute -top-2 -left-2 h-8 w-8 text-cinematic-orange/10" />
-                <p className="text-sm text-foreground/80 leading-relaxed font-light italic pl-4">
+                <p className="text-sm text-stone-300 leading-relaxed font-light italic pl-4">
                   &ldquo;{item.content}&rdquo;
                 </p>
               </div>
@@ -99,7 +99,7 @@ export default async function AdminTestimonialsPage() {
               <Quote className="h-12 w-12" />
             </div>
             <h3 className="mb-2 font-heading text-2xl text-white font-light">Silent Appreciation</h3>
-            <p className="max-w-sm text-sm text-muted-foreground font-light leading-relaxed">
+            <p className="max-w-sm text-sm text-stone-300 font-light leading-relaxed">
               You haven&rsquo;t added any client testimonials yet. Showcase the love from your audience.
             </p>
           </div>

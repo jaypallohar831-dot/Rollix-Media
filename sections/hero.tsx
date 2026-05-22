@@ -63,7 +63,7 @@ export function HeroSection() {
         <motion.div variants={fadeUp} className="mb-8 sm:mb-10">
           <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.15] bg-black/60 px-5 py-2 text-[11px] font-medium uppercase tracking-[0.25em] text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-cinematic-orange animate-pulse" />
-            Premium Cinematic Studio
+            Digital Marketing Agency
           </span>
         </motion.div>
 
@@ -102,8 +102,8 @@ export function HeroSection() {
           variants={fadeUp}
           className="mt-10 flex flex-col items-center gap-4 sm:mt-14 sm:flex-row sm:gap-5"
         >
-          <CinematicButton variant="primary" href="#portfolio">
-            View Our Films
+          <CinematicButton variant="primary" href="/services">
+            Explore Our Services
           </CinematicButton>
           <CinematicButton variant="outline" href="/contact" showArrow={false}>
             Start Your Growth

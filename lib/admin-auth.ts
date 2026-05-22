@@ -28,7 +28,9 @@ export async function requireAdmin() {
     .eq('id', user.id)
     .maybeSingle();
 
-  const isAdminEmail = user.email === process.env.ADMIN_EMAIL;
+  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const userEmail = user.email?.trim().toLowerCase();
+  const isAdminEmail = adminEmail && userEmail === adminEmail;
   if (!isAdminEmail && (profileError || profile?.role !== 'admin')) {
     throw new AdminAuthError(403, 'Forbidden');
   }

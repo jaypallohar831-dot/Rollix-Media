@@ -50,7 +50,16 @@ export async function POST(request: Request) {
       .eq('id', data.user.id)
       .maybeSingle();
 
-    const isAdminEmail = data.user.email === process.env.ADMIN_EMAIL;
+    console.log("LOGIN DEBUG:", {
+      userEmail: data.user.email,
+      envAdminEmail: process.env.ADMIN_EMAIL,
+      profile: profile,
+      profileError: profileError,
+    });
+
+    const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+    const userEmail = data.user.email?.trim().toLowerCase();
+    const isAdminEmail = adminEmail && userEmail === adminEmail;
 
     if (!isAdminEmail && (profileError || profile?.role !== 'admin')) {
       await supabase.auth.signOut();

@@ -20,7 +20,7 @@ export default async function AdminServicesPage() {
           <h1 className="font-heading text-4xl font-light tracking-tight text-white">
             Agency <span className="text-gradient-warm italic font-medium">Services</span>
           </h1>
-          <p className="mt-2 text-muted-foreground font-light tracking-wide">
+          <p className="mt-2 text-stone-300 font-light tracking-wide">
             Manage the core offerings of your digital studio.
           </p>
         </div>
@@ -61,7 +61,7 @@ export default async function AdminServicesPage() {
                           <Zap className="h-5 w-5" />
                         </div>
                         <div>
-                          <span className="font-heading text-base text-white block group-hover:text-cinematic-orange transition-colors">
+                          <span className="font-heading text-base text-white font-semibold block group-hover:text-cinematic-orange transition-colors">
                             {service.title}
                           </span>
                           <span className="text-xs text-muted-foreground font-light">{service.slug}</span>
@@ -96,7 +96,7 @@ export default async function AdminServicesPage() {
               <Zap className="h-12 w-12" />
             </div>
             <h3 className="mb-2 font-heading text-2xl text-white font-light">No Services Defined</h3>
-            <p className="max-w-sm text-sm text-muted-foreground font-light leading-relaxed">
+            <p className="max-w-sm text-sm text-stone-300 font-light leading-relaxed">
               Define the specialized services your studio provides to clients.
             </p>
           </div>
