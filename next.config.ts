@@ -5,10 +5,15 @@ const nextConfig: NextConfig = {
 
   // Image optimization — auto WebP/AVIF conversion
   images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 768, 1024, 1280, 1536],
     imageSizes: [16, 32, 48, 64, 128, 256, 384],
-    qualities: [75, 80],
     minimumCacheTTL: 60 * 60 * 24, // 24 hours
   },
 
