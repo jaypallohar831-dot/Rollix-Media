@@ -68,24 +68,38 @@ export default function NewPortfolioPage() {
 
     setUploading(type);
     
-    const uploadData = new FormData();
-    uploadData.append('file', file);
-    uploadData.append('folder', type === 'video' ? 'videos' : 'portfolio');
-
     try {
-      const res = await fetch('/api/upload', {
+      const sigRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ folder: type === 'video' ? 'videos' : 'portfolio' })
+      });
+      const sigData = await sigRes.json();
+      
+      if (!sigData.success) {
+        throw new Error(sigData.error || 'Failed to get upload signature');
+      }
+
+      const uploadData = new FormData();
+      uploadData.append('file', file);
+      uploadData.append('api_key', sigData.apiKey);
+      uploadData.append('timestamp', sigData.timestamp);
+      uploadData.append('signature', sigData.signature);
+      uploadData.append('folder', sigData.folder);
+
+      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloudName}/auto/upload`, {
         method: 'POST',
         body: uploadData
       });
-      const data = await res.json();
+      const uploadResult = await uploadRes.json();
 
-      if (data.success) {
+      if (uploadResult.secure_url) {
         if (type === 'thumbnail') {
-          setFormData(prev => ({ ...prev, thumbnail: data.url }));
+          setFormData(prev => ({ ...prev, thumbnail: uploadResult.secure_url }));
         } else if (type === 'gallery') {
-          setFormData(prev => ({ ...prev, gallery_images: [...prev.gallery_images, data.url] }));
+          setFormData(prev => ({ ...prev, gallery_images: [...prev.gallery_images, uploadResult.secure_url] }));
         } else if (type === 'video') {
-          setFormData(prev => ({ ...prev, video_url: data.url }));
+          setFormData(prev => ({ ...prev, video_url: uploadResult.secure_url }));
         }
       }
     } catch (err) {

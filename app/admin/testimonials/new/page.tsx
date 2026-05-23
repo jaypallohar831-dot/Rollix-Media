@@ -34,18 +34,34 @@ export default function NewTestimonialPage() {
     if (!file) return;
 
     setUploading(true);
-    const uploadData = new FormData();
-    uploadData.append('file', file);
-    uploadData.append('folder', 'testimonials');
 
     try {
-      const res = await fetch('/api/upload', {
+      const sigRes = await fetch('/api/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ folder: 'testimonials' })
+      });
+      const sigData = await sigRes.json();
+      
+      if (!sigData.success) {
+        throw new Error(sigData.error || 'Failed to get upload signature');
+      }
+
+      const uploadData = new FormData();
+      uploadData.append('file', file);
+      uploadData.append('api_key', sigData.apiKey);
+      uploadData.append('timestamp', sigData.timestamp);
+      uploadData.append('signature', sigData.signature);
+      uploadData.append('folder', sigData.folder);
+
+      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloudName}/auto/upload`, {
         method: 'POST',
         body: uploadData
       });
-      const data = await res.json();
-      if (data.success) {
-        setFormData(prev => ({ ...prev, avatar_url: data.url }));
+      const uploadResult = await uploadRes.json();
+
+      if (uploadResult.secure_url) {
+        setFormData(prev => ({ ...prev, avatar_url: uploadResult.secure_url }));
       }
     } catch (err) {
       console.error('Upload failed:', err);
