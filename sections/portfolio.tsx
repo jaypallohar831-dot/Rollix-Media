@@ -49,23 +49,6 @@ const GRAPHIC_PROJECTS: PortfolioItem[] = [
   { id: 'g2', title: 'Neon Posters', category: 'Print Design', tagline: 'Retro-futuristic aesthetics.', year: '2023', image: '/assets/portfolio/motion.png', mediaType: 'image', tags: ['Print'] }
 ];
 
-const SeoShowcase = () => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-    {[
-      { label: 'Organic Traffic Growth', value: '+240%', desc: '6-month campaign for a leading D2C brand', icon: TrendingUp },
-      { label: 'Top 3 Rankings', value: 'Page 1', desc: 'Dominating 15+ high-volume keywords', icon: BarChart3 },
-      { label: 'Inbound Leads', value: '4.5x', desc: 'Sustainable ROI through content authority', icon: Users }
-    ].map((stat, i) => (
-      <div key={i} className="group relative overflow-hidden rounded-2xl border border-white/[0.06] bg-white/[0.01] p-8 transition-colors duration-500 hover:bg-white/[0.03]">
-        <stat.icon className="h-8 w-8 text-cinematic-orange/60 mb-6 transition-colors duration-500 group-hover:text-cinematic-orange" />
-        <div className="font-heading text-4xl text-white mb-2">{stat.value}</div>
-        <div className="text-sm font-medium tracking-wider text-white/80 uppercase mb-2">{stat.label}</div>
-        <div className="text-sm text-white/50 leading-relaxed">{stat.desc}</div>
-      </div>
-    ))}
-  </div>
-);
-
 const AdsShowcase = () => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
     {[
@@ -144,7 +127,6 @@ export function PortfolioSection() {
   const SOCIAL = getProjects(['social-media', 'social-campaign'], SOCIAL_PROJECTS, 3);
   const WEB_DESIGN = getProjects(['web-design', 'web-development'], WEB_DESIGN_PROJECTS, 2);
   const GRAPHIC = getProjects(['graphics-designing', 'photography', 'motion-graphics', 'creative-direction'], GRAPHIC_PROJECTS, 2);
-  const SEO = getProjects(['seo-and-growth', 'seo-dominance'], [], 0); // SEO uses SeoShowcase mostly
   const ADS = getProjects(['marketing', 'business-growth', 'digital-marketing'], [], 0); // Ads uses AdsShowcase mostly
 
   return (
@@ -307,24 +289,6 @@ export function PortfolioSection() {
                 <PortfolioCard size="default" item={GRAPHIC[0]} className="md:-translate-y-8" />
                 <PortfolioCard size="default" item={GRAPHIC[1]} className="md:translate-y-8" />
               </div>
-            </motion.div>
-
-            {/* 7. SEO */}
-            <div id="portfolio-seo-and-growth" className="absolute -mt-32" />
-            <div id="portfolio-seo" className="absolute -mt-32" />
-            <motion.div 
-               id="portfolio-seo-dominance"
-               initial={{ opacity: 0, y: 40 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true, margin: '-10%' }}
-               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-               className="relative border border-white/[0.05] bg-gradient-to-b from-white/[0.02] to-transparent p-8 sm:p-12 md:p-16 rounded-3xl scroll-mt-32"
-            >
-              <div className="max-w-2xl">
-                <h3 className="text-4xl sm:text-5xl font-heading text-white mb-4">SEO</h3>
-                <p className="text-foreground/70 text-lg">Clean, trustworthy, and professional. We don&rsquo;t guess—we analyze, rank, and grow your organic footprint with data-driven strategy.</p>
-              </div>
-              <SeoShowcase />
             </motion.div>
 
             {/* 8. META / GOOGLE ADS */}
