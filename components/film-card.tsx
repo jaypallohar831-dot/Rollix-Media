@@ -31,6 +31,12 @@ interface FilmCardProps {
   highlightOnHover?: boolean;
 }
 
+const aspectMap = {
+  default: 'aspect-[4/3]',
+  large: 'aspect-[16/10]',
+  hero: 'aspect-[16/9] sm:aspect-[2.2/1]',
+} as const;
+
 export const FilmCard = memo(function FilmCard({
   item,
   size = 'default',
@@ -68,10 +74,13 @@ export const FilmCard = memo(function FilmCard({
     >
       {/* ── THUMBNAIL ── */}
       <div
-        className="relative overflow-hidden rounded-2xl bg-[#050505]"
+        className={cn(
+          'relative overflow-hidden rounded-2xl bg-[#050505]',
+          aspectMap[size]
+        )}
       >
         {showMarketingMotion ? (
-          <div className="w-full aspect-[4/3]">
+          <div className="absolute inset-0 h-full w-full">
             <MarketingMotionVisual />
           </div>
         ) : isVideo && item.videoUrl ? (
@@ -82,19 +91,19 @@ export const FilmCard = memo(function FilmCard({
             muted
             loop
             playsInline
-            className="block w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
           <img
             src={item.image}
             alt={`${item.title} — ${item.category}`}
             loading={priority ? "eager" : "lazy"}
-            className="block w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         )}
 
         {/* Dark gradient overlay — stronger at bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
         {/* Hover dim */}
         <div className="absolute inset-0 bg-black/10 transition-opacity duration-500 group-hover:opacity-0" />

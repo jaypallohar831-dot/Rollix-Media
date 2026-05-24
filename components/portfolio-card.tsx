@@ -37,6 +37,12 @@ interface PortfolioCardProps {
  * 9. Wrapped card in Link to the detail page.
  */
 
+const aspectClasses = {
+  featured: 'aspect-[16/9] sm:aspect-[2.4/1]',
+  large: 'aspect-[16/10] sm:aspect-[16/9]',
+  default: 'aspect-[4/3] sm:aspect-[16/10]',
+} as const;
+
 export const PortfolioCard = memo(function PortfolioCard({
   item,
   size = 'default',
@@ -51,21 +57,22 @@ export const PortfolioCard = memo(function PortfolioCard({
         variants={fadeUp}
         className={cn(
           'group relative cursor-pointer overflow-hidden rounded-xl sm:rounded-2xl',
+          aspectClasses[size],
           className
         )}
       >
         {/* Image with CSS-only hover zoom — GPU transform, no JS scroll listener */}
-        <div className="w-full h-auto overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
           <img
             src={item.image}
             alt={`${item.title} — ${item.category}`}
             loading={priority ? "eager" : "lazy"}
-            className="block w-full h-auto transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
+            className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
           />
         </div>
 
         {/* Cinematic overlay gradient — always visible, intensifies on hover */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-500 pointer-events-none" />
 
         {/* Hover brightening overlay */}
         <div className="absolute inset-0 bg-black/30 transition-opacity duration-500 group-hover:opacity-0" />
