@@ -14,7 +14,7 @@ export function NavLogo() {
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* Accent mark */}
-      <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center -ml-2 -mr-4">
+      <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center -ml-2 -mr-4 translate-y-1">
         <Image
           src="/assets/logo.png"
           alt="Logo"
