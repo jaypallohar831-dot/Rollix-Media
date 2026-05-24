@@ -14,12 +14,12 @@ export function NavLogo() {
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* Accent mark */}
-      <span className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center overflow-hidden">
+      <span className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center overflow-hidden">
         <Image 
           src="/assets/logo.png" 
           alt="Logo" 
           fill
-          sizes="(max-width: 768px) 56px, 64px"
+          sizes="(max-width: 768px) 80px, 96px"
           className="object-contain"
         />
       </span>
