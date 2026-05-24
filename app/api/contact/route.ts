@@ -101,18 +101,23 @@ export async function POST(request: Request) {
     }
 
     const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    if (!serviceRoleKey) {
-      console.error('Missing SUPABASE_SERVICE_ROLE_KEY environment variable');
+    const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseKey = serviceRoleKey || anonKey;
+
+    if (!supabaseKey) {
+      console.error('[Contact API] No Supabase key available (neither SERVICE_ROLE nor ANON)');
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 }
       );
     }
 
+    console.log(`[Contact API] Using ${serviceRoleKey ? 'SERVICE_ROLE' : 'ANON'} key`);
+
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      serviceRoleKey,
+      supabaseKey,
       { auth: { autoRefreshToken: false, persistSession: false } }
     );
 
