@@ -72,7 +72,7 @@ export function HeroSection() {
         initial="initial"
         animate="animate"
         style={{ y: headlineY }}
-        className="relative z-10 flex w-full max-w-[1200px] flex-col items-center px-6 text-center sm:px-8 lg:px-12"
+        className="relative z-10 flex w-full max-w-[1200px] flex-col items-center px-6 pt-24 sm:pt-32 text-center sm:px-8 lg:px-12"
       >
         {/* Eyebrow tag */}
         <motion.div variants={fadeUp} className="mb-8 sm:mb-10">
