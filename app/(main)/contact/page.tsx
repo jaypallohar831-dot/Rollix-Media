@@ -25,6 +25,8 @@ export default function ContactPage() {
     service_interest: '',
     message: '',
   });
+  // Honeypot field – invisible to real users, bots auto-fill it
+  const [honeypot, setHoneypot] = useState('');
 
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -50,7 +52,7 @@ export default function ContactPage() {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, website: honeypot }),
       });
 
       const result = await response.json();
@@ -124,6 +126,19 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-10">
+                  {/* Honeypot – hidden from real users, catches bots */}
+                  <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', top: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }}>
+                    <label htmlFor="website">Website</label>
+                    <input
+                      type="text"
+                      id="website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                    />
+                  </div>
                   <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
                     <div className="flex flex-col gap-2">
                       <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Your Name</label>
