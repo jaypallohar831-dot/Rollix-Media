@@ -2,7 +2,6 @@
 
 import { memo, useRef } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Play } from 'lucide-react';
@@ -31,12 +30,6 @@ interface FilmCardProps {
   /** Whether title should highlight orange on hover (TWF style) */
   highlightOnHover?: boolean;
 }
-
-const aspectMap = {
-  default: 'aspect-[4/3]',
-  large: 'aspect-[16/10]',
-  hero: 'aspect-[16/9] sm:aspect-[2.2/1]',
-} as const;
 
 export const FilmCard = memo(function FilmCard({
   item,
@@ -75,13 +68,12 @@ export const FilmCard = memo(function FilmCard({
     >
       {/* ── THUMBNAIL ── */}
       <div
-        className={cn(
-          'relative overflow-hidden rounded-2xl bg-[#050505]',
-          aspectMap[size]
-        )}
+        className="relative overflow-hidden rounded-2xl bg-[#050505]"
       >
         {showMarketingMotion ? (
-          <MarketingMotionVisual />
+          <div className="w-full aspect-[4/3]">
+            <MarketingMotionVisual />
+          </div>
         ) : isVideo && item.videoUrl ? (
           <video
             ref={videoRef}
@@ -90,23 +82,14 @@ export const FilmCard = memo(function FilmCard({
             muted
             loop
             playsInline
-            className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="block w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
-          <Image
+          <img
             src={item.image}
             alt={`${item.title} — ${item.category}`}
-            fill
-            priority={priority}
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-            sizes={
-              size === 'hero'
-                ? '100vw'
-                : size === 'large'
-                  ? '(max-width: 768px) 100vw, 50vw'
-                  : '(max-width: 768px) 100vw, 33vw'
-            }
-            quality={80}
+            loading={priority ? "eager" : "lazy"}
+            className="block w-full h-auto transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         )}
 

@@ -2,7 +2,6 @@
 
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { ArrowUpRight, Play } from 'lucide-react';
@@ -38,12 +37,6 @@ interface PortfolioCardProps {
  * 9. Wrapped card in Link to the detail page.
  */
 
-const aspectClasses = {
-  featured: 'aspect-[16/9] sm:aspect-[2.4/1]',
-  large: 'aspect-[16/10] sm:aspect-[16/9]',
-  default: 'aspect-[4/3] sm:aspect-[16/10]',
-} as const;
-
 export const PortfolioCard = memo(function PortfolioCard({
   item,
   size = 'default',
@@ -58,26 +51,16 @@ export const PortfolioCard = memo(function PortfolioCard({
         variants={fadeUp}
         className={cn(
           'group relative cursor-pointer overflow-hidden rounded-xl sm:rounded-2xl',
-          aspectClasses[size],
           className
         )}
       >
         {/* Image with CSS-only hover zoom — GPU transform, no JS scroll listener */}
-        <div className="absolute inset-0 overflow-hidden">
-          <Image
+        <div className="w-full h-auto overflow-hidden">
+          <img
             src={item.image}
             alt={`${item.title} — ${item.category}`}
-            fill
-            priority={priority}
-            className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
-            sizes={
-              size === 'featured'
-                ? '100vw'
-                : size === 'large'
-                  ? '(max-width: 768px) 100vw, 60vw'
-                  : '(max-width: 768px) 100vw, 40vw'
-            }
-            quality={80}
+            loading={priority ? "eager" : "lazy"}
+            className="block w-full h-auto transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
           />
         </div>
 
