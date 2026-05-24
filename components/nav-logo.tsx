@@ -8,19 +8,19 @@ export function NavLogo() {
   return (
     <motion.a
       href="#hero"
-      className="group relative flex items-center gap-3"
+      className="group relative flex items-center gap-1"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* Accent mark */}
-      <span className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center overflow-hidden">
+      <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center -ml-2">
         <Image 
           src="/assets/logo.png" 
           alt="Logo" 
           fill
-          sizes="(max-width: 768px) 80px, 96px"
-          className="object-contain"
+          sizes="(max-width: 768px) 64px, 80px"
+          className="object-contain scale-[1.8]"
         />
       </span>
 
