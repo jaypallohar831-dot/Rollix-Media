@@ -185,7 +185,8 @@ useEffect(() => {
               <VideoPlayer
                 src={item.videoUrl}
                 poster={item.image}
-                aspect="aspect-[16/9]"
+                aspect="aspect-video"
+                objectFit="contain"
                 className="w-full"
               />
             ) : (

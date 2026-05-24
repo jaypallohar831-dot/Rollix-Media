@@ -20,7 +20,7 @@ export function Loader({ onComplete }: { onComplete?: () => void }) {
   useEffect(() => {
     const fadeTimer = setTimeout(() => {
       setPhase('fading');
-    }, 1000);
+    }, 800);
 
     return () => clearTimeout(fadeTimer);
   }, []);
@@ -36,7 +36,7 @@ export function Loader({ onComplete }: { onComplete?: () => void }) {
     // Fade text + line to transparent
     tl.to([textRef.current, lineRef.current], {
       opacity: 0,
-      duration: 0.5,
+      duration: 0.4,
       ease: 'power2.inOut',
     });
 
@@ -53,7 +53,7 @@ export function Loader({ onComplete }: { onComplete?: () => void }) {
 
     tl.to(topPanelRef.current, {
       yPercent: -100,
-      duration: 0.9,
+      duration: 0.8,
       ease: 'power4.inOut',
     });
 
@@ -61,7 +61,7 @@ export function Loader({ onComplete }: { onComplete?: () => void }) {
       bottomPanelRef.current,
       {
         yPercent: 100,
-        duration: 0.9,
+        duration: 0.8,
         ease: 'power4.inOut',
       },
       '<'

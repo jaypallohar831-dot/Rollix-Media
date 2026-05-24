@@ -1,6 +1,6 @@
 'use client';
 
-import { memo } from 'react';
+import { memo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -17,26 +17,6 @@ interface PortfolioCardProps {
   priority?: boolean;
 }
 
-/*
- * Performance changes vs. original:
- * 1. REMOVED per-card useScroll + useTransform — was creating 9+ independent
- *    scroll listeners with parallax calculations running every frame.
- *    The visual impact of -10% to +10% image shift was subtle but the CPU
- *    cost was enormous. Replaced with a CSS-only hover zoom.
- * 2. REMOVED backdrop-blur on category tag — blur is one of the most
- *    expensive GPU operations. Used solid bg-black/50 instead.
- * 3. REMOVED inset box-shadow hover overlay — the browser was compositing
- *    an extra layer on every card hover. Replaced with border-color change.
- * 4. REMOVED grain-overlay from every card — was stacking 6-9 SVG filter
- *    pseudo-elements simultaneously. One grain on the section is enough.
- * 5. Replaced all `transition-all` with specific property transitions.
- * 6. Memoized the entire component to prevent re-renders from parent stagger.
- * 7. Used CSS `scale` transition on the image container instead of motion.div
- *    parallax — pure GPU transform, no JS scroll listener needed.
- * 8. Added video indicator badge for video projects.
- * 9. Wrapped card in Link to the detail page.
- */
-
 const aspectClasses = {
   featured: 'aspect-[16/9] sm:aspect-[2.4/1]',
   large: 'aspect-[16/10] sm:aspect-[16/9]',
@@ -50,9 +30,27 @@ export const PortfolioCard = memo(function PortfolioCard({
   priority = false,
 }: PortfolioCardProps) {
   const isVideo = item.mediaType === 'video';
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    if (isVideo && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isVideo && videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
 
   return (
-    <Link href={`/portfolio/${item.id}`} className="block">
+    <Link 
+      href={`/portfolio/${item.id}`} 
+      className="block"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <motion.div
         variants={fadeUp}
         className={cn(
@@ -63,12 +61,24 @@ export const PortfolioCard = memo(function PortfolioCard({
       >
         {/* Image with CSS-only hover zoom — GPU transform, no JS scroll listener */}
         <div className="absolute inset-0 overflow-hidden">
-          <img
-            src={item.image}
-            alt={`${item.title} — ${item.category}`}
-            loading={priority ? "eager" : "lazy"}
-            className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
-          />
+          {isVideo && item.videoUrl ? (
+            <video
+              ref={videoRef}
+              src={`${item.videoUrl}#t=1.0`}
+              preload="metadata"
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
+            />
+          ) : (
+            <img
+              src={item.image}
+              alt={`${item.title} — ${item.category}`}
+              loading={priority ? "eager" : "lazy"}
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
+            />
+          )}
         </div>
 
         {/* Cinematic overlay gradient — always visible, intensifies on hover */}

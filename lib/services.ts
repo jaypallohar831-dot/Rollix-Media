@@ -86,3 +86,43 @@ export const SERVICES: ServiceItem[] = [
     icon: Megaphone,
   },
 ];
+
+export interface ServiceDetailContent {
+  deliverables: { title: string; desc: string }[];
+  process: { step: string; desc: string }[];
+  pricing: string;
+}
+
+export const SERVICE_DETAILS_MAP: Record<string, ServiceDetailContent> = {
+  'wedding-shooting': {
+    deliverables: [
+      { title: 'Cinematic Teaser', desc: 'A 1-minute high-energy teaser of your wedding.' },
+      { title: 'Full Feature Film', desc: 'A 20-30 minute emotional and beautifully paced wedding movie.' },
+      { title: 'Candid Photography', desc: 'Unscripted, raw moments captured perfectly.' },
+      { title: 'Drone & Aerials', desc: 'Breathtaking bird’s-eye views of your venue and events.' }
+    ],
+    process: [
+      { step: 'Consultation', desc: 'Understanding your story, preferences, and aesthetic.' },
+      { step: 'Pre-production', desc: 'Scouting locations and preparing the gear and crew.' },
+      { step: 'The Shoot', desc: 'Unobtrusive, cinematic coverage on your big day.' },
+      { step: 'Post-production', desc: 'Color grading, sound design, and emotional editing.' }
+    ],
+    pricing: 'Packages start at ₹1,50,000 / $1,800'
+  },
+  'video-editing': {
+    deliverables: [
+      { title: 'Color Grading', desc: 'Professional cinematic color correction.' },
+      { title: 'Sound Design', desc: 'Immersive audio mixing and foley.' },
+      { title: 'Motion Graphics', desc: 'Custom lower thirds and animated titles.' },
+      { title: 'Fast Turnaround', desc: 'Optimized workflows for quick delivery.' }
+    ],
+    process: [
+      { step: 'Footage Ingest', desc: 'Organizing and proxy generation.' },
+      { step: 'Rough Cut', desc: 'Building the narrative structure.' },
+      { step: 'Refinement', desc: 'Pacing, transitions, and VFX.' },
+      { step: 'Final Polish', desc: 'Color grading and mastering.' }
+    ],
+    pricing: 'Starts at ₹15,000 / $200 per project'
+  }
+  // Add other slugs as needed, we'll provide a fallback in the UI.
+};

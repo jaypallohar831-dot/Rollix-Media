@@ -15,6 +15,8 @@ interface VideoPlayerProps {
   autoPlay?: boolean;
   /** Show controls overlay */
   showControls?: boolean;
+  /** Control video scaling */
+  objectFit?: 'cover' | 'contain';
 }
 
 export const VideoPlayer = memo(function VideoPlayer({
@@ -24,6 +26,7 @@ export const VideoPlayer = memo(function VideoPlayer({
   aspect = 'aspect-video',
   autoPlay = false,
   showControls = true,
+  objectFit = 'cover',
 }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
@@ -102,7 +105,10 @@ export const VideoPlayer = memo(function VideoPlayer({
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onClick={togglePlay}
-        className="absolute inset-0 h-full w-full cursor-pointer object-cover"
+        className={cn(
+          'absolute inset-0 h-full w-full cursor-pointer',
+          objectFit === 'contain' ? 'object-contain' : 'object-cover'
+        )}
       />
 
       {/* Cinematic vignette overlay */}

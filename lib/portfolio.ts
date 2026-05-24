@@ -87,58 +87,6 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { type: 'image', src: '/assets/portfolio/wedding.png', alt: 'Ceremony wide shot' },
     ],
   },
-
-  {
-    id: 'ember-and-oak',
-    title: 'Ember & Oak',
-    category: 'Marketing',
-    tagline: 'Craft born from generations of quiet devotion.',
-    description:
-      'A documentary-style brand film following three generations of artisan woodworkers. Raw textures, warm tones, and honest storytelling create an intimate portrait of dedication and craft.',
-    year: '2023',
-    month: 'MAR',
-    location: 'Jaipur, India',
-    image: '/assets/portfolio/brand.png',
-    mediaType: 'video',
-    videoUrl: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4',
-    tags: ['Brand', 'Documentary', 'Artisan'],
-    client: 'Ember & Oak Woodworks',
-    duration: '4 min',
-    group: 'featured',
-    crew: [
-      { role: 'Filmmaker', name: 'Varun Sharma' },
-      { role: 'Sound Design', name: 'Neha Gupta' },
-    ],
-    gallery: [
-      { type: 'video', src: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4', poster: '/assets/portfolio/brand.png' },
-      { type: 'image', src: '/assets/portfolio/brand.png', alt: 'Workshop wide shot' },
-    ],
-  },
-
-  {
-    id: 'cinematic-flow',
-    title: 'Cinematic Flow',
-    category: 'Video Editing',
-    tagline: 'A seamless journey through space and time.',
-    description:
-      'A breathtaking visual experience showcasing cinematic motion, vivid colors, and dynamic flow. Perfect for high-end digital marketing and brand storytelling.',
-    year: '2024',
-    month: 'MAY',
-    location: 'Global',
-    image: '/assets/portfolio/social.png',
-    mediaType: 'video',
-    videoUrl: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4',
-    tags: ['Reel', 'Cinematic', 'Visuals'],
-    client: 'Showreel',
-    duration: '1 min',
-    group: 'trending',
-    crew: [
-      { role: 'Lead Editor', name: 'Varun Sharma' },
-    ],
-    gallery: [
-      { type: 'video', src: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4', poster: '/assets/portfolio/social.png' },
-    ],
-  },
   {
     id: 'bloom',
     title: 'Bloom',
@@ -161,32 +109,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     gallery: [
       { type: 'image', src: '/assets/portfolio/social.png', alt: 'Hero campaign image' },
     ],
-  },
-  {
-    id: 'pulse',
-    title: 'Pulse',
-    category: 'Graphics Designing',
-    tagline: 'Where sound meets shape and rhythm finds form.',
-    description:
-      'A motion graphics package for a music festival brand. Pulsing geometries, synchronized typography, and reactive particle systems create an audiovisual experience that lives and breathes.',
-    year: '2024',
-    month: 'FEB',
-    location: 'Bangalore, India',
-    image: '/assets/portfolio/motion.png',
-    mediaType: 'video',
-    videoUrl: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4',
-    tags: ['Motion', 'Animation', 'Festival'],
-    client: 'Pulse Festival',
-    duration: '30 sec',
-    group: 'classics',
-    crew: [
-      { role: 'Motion Designer', name: 'Rahul Joshi' },
-    ],
-    gallery: [
-      { type: 'video', src: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4', poster: '/assets/portfolio/motion.png' },
-      { type: 'image', src: '/assets/portfolio/motion.png', alt: 'Key visual frame' },
-    ],
-  },
+  }
 ];
 
 /* ─── HELPERS ─── */

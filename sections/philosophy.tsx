@@ -100,7 +100,7 @@ export function PhilosophySection() {
         
         {/* Cinematic Image Reveal — breaking the text flow */}
         <CinematicReveal 
-          imageSrc="/images/philosophy-hero.png" 
+          imageSrc="/images/philosophy-hero-v2.jpg" 
           alt="Cinematic storytelling atmosphere"
         />
 

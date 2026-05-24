@@ -36,6 +36,7 @@ export default function NewPortfolioPage() {
     seo_description: '',
     video_url: '',
     location: '',
+    month: '',
     tags: [] as string[]
   });
 
@@ -113,9 +114,10 @@ export default function NewPortfolioPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Strip out fields that do not exist in the Supabase 'portfolio_projects' table schema
+    // Strip out fields that do not exist in the Supabase 'portfolio_projects' table schema (video_url doesn't need to be stripped if it exists)
+    // Actually, wait, let's make sure we aren't stripping valid fields.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { location, video_url, ...submitData } = formData;
+    const { ...submitData } = formData;
     
     // Postgres throws error if empty string is cast to UUID
     const finalData = {
@@ -174,15 +176,27 @@ export default function NewPortfolioPage() {
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Location</label>
-                <input
-                  type="text"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
-                  placeholder="e.g. Udaipur, India"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Location</label>
+                  <input
+                    type="text"
+                    value={formData.location}
+                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
+                    placeholder="e.g. Udaipur, India"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Date / Month</label>
+                  <input
+                    type="text"
+                    value={formData.month}
+                    onChange={(e) => setFormData({ ...formData, month: e.target.value })}
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
+                    placeholder="e.g. October 2023"
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">

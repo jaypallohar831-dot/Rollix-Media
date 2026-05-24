@@ -40,6 +40,7 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
     seo_description: '',
     video_url: '',
     location: '',
+    month: '',
     tags: [] as string[]
   });
 
@@ -63,6 +64,7 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
           seo_description: project.seo_description || '',
           video_url: project.video_url || '',
           location: project.location || '',
+          month: project.month || '',
           tags: project.tags || []
         });
       }
@@ -173,6 +175,29 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Location</label>
+                  <input
+                    type="text"
+                    value={formData.location}
+                    onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
+                    placeholder="e.g. Udaipur, India"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Date / Month</label>
+                  <input
+                    type="text"
+                    value={formData.month}
+                    onChange={(e) => setFormData({ ...formData, month: e.target.value })}
+                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
+                    placeholder="e.g. October 2023"
+                  />
+                </div>
               </div>
 
               <div className="space-y-2">

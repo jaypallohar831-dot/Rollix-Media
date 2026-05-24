@@ -142,7 +142,6 @@
   }
   html {
     @apply font-sans;
-    scroll-behavior: smooth;
   }
 
   /* Premium selection color */

@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Play } from 'lucide-react';
-import { MarketingMotionVisual } from '@/components/marketing-motion-visual';
 import type { PortfolioItem } from '@/lib/portfolio';
 
 /**
@@ -26,7 +25,6 @@ interface FilmCardProps {
   className?: string;
   href?: string;
   priority?: boolean;
-  visual?: 'media' | 'marketing3d';
   /** Whether title should highlight orange on hover (TWF style) */
   highlightOnHover?: boolean;
 }
@@ -43,11 +41,9 @@ export const FilmCard = memo(function FilmCard({
   className,
   href,
   priority = false,
-  visual = 'media',
   highlightOnHover = true,
 }: FilmCardProps) {
-  const showMarketingMotion = visual === 'marketing3d';
-  const isVideo = !showMarketingMotion && item.mediaType === 'video';
+  const isVideo = item.mediaType === 'video';
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleMouseEnter = () => {
@@ -79,11 +75,7 @@ export const FilmCard = memo(function FilmCard({
           aspectMap[size]
         )}
       >
-        {showMarketingMotion ? (
-          <div className="absolute inset-0 h-full w-full">
-            <MarketingMotionVisual />
-          </div>
-        ) : isVideo && item.videoUrl ? (
+        {isVideo && item.videoUrl ? (
           <video
             ref={videoRef}
             src={`${item.videoUrl}#t=1.0`}
@@ -135,7 +127,7 @@ export const FilmCard = memo(function FilmCard({
         )}
 
         {/* Duration badge — bottom-right */}
-        {!showMarketingMotion && item.duration && (
+        {item.duration && (
           <div className="absolute bottom-3 right-3 rounded bg-black/60 px-2 py-0.5 text-[10px] font-medium tracking-wide text-white">
             {item.duration}
           </div>

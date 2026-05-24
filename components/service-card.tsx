@@ -61,26 +61,9 @@ export const ServiceCard = memo(function ServiceCard({
         className
       )}
     >
-      <a href={`/#portfolio-${slug}`} className="absolute inset-0 z-20" onClick={(e) => {
-        e.preventDefault();
-        if (typeof window !== 'undefined') {
-          if (window.location.pathname === '/') {
-            // Same page jump
-            const el = document.getElementById(`portfolio-${slug}`);
-            if (el) {
-              el.scrollIntoView({ behavior: 'smooth' });
-              window.history.pushState(null, '', `/#portfolio-${slug}`);
-            } else {
-              window.location.hash = `#portfolio-${slug}`;
-            }
-          } else {
-            // Cross page jump: assign guarantees browser handles the hash jump natively
-            window.location.assign(`/#portfolio-${slug}`);
-          }
-        }
-      }}>
+      <Link href={`/services/${slug}`} className="absolute inset-0 z-20">
         <span className="sr-only">View {title}</span>
-      </a>
+      </Link>
 
       {/* Ambient hover glow — very subtle warm glow on hover */}
       <div

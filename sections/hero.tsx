@@ -39,8 +39,23 @@ export function HeroSection() {
       className="relative flex min-h-screen items-center justify-center overflow-hidden"
     >
       {/* Atmospheric background */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-0">
         <HeroBackground />
+      </div>
+
+      {/* Cinematic Background Video (Low Opacity) */}
+      <div className="absolute inset-0 z-[1] overflow-hidden opacity-20 pointer-events-none">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover scale-[1.02]"
+        >
+          <source src="/assets/premium/hero-bg-video.mp4" type="video/mp4" />
+        </video>
+        {/* Soft gradient mask to blend edges */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/50" />
       </div>
 
       {/* 3D Floating Objects */}
@@ -72,19 +87,19 @@ export function HeroSection() {
           variants={staggerContainer}
           className="font-heading text-[clamp(2.5rem,7vw,7.5rem)] font-light leading-[0.95] tracking-[-0.02em] text-foreground"
         >
-          <span className="block overflow-hidden">
-            <motion.span variants={fadeUp} className="block">Architecting</motion.span>
+          <span className="block overflow-hidden pb-4 -mb-4">
+            <motion.span variants={fadeUp} className="block pb-2">Architecting</motion.span>
           </span>
-          <span className="block mt-2 sm:mt-3 overflow-hidden">
+          <span className="block mt-2 sm:mt-3 overflow-hidden pb-6 -mb-6 pr-6 -mr-6">
             <motion.span
               variants={fadeUp}
-              className="text-gradient-warm font-normal italic block"
+              className="text-gradient-warm font-normal italic block pb-4 pr-4"
             >
               Digital
             </motion.span>
           </span>
-          <span className="block mt-2 sm:mt-3 overflow-hidden">
-            <motion.span variants={fadeUp} className="block">Dominance</motion.span>
+          <span className="block mt-2 sm:mt-3 overflow-hidden pb-4 -mb-4">
+            <motion.span variants={fadeUp} className="block pb-2">Dominance</motion.span>
           </span>
         </motion.h1>
 

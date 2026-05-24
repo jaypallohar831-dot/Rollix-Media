@@ -44,7 +44,10 @@ export const portfolioService = {
       .eq('slug', slug)
       .single();
 
-    if (error) throw error;
+    if (error) {
+      if (error.code === 'PGRST116') return null;
+      throw error;
+    }
     return data as PortfolioProjectDetail;
   },
 };

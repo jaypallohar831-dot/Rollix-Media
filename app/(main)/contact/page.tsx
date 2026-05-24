@@ -2,15 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { Container, Section } from '@/components/layout';
-import { 
-  Check, 
-  Loader2, 
-  AlertCircle, 
-  Instagram, 
-  Twitter, 
-  Linkedin, 
-  Youtube, 
-  MessageSquare 
+import {
+  Check,
+  Loader2,
+  AlertCircle,
+  Instagram,
+  Twitter,
+  Linkedin,
+  Youtube,
+  MessageSquare
 } from 'lucide-react';
 import { servicesService } from '@/services/services.service';
 import type { Service } from '@/services/services.service';
@@ -70,7 +70,7 @@ export default function ContactPage() {
 
   const socialLinks = [
     { name: 'Instagram', icon: Instagram, href: 'https://instagram.com/rollix.media', color: 'hover:text-pink-500' },
-    { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/911234567890', color: 'hover:text-green-500' },
+    { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/919024675831', color: 'hover:text-green-500' },
     { name: 'Twitter', icon: Twitter, href: 'https://twitter.com/rollixmedia', color: 'hover:text-blue-400' },
     { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com/company/rollix-media', color: 'hover:text-blue-700' },
     { name: 'YouTube', icon: Youtube, href: 'https://youtube.com/@rollixmedia', color: 'hover:text-red-600' },
@@ -91,11 +91,11 @@ export default function ContactPage() {
             Connect
           </span>
         </div>
-        
+
         <h1 className="font-heading text-[clamp(2.5rem,6vw,5.5rem)] font-light leading-[1.05] tracking-[-0.02em] text-foreground">
           Tell Your <span className="text-gradient-warm italic">Cinematic Story</span>
         </h1>
-        
+
         <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
           We take on a select number of weddings and luxury brand projects each year to ensure every film receives the cinematic craftsmanship it deserves.
         </p>
@@ -115,7 +115,7 @@ export default function ContactPage() {
                   <p className="mt-4 max-w-sm text-muted-foreground">
                     Thank you for reaching out. Our creative team will review your vision and get back to you within 48 hours.
                   </p>
-                  <button 
+                  <button
                     onClick={() => setStatus('idle')}
                     className="mt-10 text-[11px] font-bold uppercase tracking-[0.2em] text-cinematic-orange hover:underline"
                   >
@@ -127,8 +127,8 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
                     <div className="flex flex-col gap-2">
                       <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Your Name</label>
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -138,8 +138,8 @@ export default function ContactPage() {
                     </div>
                     <div className="flex flex-col gap-2">
                       <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Email Address</label>
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -152,8 +152,8 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
                     <div className="flex flex-col gap-2">
                       <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Phone Number</label>
-                      <input 
-                        type="tel" 
+                      <input
+                        type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none"
@@ -163,7 +163,7 @@ export default function ContactPage() {
                     <div className="flex flex-col gap-2">
                       <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Service of Interest</label>
                       <div className="relative">
-                        <select 
+                        <select
                           required
                           value={formData.service_interest}
                           onChange={(e) => setFormData({ ...formData, service_interest: e.target.value })}
@@ -186,7 +186,7 @@ export default function ContactPage() {
                         </select>
                         <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-white/40">
                           <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                            <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                           </svg>
                         </div>
                       </div>
@@ -195,7 +195,7 @@ export default function ContactPage() {
 
                   <div className="flex flex-col gap-2">
                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Project Vision</label>
-                    <textarea 
+                    <textarea
                       required
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -211,7 +211,7 @@ export default function ContactPage() {
                     </div>
                   )}
 
-                  <button 
+                  <button
                     type="submit"
                     disabled={status === 'loading'}
                     className="group relative inline-flex h-16 items-center justify-center overflow-hidden rounded-full border border-cinematic-orange/30 bg-cinematic-orange/10 px-10 text-[11px] font-bold uppercase tracking-[0.3em] text-cinematic-orange transition-all duration-500 hover:bg-cinematic-orange hover:text-black disabled:opacity-50"
@@ -239,8 +239,9 @@ export default function ContactPage() {
                     Location
                   </h3>
                   <p className="text-xl leading-relaxed text-white/70 font-light">
-                    Available Worldwide<br />
-                    Based in Mumbai, India
+                    Available world wide
+                    <br />
+                    Bhilwara IN , 311001
                   </p>
                 </div>
 
@@ -249,8 +250,9 @@ export default function ContactPage() {
                     Inquiries
                   </h3>
                   <p className="text-xl leading-relaxed text-white/70 font-light underline-offset-4 decoration-cinematic-orange/30">
-                    <a href="mailto:hello@rollix.media" className="hover:text-white transition-colors">hello@rollix.media</a><br />
-                    <a href="tel:+911234567890" className="hover:text-white transition-colors">+91 12345 67890</a>
+                    <a href="mailto:rollixmedia@gmail.com" className="hover:text-white transition-colors">rollixmedia@gmail.com</a><br />
+                    <a href="tel:+919024675831" className="hover:text-white transition-colors">+91 9024675831</a><br />
+                    <a href="tel:+919351775546" className="hover:text-white transition-colors">+91 93517 75546</a>
                   </p>
                 </div>
               </div>
@@ -261,7 +263,7 @@ export default function ContactPage() {
                 </h3>
                 <div className="grid grid-cols-1 gap-6">
                   {socialLinks.map((social) => (
-                    <a 
+                    <a
                       key={social.name}
                       href={social.href}
                       target="_blank"
