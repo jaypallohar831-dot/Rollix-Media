@@ -77,9 +77,9 @@ export default async function AdminServicesPage() {
                     </td>
                     <td className="px-8 py-6 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-2 rounded-lg text-muted-foreground hover:bg-white/[0.05] hover:text-white transition-all">
+                        <Link href={`/admin/services/${service.slug}`} className="p-2 rounded-lg text-muted-foreground hover:bg-white/[0.05] hover:text-white transition-all inline-block">
                           <Pencil className="h-4 w-4" />
-                        </button>
+                        </Link>
                         <button className="p-2 rounded-lg text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all">
                           <Trash2 className="h-4 w-4" />
                         </button>
