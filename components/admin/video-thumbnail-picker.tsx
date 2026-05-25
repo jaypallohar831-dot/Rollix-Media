@@ -191,6 +191,15 @@ export default function VideoThumbnailPicker({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Transform Cloudinary URLs to ensure browser compatibility (H.264/WebM)
+  const getPlayableSrc = (url: string) => {
+    if (!url || !isCloudinary) return url;
+    if (url.includes('/q_') || url.includes('/f_') || url.includes('/vc_')) return url;
+    return url.replace('/video/upload/', '/video/upload/q_auto,f_auto/');
+  };
+
+  const playableSrc = getPlayableSrc(videoUrl);
+
   return (
     <div className="space-y-4">
       {/* Header */}
@@ -212,7 +221,7 @@ export default function VideoThumbnailPicker({
           {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
             ref={videoRef}
-            src={videoUrl}
+            src={playableSrc}
             className="h-full w-full object-contain bg-black"
             preload="metadata"
             playsInline
