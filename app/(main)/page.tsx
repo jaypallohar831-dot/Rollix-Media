@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { HeroSection } from '@/sections/hero';
 import { PhilosophySection } from '@/sections/philosophy';
 import { PortfolioSection } from '@/sections/portfolio';
@@ -5,6 +6,20 @@ import { TestimonialsSection } from '@/sections/testimonials';
 import { ProcessSection } from '@/sections/process';
 import { Section, Container, Divider } from '@/components/layout';
 import { HomepageLoader } from '@/components/homepage-loader';
+
+export const metadata: Metadata = {
+  title: 'Rollix Media | Digital Marketing Agency in Bhilwara',
+  description:
+    'Rollix Media — Bhilwara ki #1 digital marketing agency. Video editing, social media marketing, website development, SEO, aur graphics designing mein expert.',
+  alternates: {
+    canonical: 'https://rollixmedia.vercel.app',
+  },
+  openGraph: {
+    title: 'Rollix Media | Digital Marketing Agency in Bhilwara',
+    description: 'Video editing, social media, web development & SEO agency in Bhilwara, India.',
+    url: 'https://rollixmedia.vercel.app',
+  },
+};
 
 export default function Home() {
   return (

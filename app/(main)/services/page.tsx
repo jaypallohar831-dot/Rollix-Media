@@ -1,5 +1,19 @@
+import type { Metadata } from 'next';
 import { ServicesSection } from '@/sections/services';
 import { Container, Divider } from '@/components/layout';
+
+export const metadata: Metadata = {
+  title: 'Our Services | Video Editing, Social Media, Web Development',
+  description:
+    'Explore Rollix Media\'s full range of services: cinematic video editing, social media marketing, website development, SEO, graphics designing, and digital advertising in Bhilwara.',
+  alternates: { canonical: 'https://rollixmedia.vercel.app/services' },
+  openGraph: {
+    title: 'Services | Rollix Media',
+    description: 'Video editing, social media, website development & more — by Rollix Media, Bhilwara.',
+    url: 'https://rollixmedia.vercel.app/services',
+  },
+};
+
 
 export default function ServicesOverviewPage() {
   return (
