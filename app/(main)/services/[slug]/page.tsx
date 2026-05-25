@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import { SERVICES, SERVICE_DETAILS_MAP } from '@/lib/services';
 import { Container, Section, SectionHeader, Divider } from '@/components/layout';
 import { PortfolioCard } from '@/components/portfolio-card';
@@ -11,6 +12,32 @@ interface ServicePageProps {
   params: Promise<{
     slug: string;
   }>;
+}
+
+// Dynamic SEO metadata per service page
+export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
+  const { slug } = await params;
+  let service = null;
+  try {
+    service = await servicesService.getServiceBySlug(slug);
+  } catch {
+    // ignore
+  }
+  if (!service) service = SERVICES.find((s) => s.slug === slug) as any;
+
+  const title = service ? `${service.title} in Bhilwara` : 'Service';
+  const description = service?.description || 'Professional digital marketing service by Rollix Media, Bhilwara.';
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `https://rollixmedia.vercel.app/services/${slug}` },
+    openGraph: {
+      title: `${title} | Rollix Media`,
+      description,
+      url: `https://rollixmedia.vercel.app/services/${slug}`,
+    },
+  };
 }
 
 // Ensure dynamic generation for slugs

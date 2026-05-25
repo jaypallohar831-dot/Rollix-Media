@@ -71,8 +71,56 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Rollix Media',
+    description: 'Premium digital marketing agency in Bhilwara, India. Video editing, social media marketing, web development, SEO, and graphics designing.',
+    url: 'https://rollixmedia.vercel.app',
+    logo: 'https://rollixmedia.vercel.app/og-image.jpg',
+    image: 'https://rollixmedia.vercel.app/og-image.jpg',
+    telephone: '+91-XXXXXXXXXX',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Bhilwara',
+      addressLocality: 'Bhilwara',
+      addressRegion: 'Rajasthan',
+      postalCode: '311001',
+      addressCountry: 'IN',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '25.3478',
+      longitude: '74.6313',
+    },
+    areaServed: ['Bhilwara', 'Rajasthan', 'India'],
+    priceRange: '₹₹',
+    openingHours: 'Mo-Sa 09:00-19:00',
+    sameAs: [
+      'https://instagram.com/rollixmedia',
+    ],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Digital Marketing Services',
+      itemListElement: [
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Video Editing' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Social Media Marketing' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Web Development' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Graphics Designing' } },
+        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Shooting' } },
+      ],
+    },
+  };
+
   return (
     <html lang="en" suppressHydrationWarning className="dark relative antialiased" data-scroll-behavior="smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} relative min-h-full font-sans`}
         style={{ position: 'relative' }}
