@@ -85,6 +85,21 @@ export const VideoPlayer = memo(function VideoPlayer({
     }, 2500);
   }, [isPlaying]);
 
+  // Transform Cloudinary URLs to ensure browser compatibility (H.264/WebM)
+  const getPlayableSrc = (url: string) => {
+    if (!url || !url.includes('res.cloudinary.com') || !url.includes('/video/upload/')) {
+      return url;
+    }
+    // If it already has transformations, just return it (or we could inject, but let's keep it simple)
+    if (url.includes('/q_') || url.includes('/f_') || url.includes('/vc_')) {
+      return url;
+    }
+    // Inject q_auto,f_auto
+    return url.replace('/video/upload/', '/video/upload/q_auto,f_auto/');
+  };
+
+  const playableSrc = getPlayableSrc(src);
+
   return (
     <div
       className={cn(
@@ -97,7 +112,7 @@ export const VideoPlayer = memo(function VideoPlayer({
     >
       <video
         ref={videoRef}
-        src={src}
+        src={playableSrc}
         poster={poster}
         muted={isMuted}
         autoPlay={autoPlay}

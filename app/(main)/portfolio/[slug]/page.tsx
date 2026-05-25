@@ -30,7 +30,7 @@ import { portfolioService } from '@/services/portfolio.service';
 
 export default function FilmDetailPage() {
   const params = useParams();
-  const slug = params.slug as string;
+  const slug = decodeURIComponent(params.slug as string);
 
   const [item, setItem] = useState<PortfolioItem | null>(null);
   const [loading, setLoading] = useState(true);
