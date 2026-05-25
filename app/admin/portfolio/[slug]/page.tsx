@@ -22,7 +22,7 @@ type Category = Database['public']['Tables']['categories']['Row'];
 export default function EditPortfolioPage({ params }: { params: Promise<{ slug: string }> }) {
   const router = useRouter();
   const resolvedParams = use(params);
-  const slug = resolvedParams.slug;
+  const slug = decodeURIComponent(resolvedParams.slug);
   const supabase = useMemo(() => createClient(), []);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
