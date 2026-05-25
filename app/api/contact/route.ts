@@ -140,7 +140,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('contact_leads')
       .insert([
         {
@@ -151,9 +151,8 @@ export async function POST(request: Request) {
           message,
           status: 'new',
         },
-      ])
-      .select()
-      .single();
+      ]);
+
 
     if (error) {
       console.error('Supabase error inserting contact lead:', error.message);
@@ -257,7 +256,7 @@ export async function POST(request: Request) {
       emailError = 'Email not configured';
     }
 
-    return NextResponse.json({ success: true, data, emailSent, emailError });
+    return NextResponse.json({ success: true, emailSent, emailError });
   } catch (error) {
     console.error('Contact Form Error:', error);
     return NextResponse.json(
