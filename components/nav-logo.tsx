@@ -19,6 +19,7 @@ export function NavLogo() {
           src="/assets/logo.png"
           alt="Logo"
           fill
+          priority
           sizes="(max-width: 768px) 64px, 80px"
           className="object-contain scale-[1.5]"
         />

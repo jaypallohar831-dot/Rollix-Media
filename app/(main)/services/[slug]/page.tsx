@@ -7,6 +7,7 @@ import { PORTFOLIO_ITEMS } from '@/lib/portfolio';
 import { ProcessSection } from '@/sections/process';
 import { CheckCircle2, IndianRupee } from 'lucide-react';
 import { servicesService } from '@/services/services.service';
+import { ToolsShowcase } from '@/components/tools-showcase';
 
 interface ServicePageProps {
   params: Promise<{
@@ -82,6 +83,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
       { step: 'Strategy', desc: 'Mapping out the exact blueprint for success.' },
       { step: 'Execution', desc: 'Bringing the strategy to life.' },
       { step: 'Delivery', desc: 'Handing off the final polished assets.' }
+    ],
+    tools: [
+      { name: 'Adobe Creative Cloud', color: '#ff0000', icon: 'Layers' },
+      { name: 'Professional Gear', color: '#aaaaaa', icon: 'Camera' },
+      { name: 'Analytics Tools', color: '#00aaff', icon: 'Monitor' },
+      { name: 'Advanced Software', color: '#9999ff', icon: 'Cpu' }
     ],
     pricing: 'Custom quote based on requirements'
   };
@@ -181,6 +188,25 @@ export default async function ServicePage({ params }: ServicePageProps) {
       </Section>
 
       <Divider />
+
+      {/* Tools & Software Section */}
+      {details.tools && details.tools.length > 0 && (
+        <>
+          <Section spacing="lg">
+            <Container>
+              <div className="mb-12">
+                <SectionHeader 
+                  eyebrow="Technology"
+                  title="Tools & Software"
+                  description="We leverage industry-leading software and premium gear to deliver uncompromised quality."
+                />
+              </div>
+              <ToolsShowcase tools={details.tools} />
+            </Container>
+          </Section>
+          <Divider />
+        </>
+      )}
 
       {/* Pricing / Budget Section */}
       <Section spacing="lg">

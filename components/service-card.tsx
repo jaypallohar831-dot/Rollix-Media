@@ -6,8 +6,9 @@ import { cn } from '@/lib/utils';
 import { ArrowUpRight } from 'lucide-react';
 import { fadeUp } from '@/animations/variants';
 import type { LucideIcon } from 'lucide-react';
-
 import Link from 'next/link';
+import { toolIconMap } from '@/lib/tool-icons';
+import { Wrench } from 'lucide-react';
 
 interface ServiceCardProps {
   index: string;
@@ -19,6 +20,7 @@ interface ServiceCardProps {
   className?: string;
   /** Whether this is the featured (large) card */
   featured?: boolean;
+  tools?: { name: string; color: string; icon: string }[];
 }
 
 /*
@@ -38,6 +40,7 @@ export const ServiceCard = memo(function ServiceCard({
   icon: Icon,
   className,
   featured = false,
+  tools,
 }: ServiceCardProps) {
   return (
     <motion.div
@@ -123,6 +126,34 @@ export const ServiceCard = memo(function ServiceCard({
         >
           {description}
         </p>
+
+        {/* Mini Tools Icons */}
+        {tools && tools.length > 0 && (
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            {tools.map((tool, idx) => {
+              const ToolIcon = toolIconMap[tool.icon] || Wrench;
+              return (
+                <div 
+                  key={idx}
+                  className="group/tool relative flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-white/20"
+                  style={{ 
+                    boxShadow: `0 4px 12px ${tool.color}15`,
+                  }}
+                  title={tool.name}
+                >
+                  <div
+                    className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/tool:opacity-30 blur-md rounded-full"
+                    style={{ backgroundColor: tool.color }}
+                  />
+                  <ToolIcon 
+                    className="relative z-10 h-4 w-4 transition-colors duration-300" 
+                    style={{ color: tool.color }}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Footer: directional arrow */}

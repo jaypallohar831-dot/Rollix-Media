@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Container } from '@/components/layout';
 import { ServiceCard } from '@/components/service-card';
-import { SERVICES as fallbackServices, type ServiceItem } from '@/lib/services';
+import { SERVICES as fallbackServices, SERVICE_DETAILS_MAP, type ServiceItem } from '@/lib/services';
 import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
 import { servicesService } from '@/services/services.service';
 import type { LucideIcon } from 'lucide-react';
@@ -146,6 +146,7 @@ export function ServicesSection() {
                   description={featured.description}
                   icon={featured.icon}
                   featured
+                  tools={SERVICE_DETAILS_MAP[featured.slug]?.tools}
                   className="lg:col-span-7 min-h-[320px] sm:min-h-[360px] lg:min-h-[420px]"
                 />
               )}
@@ -159,6 +160,7 @@ export function ServicesSection() {
                     title={service.title}
                     description={service.description}
                     icon={service.icon}
+                    tools={SERVICE_DETAILS_MAP[service.slug]?.tools}
                     className="min-h-[180px] sm:min-h-[195px]"
                   />
                 ))}
@@ -175,6 +177,7 @@ export function ServicesSection() {
                   title={service.title}
                   description={service.description}
                   icon={service.icon}
+                  tools={SERVICE_DETAILS_MAP[service.slug]?.tools}
                   className="min-h-[200px] sm:min-h-[220px]"
                 />
               ))}
@@ -190,6 +193,7 @@ export function ServicesSection() {
                   title={service.title}
                   description={service.description}
                   icon={service.icon}
+                  tools={SERVICE_DETAILS_MAP[service.slug]?.tools}
                   className="min-h-[200px] sm:min-h-[220px]"
                 />
               ))}
