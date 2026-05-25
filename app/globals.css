@@ -206,3 +206,58 @@
 .admin-table-text {
   color: white !important;
 }
+
+/* ─── Video Scrubber (Thumbnail Picker) ─── */
+.video-scrubber {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+  cursor: pointer;
+  transition: height 0.15s ease;
+}
+
+.video-scrubber:hover {
+  height: 8px;
+}
+
+.video-scrubber::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--cinematic-orange);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: grab;
+  box-shadow: 0 0 8px rgba(212, 118, 60, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.video-scrubber::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 14px rgba(212, 118, 60, 0.6);
+}
+
+.video-scrubber::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.3);
+}
+
+.video-scrubber::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--cinematic-orange);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  cursor: grab;
+  box-shadow: 0 0 8px rgba(212, 118, 60, 0.4);
+}
+
+.video-scrubber::-moz-range-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}

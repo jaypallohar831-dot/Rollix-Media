@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import type { Database } from '@/types/database.types';
+import VideoThumbnailPicker from '@/components/admin/video-thumbnail-picker';
 import { 
   Upload, 
   X, 
@@ -226,6 +227,15 @@ export default function NewPortfolioPage() {
                   </div>
                 )}
               </div>
+
+              {/* Video Thumbnail Picker — appears when video URL is set */}
+              {formData.video_url && (
+                <VideoThumbnailPicker
+                  videoUrl={formData.video_url}
+                  currentThumbnail={formData.thumbnail}
+                  onThumbnailCaptured={(url) => setFormData(prev => ({ ...prev, thumbnail: url }))}
+                />
+              )}
 
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Permanent Slug</label>
