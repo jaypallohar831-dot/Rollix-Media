@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import type { Database } from '@/types/database.types';
 import VideoThumbnailPicker from '@/components/admin/video-thumbnail-picker';
+import { CrewBuilder, type CrewMember } from '@/components/admin/crew-builder';
 import { 
   Upload, 
   X, 
@@ -38,7 +39,8 @@ export default function NewPortfolioPage() {
     video_url: '',
     location: '',
     month: '',
-    tags: [] as string[]
+    tags: [] as string[],
+    crew: [] as CrewMember[]
   });
 
   const fetchCategories = useCallback(async () => {
@@ -264,6 +266,11 @@ export default function NewPortfolioPage() {
               </div>
             </div>
           </section>
+
+          <CrewBuilder 
+            crew={formData.crew} 
+            onChange={(crew) => setFormData(prev => ({ ...prev, crew }))} 
+          />
 
           <section className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 space-y-6">
             <h2 className="font-heading text-lg text-white">Gallery Showcase</h2>

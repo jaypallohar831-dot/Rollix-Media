@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import type { Database } from '@/types/database.types';
 import VideoThumbnailPicker from '@/components/admin/video-thumbnail-picker';
+import { CrewBuilder, type CrewMember } from '@/components/admin/crew-builder';
 import { 
   Upload, 
   X, 
@@ -42,7 +43,8 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
     video_url: '',
     location: '',
     month: '',
-    tags: [] as string[]
+    tags: [] as string[],
+    crew: [] as CrewMember[]
   });
 
   useEffect(() => {
@@ -66,7 +68,8 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
           video_url: project.video_url || '',
           location: project.location || '',
           month: project.month || '',
-          tags: project.tags || []
+          tags: project.tags || [],
+          crew: project.crew || []
         });
       }
       setFetching(false);
@@ -253,6 +256,11 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
               </div>
             </div>
           </section>
+
+          <CrewBuilder 
+            crew={formData.crew} 
+            onChange={(crew) => setFormData(prev => ({ ...prev, crew }))} 
+          />
 
           <section className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 space-y-6">
             <h2 className="font-heading text-lg text-white">Gallery Showcase</h2>
