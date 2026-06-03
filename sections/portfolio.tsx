@@ -7,10 +7,8 @@ import { PortfolioCard } from '@/components/portfolio-card';
 import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
 import { ArrowRight, Target } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { PortfolioItem } from '@/lib/portfolio';
-import { useState, useEffect } from 'react';
-import { portfolioService } from '@/services/portfolio.service';
-import type { PortfolioProject } from '@/services/portfolio.service';
 
 const AdsShowcase = () => (
   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
@@ -38,39 +36,13 @@ const AdsShowcase = () => (
   </div>
 );
 
-export function PortfolioSection() {
-  const [dbProjects, setDbProjects] = useState<PortfolioItem[]>([]);
+interface PortfolioSectionProps {
+  projects: PortfolioItem[];
+}
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const data = await portfolioService.getProjects();
-        if (data && data.length > 0) {
-          const mapped: PortfolioItem[] = data
-            .filter((item: PortfolioProject) => item.featured === true)
-            .map((item: PortfolioProject) => ({
-              id: item.slug,
-              title: item.title,
-              category: item.categories?.title || 'Uncategorized',
-              tagline: item.seo_title || item.title,
-              year: new Date(item.created_at).getFullYear().toString(),
-              image: item.thumbnail || '/assets/portfolio/wedding.png',
-              mediaType: item.video_url ? 'video' : 'image',
-              videoUrl: item.video_url || undefined,
-              tags: item.tags || [],
-              featured: item.featured
-            }));
-          setDbProjects(mapped);
-        }
-      } catch (err) {
-        console.error('Failed to load portfolio:', err);
-      }
-    }
-    load();
-  }, []);
-
+export function PortfolioSection({ projects }: PortfolioSectionProps) {
   const getProjects = (slugs: string[]) => {
-    return dbProjects.filter(p => slugs.includes(p.category.toLowerCase().replace(/ /g, '-')));
+    return projects.filter(p => slugs.includes(p.category.toLowerCase().replace(/ /g, '-')));
   };
 
   const WEDDING = getProjects(['wedding-shooting', 'wedding-film']);
@@ -100,36 +72,58 @@ export function PortfolioSection() {
             <motion.div variants={staggerContainer} className="absolute inset-0 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4 opacity-[0.35] pointer-events-none">
               {/* Column 1 */}
               <div className="flex flex-col gap-4 -translate-y-12">
-                <motion.img variants={fadeUp} src="/assets/premium/Overlapping Cards/video editing.jpg" className="w-full rounded-xl object-cover h-40" />
-                <motion.img variants={fadeUp} src="/assets/portfolio/wedding.png" className="w-full rounded-xl object-cover h-64" />
+                <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-40">
+                  <Image src="/assets/premium/Overlapping Cards/video editing.jpg" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                </motion.div>
+                <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-64">
+                  <Image src="/assets/portfolio/wedding.png" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                </motion.div>
               </div>
               {/* Column 2 */}
               <div className="flex flex-col gap-4 translate-y-8">
-                <motion.img variants={fadeUp} src="/assets/premium/Overlapping Cards/seo.jpg" className="w-full rounded-xl object-cover h-64" />
-                <motion.img variants={fadeUp} src="/assets/portfolio/brand.png" className="w-full rounded-xl object-cover h-40" />
+                <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-64">
+                  <Image src="/assets/premium/Overlapping Cards/seo.jpg" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                </motion.div>
+                <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-40">
+                  <Image src="/assets/portfolio/brand.png" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                </motion.div>
               </div>
               {/* Column 3 - Center */}
               <div className="flex flex-col gap-4 -translate-y-4 hidden sm:flex">
-                 <motion.img variants={fadeUp} src="/assets/premium/Overlapping Cards/web designing.jpg" className="w-full rounded-xl object-cover h-32" />
-                 <motion.img variants={fadeUp} src="/assets/portfolio/motion.png" className="w-full rounded-xl object-cover h-48" />
-                 <motion.img variants={fadeUp} src="/assets/portfolio/social.png" className="w-full rounded-xl object-cover h-32" />
+                 <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-32">
+                   <Image src="/assets/premium/Overlapping Cards/web designing.jpg" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                 </motion.div>
+                 <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-48">
+                   <Image src="/assets/portfolio/motion.png" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                 </motion.div>
+                 <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-32">
+                   <Image src="/assets/portfolio/social.png" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                 </motion.div>
               </div>
               {/* Column 4 */}
               <div className="flex flex-col gap-4 translate-y-16 hidden md:flex">
-                <motion.img variants={fadeUp} src="/assets/premium/Overlapping Cards/marketing.jpg" className="w-full rounded-xl object-cover h-56" />
-                <motion.img variants={fadeUp} src="/assets/portfolio/wedding.png" className="w-full rounded-xl object-cover h-56" />
+                <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-56">
+                  <Image src="/assets/premium/Overlapping Cards/marketing.jpg" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                </motion.div>
+                <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-56">
+                  <Image src="/assets/portfolio/wedding.png" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                </motion.div>
               </div>
               {/* Column 5 */}
               <div className="flex flex-col gap-4 -translate-y-8 hidden md:flex">
-                <motion.img variants={fadeUp} src="/assets/premium/Overlapping Cards/graphics design.jpg" className="w-full rounded-xl object-cover h-40" />
-                <motion.img variants={fadeUp} src="/assets/premium/Overlapping Cards/business growth.jpg" className="w-full rounded-xl object-cover h-64" />
+                <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-40">
+                  <Image src="/assets/premium/Overlapping Cards/graphics design.jpg" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                </motion.div>
+                <motion.div variants={fadeUp} className="relative w-full rounded-xl overflow-hidden h-64">
+                  <Image src="/assets/premium/Overlapping Cards/business growth.jpg" alt="" fill className="object-cover" quality={50} sizes="20vw" />
+                </motion.div>
               </div>
             </motion.div>
 
             {/* Central Glass Card */}
             <motion.div 
               variants={staggerContainer}
-              className="relative z-10 flex flex-col items-center text-center bg-[#050505]/60 backdrop-blur-xl border border-white/[0.08] rounded-[2rem] p-10 sm:p-16 max-w-3xl mx-4 shadow-2xl"
+              className="relative z-10 flex flex-col items-center text-center bg-[#050505]/90 border border-white/[0.08] rounded-[2rem] p-10 sm:p-16 max-w-3xl mx-4 shadow-2xl"
             >
               <motion.span variants={fadeIn} className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80 mb-6">
                 <span className="h-[1px] w-6 bg-cinematic-orange/40" />

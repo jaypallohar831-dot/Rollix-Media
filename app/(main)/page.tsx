@@ -6,6 +6,7 @@ import { TestimonialsSection } from '@/sections/testimonials';
 import { ProcessSection } from '@/sections/process';
 import { Section, Container, Divider } from '@/components/layout';
 import { HomepageLoader } from '@/components/homepage-loader';
+import { getHomepageData } from './data';
 
 export const metadata: Metadata = {
   title: 'Rollix Media | Digital Marketing Agency in Bhilwara',
@@ -21,7 +22,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  const { portfolioProjects, services, testimonials } = await getHomepageData();
+
   return (
     <HomepageLoader>
     <main className="relative">
@@ -33,12 +36,12 @@ export default function Home() {
       <Divider />
 
       {/* Portfolio — Digital Marketing Services Showcase */}
-      <PortfolioSection />
+      <PortfolioSection projects={portfolioProjects} />
 
       <Divider />
 
       {/* Testimonials — social proof */}
-      <TestimonialsSection />
+      <TestimonialsSection testimonials={testimonials} />
 
       <Divider />
 

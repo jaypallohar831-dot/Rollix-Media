@@ -63,8 +63,8 @@ export function CinematicReveal({ imageSrc, alt, priority = false, founders, chi
           fill
           className="object-contain"
           priority={priority}
-          quality={100}
-          unoptimized={true}
+          quality={80}
+          sizes="(max-width: 640px) 100vw, 80vw"
         />
         {/* Cinematic dark overlay */}
         <div className="absolute inset-0 bg-black/10" />

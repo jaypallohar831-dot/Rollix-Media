@@ -3,6 +3,7 @@
 import { memo, useRef } from 'react';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { cn, getOptimizedVideoUrl } from '@/lib/utils';
 import { Play } from 'lucide-react';
 import type { PortfolioItem } from '@/lib/portfolio';
@@ -86,12 +87,13 @@ export const FilmCard = memo(function FilmCard({
             className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
-          /* eslint-disable-next-line @next/next/no-img-element */
-          <img
+          <Image
             src={item.image}
             alt={`${item.title} — ${item.category}`}
-            loading={priority ? "eager" : "lazy"}
-            className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            priority={priority}
+            className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         )}
 

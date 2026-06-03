@@ -12,6 +12,8 @@ import { useEffect, useRef, useCallback } from 'react';
  * - React state updates for visibility toggling
  *
  * Now uses raw DOM manipulation — zero React re-renders.
+ * The RAF loop auto-stops when position converges (delta < 0.5px)
+ * and restarts on the next mousemove event.
  */
 export function MouseFollowLight() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,8 +22,8 @@ export function MouseFollowLight() {
   const posRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const rafRef = useRef<number>(0);
   const visibleRef = useRef(false);
+  const runningRef = useRef(false);
 
-  // Use a standard function wrapped in useCallback to avoid 'used before initialization' TDZ issues.
   const animate = useCallback(function animateFrame() {
     const pos = posRef.current;
     // Lerp for smooth movement (equivalent to spring damping)
@@ -35,8 +37,23 @@ export function MouseFollowLight() {
       secondaryRef.current.style.transform = `translate(${pos.x - 100}px, ${pos.y - 100}px)`;
     }
 
+    // Stop the loop when position has converged (within 0.5px)
+    const dx = Math.abs(pos.targetX - pos.x);
+    const dy = Math.abs(pos.targetY - pos.y);
+    if (dx < 0.5 && dy < 0.5) {
+      runningRef.current = false;
+      return;
+    }
+
     rafRef.current = requestAnimationFrame(animateFrame);
   }, []);
+
+  const startLoop = useCallback(() => {
+    if (!runningRef.current) {
+      runningRef.current = true;
+      rafRef.current = requestAnimationFrame(animate);
+    }
+  }, [animate]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -49,6 +66,8 @@ export function MouseFollowLight() {
         visibleRef.current = true;
         container.style.opacity = '1';
       }
+      // Restart the RAF loop on new mouse movement
+      startLoop();
     };
 
     const handleMouseLeave = () => {
@@ -65,15 +84,13 @@ export function MouseFollowLight() {
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
 
-    rafRef.current = requestAnimationFrame(animate);
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [animate]);
+  }, [startLoop]);
 
   return (
     <div

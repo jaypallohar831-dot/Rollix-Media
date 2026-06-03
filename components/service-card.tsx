@@ -135,7 +135,7 @@ export const ServiceCard = memo(function ServiceCard({
               return (
                 <div 
                   key={idx}
-                  className="group/tool relative flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-all duration-300 hover:scale-110 hover:border-white/20"
+                  className="group/tool relative flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-[transform,border-color] duration-300 hover:scale-110 hover:border-white/20"
                   style={{ 
                     boxShadow: `0 4px 12px ${tool.color}15`,
                   }}

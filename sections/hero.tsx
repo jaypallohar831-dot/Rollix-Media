@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { HeroBackground } from '@/components/hero-background';
 import { Hero3DObjects } from '@/components/hero-3d-objects';
 import { Hero3DCamera } from '@/components/hero-3d-camera';
@@ -18,14 +18,25 @@ import {
  * Uses framer-motion useScroll which is compositor-optimized.
  * Only 2 transforms (headline Y-shift + fade overlay) instead
  * of the original 3 + heavy blur.
+ *
+ * Performance: Hero video (12.7 MB) is deferred — preload="none"
+ * and source only mounts after 2s delay so it doesn't block
+ * initial paint or compete with critical resources.
  */
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [loadVideo, setLoadVideo] = useState(false);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
+
+  // Defer video loading — let the page paint first
+  useEffect(() => {
+    const timer = setTimeout(() => setLoadVideo(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Subtle parallax: headline shifts up 60px as user scrolls past
   const headlineY = useTransform(scrollYProgress, [0, 1], [0, -60]);
@@ -43,16 +54,19 @@ export function HeroSection() {
         <HeroBackground />
       </div>
 
-      {/* Cinematic Background Video (Low Opacity) */}
+      {/* Cinematic Background Video (Low Opacity) — deferred load */}
       <div className="absolute inset-0 z-[1] overflow-hidden opacity-20 pointer-events-none">
         <video
           autoPlay
           loop
           muted
           playsInline
+          preload="none"
           className="w-full h-full object-cover scale-[1.02]"
         >
-          <source src="/assets/premium/hero-bg-video.mp4" type="video/mp4" />
+          {loadVideo && (
+            <source src="/assets/premium/hero-bg-video.mp4" type="video/mp4" />
+          )}
         </video>
         {/* Soft gradient mask to blend edges */}
         <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/50" />

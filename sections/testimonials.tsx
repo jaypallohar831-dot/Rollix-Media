@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Container } from '@/components/layout';
-import { Quote, Star, User, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
-import { testimonialsService } from '@/services/testimonials.service';
+import { Quote, Star, User, ChevronLeft, ChevronRight } from 'lucide-react';
 import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
 
 interface Testimonial {
@@ -17,31 +16,17 @@ interface Testimonial {
   avatar_url?: string;
 }
 
-export function TestimonialsSection() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
+interface TestimonialsSectionProps {
+  testimonials: Testimonial[];
+}
 
-  useEffect(() => {
-    async function loadTestimonials() {
-      try {
-        const data = await testimonialsService.getTestimonials();
-        if (data && data.length > 0) {
-          setTestimonials(data as Testimonial[]);
-        }
-      } catch (err: unknown) {
-        console.error('Failed to fetch testimonials:', err instanceof Error ? err.message : String(err));
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadTestimonials();
-  }, []);
+export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
-  if (!loading && testimonials.length === 0) return null;
+  if (testimonials.length === 0) return null;
 
   const current = testimonials[currentIndex];
 
@@ -74,11 +59,6 @@ export function TestimonialsSection() {
           </motion.h2>
         </motion.div>
 
-        {loading ? (
-          <div className="flex h-64 items-center justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-cinematic-orange/50" />
-          </div>
-        ) : (
           <div className="relative mx-auto max-w-4xl">
             <AnimatePresence mode="wait">
               <motion.div
@@ -128,7 +108,7 @@ export function TestimonialsSection() {
             <div className="absolute top-1/2 -left-4 sm:-left-20 -translate-y-1/2 hidden sm:block">
               <button 
                 onClick={prev}
-                className="p-4 rounded-full border border-white/[0.08] bg-white/[0.02] text-white/40 hover:text-white hover:border-cinematic-orange/40 transition-all"
+                className="p-4 rounded-full border border-white/[0.08] bg-white/[0.02] text-white/40 hover:text-white hover:border-cinematic-orange/40 transition-[color,border-color] duration-300"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
@@ -136,7 +116,7 @@ export function TestimonialsSection() {
             <div className="absolute top-1/2 -right-4 sm:-right-20 -translate-y-1/2 hidden sm:block">
               <button 
                 onClick={next}
-                className="p-4 rounded-full border border-white/[0.08] bg-white/[0.02] text-white/40 hover:text-white hover:border-cinematic-orange/40 transition-all"
+                className="p-4 rounded-full border border-white/[0.08] bg-white/[0.02] text-white/40 hover:text-white hover:border-cinematic-orange/40 transition-[color,border-color] duration-300"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
@@ -154,12 +134,11 @@ export function TestimonialsSection() {
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}
-                  className={`h-1 rounded-full transition-all duration-500 ${i === currentIndex ? 'w-8 bg-cinematic-orange' : 'w-2 bg-white/10 hover:bg-white/20'}`}
+                  className={`h-1 rounded-full transition-[width,background-color] duration-500 ${i === currentIndex ? 'w-8 bg-cinematic-orange' : 'w-2 bg-white/10 hover:bg-white/20'}`}
                 />
               ))}
             </div>
           </div>
-        )}
       </Container>
     </section>
   );

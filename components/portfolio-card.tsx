@@ -3,6 +3,7 @@
 import { memo, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { cn, getOptimizedVideoUrl } from '@/lib/utils';
 import { ArrowUpRight, Play } from 'lucide-react';
 import { fadeUp } from '@/animations/variants';
@@ -72,12 +73,13 @@ export const PortfolioCard = memo(function PortfolioCard({
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
             />
           ) : (
-            /* eslint-disable-next-line @next/next/no-img-element */
-            <img
+            <Image
               src={item.image}
               alt={`${item.title} — ${item.category}`}
-              loading={priority ? "eager" : "lazy"}
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              priority={priority}
+              className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
             />
           )}
         </div>
