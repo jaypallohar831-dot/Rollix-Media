@@ -71,7 +71,7 @@ export default function ContactPage() {
   };
 
   const socialLinks = [
-    { name: 'Instagram', icon: Instagram, href: 'https://instagram.com/rollix.media', color: 'hover:text-pink-500' },
+    { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/rollixmedia', color: 'hover:text-pink-500' },
     { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/919024675831', color: 'hover:text-green-500' },
     { name: 'Twitter', icon: Twitter, href: 'https://twitter.com/rollixmedia', color: 'hover:text-blue-400' },
     { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com/company/rollix-media', color: 'hover:text-blue-700' },

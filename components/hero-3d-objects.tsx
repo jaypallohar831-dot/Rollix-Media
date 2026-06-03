@@ -1,7 +1,6 @@
 'use client';
 
-import { memo, useRef, useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { memo } from 'react';
 
 /**
  * Hero3DObjects — Floating 3D cinematic objects around the hero

@@ -21,7 +21,8 @@ export function MouseFollowLight() {
   const rafRef = useRef<number>(0);
   const visibleRef = useRef(false);
 
-  const animate = useCallback(() => {
+  // Use a standard function wrapped in useCallback to avoid 'used before initialization' TDZ issues.
+  const animate = useCallback(function animateFrame() {
     const pos = posRef.current;
     // Lerp for smooth movement (equivalent to spring damping)
     pos.x += (pos.targetX - pos.x) * 0.08;
@@ -34,7 +35,7 @@ export function MouseFollowLight() {
       secondaryRef.current.style.transform = `translate(${pos.x - 100}px, ${pos.y - 100}px)`;
     }
 
-    rafRef.current = requestAnimationFrame(animate);
+    rafRef.current = requestAnimationFrame(animateFrame);
   }, []);
 
   useEffect(() => {

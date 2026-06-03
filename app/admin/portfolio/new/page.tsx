@@ -119,7 +119,6 @@ export default function NewPortfolioPage() {
 
     // Strip out fields that do not exist in the Supabase 'portfolio_projects' table schema (video_url doesn't need to be stripped if it exists)
     // Actually, wait, let's make sure we aren't stripping valid fields.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { ...submitData } = formData;
     
     // Postgres throws error if empty string is cast to UUID
@@ -234,7 +233,6 @@ export default function NewPortfolioPage() {
               {formData.video_url && (
                 <VideoThumbnailPicker
                   videoUrl={formData.video_url}
-                  currentThumbnail={formData.thumbnail}
                   onThumbnailCaptured={(url) => setFormData(prev => ({ ...prev, thumbnail: url }))}
                 />
               )}

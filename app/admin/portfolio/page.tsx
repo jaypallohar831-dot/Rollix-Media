@@ -60,6 +60,7 @@ export default async function AdminPortfolioPage() {
                   <td style={{padding:'1.25rem 1.5rem'}}>
                     <div style={{width:'5rem',height:'3.5rem',borderRadius:'0.5rem',overflow:'hidden',border:'1px solid rgba(255,255,255,0.1)',background:'#111'}}>
                       {project.thumbnail ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
                         <img src={project.thumbnail} alt={project.title} style={{width:'100%',height:'100%',objectFit:'cover'}} />
                       ) : (
                         <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}>

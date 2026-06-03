@@ -195,9 +195,9 @@ export async function POST(request: Request) {
           },
         });
 
-        console.log('[Contact API] Verifying SMTP connection...');
-        await transporter.verify();
-        console.log('[Contact API] SMTP connection verified successfully');
+        // console.log('[Contact API] Verifying SMTP connection...');
+        // await transporter.verify();
+        // console.log('[Contact API] SMTP connection verified successfully');
 
         const safeName = escapeHtml(name);
         const safeEmail = escapeHtml(email);

@@ -31,8 +31,10 @@ export default function Icon() {
           background: 'transparent',
         }}
       >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img 
           src={base64Image} 
+          alt="Site Logo Icon"
           width="64" 
           height="64" 
           style={{ 

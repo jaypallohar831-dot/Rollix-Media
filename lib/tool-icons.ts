@@ -13,7 +13,9 @@ import {
   Share2, Megaphone 
 } from 'lucide-react';
 
-export const toolIconMap: Record<string, any> = {
+import type { ElementType } from 'react';
+
+export const toolIconMap: Record<string, ElementType> = {
   // Brand Icons
   SiFigma,
   SiNextdotjs,

@@ -239,7 +239,6 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
               {formData.video_url && (
                 <VideoThumbnailPicker
                   videoUrl={formData.video_url}
-                  currentThumbnail={formData.thumbnail}
                   onThumbnailCaptured={(url) => setFormData(prev => ({ ...prev, thumbnail: url }))}
                 />
               )}

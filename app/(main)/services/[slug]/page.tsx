@@ -4,7 +4,6 @@ import { SERVICES, SERVICE_DETAILS_MAP } from '@/lib/services';
 import { Container, Section, SectionHeader, Divider } from '@/components/layout';
 import { PortfolioCard } from '@/components/portfolio-card';
 import { PORTFOLIO_ITEMS } from '@/lib/portfolio';
-import { ProcessSection } from '@/sections/process';
 import { CheckCircle2, IndianRupee } from 'lucide-react';
 import { servicesService } from '@/services/services.service';
 import { ToolsShowcase } from '@/components/tools-showcase';
@@ -24,6 +23,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   } catch {
     // ignore
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!service) service = SERVICES.find((s) => s.slug === slug) as any;
 
   const title = service ? `${service.title} in Bhilwara` : 'Service';
@@ -46,7 +46,7 @@ export async function generateStaticParams() {
   try {
     const data = await servicesService.getServices();
     return data.map(s => ({ slug: s.slug }));
-  } catch (e) {
+  } catch {
     return SERVICES.map((service) => ({ slug: service.slug }));
   }
 }
@@ -58,11 +58,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
   let service = null;
   try {
     service = await servicesService.getServiceBySlug(resolvedParams.slug);
-  } catch (e) {
+  } catch {
     // ignore
   }
 
   if (!service) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     service = SERVICES.find((s) => s.slug === resolvedParams.slug) as any;
   }
 

@@ -1,9 +1,9 @@
 'use client';
 
 import { memo, useRef } from 'react';
-import { motion } from 'framer-motion';
+
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { cn, getOptimizedVideoUrl } from '@/lib/utils';
 import { Play } from 'lucide-react';
 import type { PortfolioItem } from '@/lib/portfolio';
 
@@ -78,7 +78,7 @@ export const FilmCard = memo(function FilmCard({
         {isVideo && item.videoUrl ? (
           <video
             ref={videoRef}
-            src={`${item.videoUrl}#t=1.0`}
+            src={`${getOptimizedVideoUrl(item.videoUrl, true)}#t=1.0`}
             preload="metadata"
             muted
             loop
@@ -86,6 +86,7 @@ export const FilmCard = memo(function FilmCard({
             className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
           />
         ) : (
+          /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={item.image}
             alt={`${item.title} — ${item.category}`}

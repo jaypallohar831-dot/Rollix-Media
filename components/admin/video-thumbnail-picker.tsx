@@ -6,7 +6,6 @@ import { Camera, Play, Pause, Loader2, SkipBack, SkipForward, CheckCircle2 } fro
 interface VideoThumbnailPickerProps {
   videoUrl: string;
   onThumbnailCaptured: (thumbnailUrl: string) => void;
-  currentThumbnail?: string;
 }
 
 /**
@@ -18,8 +17,7 @@ function isCloudinaryVideoUrl(url: string) {
 
 export default function VideoThumbnailPicker({ 
   videoUrl, 
-  onThumbnailCaptured, 
-  currentThumbnail 
+  onThumbnailCaptured
 }: VideoThumbnailPickerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -183,7 +181,7 @@ export default function VideoThumbnailPicker({
     } finally {
       setCapturing(false);
     }
-  }, [videoUrl, onThumbnailCaptured]);
+  }, [videoUrl, onThumbnailCaptured, isCloudinary]);
 
   const formatTime = (t: number) => {
     const mins = Math.floor(t / 60);
@@ -218,7 +216,6 @@ export default function VideoThumbnailPicker({
       {/* Video Player */}
       <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-black/60 backdrop-blur-sm">
         <div className="relative aspect-video">
-          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
           <video
             ref={videoRef}
             src={playableSrc}

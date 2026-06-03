@@ -100,8 +100,13 @@ export function PhilosophySection() {
         
         {/* Cinematic Image Reveal — breaking the text flow */}
         <CinematicReveal 
-          imageSrc="/images/philosophy-hero-v2.jpg" 
+          imageSrc="/images/philosophy-hero-v3.jpg" 
           alt="Cinematic storytelling atmosphere"
+          priority={true}
+          founders={[
+            { name: 'Mr. Jaypal', side: 'left' },
+            { name: 'Mr. Rishabh Singh', side: 'right' },
+          ]}
         />
 
         {/* ──────────────────────────────────────
