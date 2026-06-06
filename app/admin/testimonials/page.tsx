@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Plus, Pencil, Trash2, Quote, Star, User } from 'lucide-react';
+import { Plus, Pencil, Quote, Star, User } from 'lucide-react';
+import { DeleteTestimonialButton } from '@/components/admin/delete-testimonial-button';
 import { requireAdminOrRedirect } from '@/lib/admin-auth';
 
 export const dynamic = 'force-dynamic';
@@ -86,9 +87,7 @@ export default async function AdminTestimonialsPage() {
                   <button className="p-2 rounded-lg text-muted-foreground hover:bg-white/[0.05] hover:text-white">
                     <Pencil className="h-4 w-4" />
                   </button>
-                  <button className="p-2 rounded-lg text-muted-foreground hover:bg-red-500/10 hover:text-red-400">
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                  <DeleteTestimonialButton id={item.id} name={item.name} />
                 </div>
               </div>
             </div>
