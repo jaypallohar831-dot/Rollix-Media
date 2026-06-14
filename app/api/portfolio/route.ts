@@ -18,9 +18,9 @@ export async function GET(request: Request) {
           getAll() {
             return cookieStore.getAll();
           },
-setAll() {
-             // Read-only, no need to set
-           },
+          setAll() {
+            // Read-only, no need to set
+          },
         },
       }
     );
@@ -108,6 +108,9 @@ export async function POST(request: Request) {
       console.error('Insert Portfolio Error:', error);
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
+
+    // Ping Google to re-crawl sitemap so the new project is indexed faster (fire-and-forget)
+    fetch('https://www.google.com/ping?sitemap=https://rollixmedia.vercel.app/sitemap.xml').catch(() => {});
 
     return NextResponse.json({ success: true, data }, { status: 201 });
   } catch (error) {

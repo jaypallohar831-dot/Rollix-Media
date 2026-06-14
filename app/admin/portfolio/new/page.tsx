@@ -189,7 +189,24 @@ export default function NewPortfolioPage() {
                   type="text"
                   required
                   value={formData.title}
-                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') }))}
+                  onChange={(e) => {
+                    const title = e.target.value;
+                    const slug = title.toLowerCase().replace(/\s+/g, '-');
+                    // Auto-generate SEO fields
+                    const cat = categories.find(c => c.id === formData.category_id)?.title || 'Digital Marketing';
+                    const loc = formData.location || 'Bhilwara, Rajasthan';
+                    const autoSeoTitle = title ? `${title} — Rollix Media Portfolio` : '';
+                    const autoSeoDesc = title
+                      ? `Watch "${title}" by Rollix Media — a premium ${cat} project in ${loc}. Professional video editing & digital marketing agency in Bhilwara, India.`
+                      : '';
+                    setFormData(prev => ({
+                      ...prev,
+                      title,
+                      slug,
+                      seo_title: autoSeoTitle,
+                      seo_description: autoSeoDesc,
+                    }));
+                  }}
                   className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
                   placeholder="e.g. The Midnight Bloom"
                 />
@@ -355,6 +372,21 @@ export default function NewPortfolioPage() {
               </div>
             </div>
           </section>
+
+          {/* SEO Preview Card */}
+          {formData.title && (
+            <section className="rounded-3xl border border-green-500/20 bg-green-500/[0.03] p-6 space-y-3">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-green-400/70 flex items-center gap-2">
+                <span>🔍</span> Google Preview (Auto-Generated)
+              </h2>
+              <div className="space-y-1">
+                <p className="text-[11px] text-blue-400 truncate">{`rollixmedia.vercel.app/portfolio/${formData.slug}`}</p>
+                <p className="text-sm font-medium text-white leading-tight line-clamp-1">{formData.seo_title}</p>
+                <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-2">{formData.seo_description}</p>
+              </div>
+              <p className="text-[10px] text-muted-foreground/40">You can override these in the SEO fields below.</p>
+            </section>
+          )}
 
           <section className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 space-y-6">
             <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Project Cover</h2>
