@@ -82,12 +82,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .select('slug, updated_at')
       .eq('status', 'published');
 
-    const projectPages: MetadataRoute.Sitemap = (projects || []).map((project) => ({
-      url: `${baseUrl}/portfolio/${encodeURIComponent(project.slug)}`,
-      lastModified: new Date(project.updated_at),
-      changeFrequency: 'monthly' as const,
-      priority: 0.75,
-    }));
+    const projectPages: MetadataRoute.Sitemap = (projects || []).map((project) => {
+      // Sanitize slug — remove any special chars (e.g. encoded colons %3A) that break sitemap validation
+      const cleanSlug = project.slug
+        .toLowerCase()
+        .replace(/[^a-z0-9\-]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+      return {
+        url: `${baseUrl}/portfolio/${cleanSlug}`,
+        lastModified: new Date(project.updated_at),
+        changeFrequency: 'monthly' as const,
+        priority: 0.75,
+      };
+    });
 
     return [...staticPages, ...servicePages, ...projectPages];
   } catch {
