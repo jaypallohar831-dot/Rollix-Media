@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@supabase/supabase-js';
 import type { MetadataRoute } from 'next';
 
 const baseUrl = 'https://rollixmedia.vercel.app';
@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/services`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.9,  // Services rank higher than portfolio
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/portfolio`,
@@ -64,12 +64,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${baseUrl}/services/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'monthly' as const,
-    priority: 0.85,  // Service sub-pages are high value
+    priority: 0.85,
   }));
 
   // ── Dynamic portfolio pages from Supabase ──
+  // NOTE: We use the raw Supabase client here (not the SSR cookie client)
+  // because sitemap.xml is called by Google's bot which has no cookies.
+  // Using the cookie-based client causes a 500 error, making Google unable to fetch the sitemap.
   try {
-    const supabase = await createClient();
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
     const { data: projects } = await supabase
       .from('portfolio_projects')
       .select('slug, updated_at')
@@ -84,6 +91,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return [...staticPages, ...servicePages, ...projectPages];
   } catch {
+    // Fallback: return static pages only if Supabase is unavailable
     return [...staticPages, ...servicePages];
   }
 }
