@@ -96,29 +96,46 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
       }
 
       const uploadData = new FormData();
-      uploadData.append('file', file);
       uploadData.append('api_key', sigData.apiKey);
       uploadData.append('timestamp', sigData.timestamp);
       uploadData.append('signature', sigData.signature);
       uploadData.append('folder', sigData.folder);
+      uploadData.append('file', file);
 
-      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloudName}/auto/upload`, {
+      const resourceType = type === 'video' ? 'video' : 'auto';
+      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloudName}/${resourceType}/upload`, {
         method: 'POST',
         body: uploadData
       });
       const uploadResult = await uploadRes.json();
 
+      if (uploadResult.error) {
+        throw new Error(uploadResult.error.message || 'Cloudinary upload failed');
+      }
+
       if (uploadResult.secure_url) {
+        let finalUrl = uploadResult.secure_url;
+        
+        // Apply Rollix Media watermark and Project Title in the center for videos
+        if (type === 'video') {
+          const safeTitle = encodeURIComponent(formData.title || 'Rollix Media Project')
+            .replace(/%2C/gi, '%252C')
+            .replace(/%2F/gi, '%252F');
+          const watermarkTransform = `l_rollix_logo/c_scale,w_300/fl_layer_apply,g_center,y_-35/l_text:Playfair%20Display_50_bold_center:${safeTitle},c_fit,w_300,co_white/fl_layer_apply,g_center,y_105`;
+          finalUrl = finalUrl.replace('/upload/', `/upload/${watermarkTransform}/`);
+        }
+
         if (type === 'thumbnail') {
-          setFormData(prev => ({ ...prev, thumbnail: uploadResult.secure_url }));
+          setFormData(prev => ({ ...prev, thumbnail: finalUrl }));
         } else if (type === 'video') {
-          setFormData(prev => ({ ...prev, video_url: uploadResult.secure_url }));
+          setFormData(prev => ({ ...prev, video_url: finalUrl }));
         } else {
-          setFormData(prev => ({ ...prev, gallery_images: [...prev.gallery_images, uploadResult.secure_url] }));
+          setFormData(prev => ({ ...prev, gallery_images: [...prev.gallery_images, finalUrl] }));
         }
       }
     } catch (err) {
       console.error('Upload failed:', err);
+      alert('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
     } finally {
       setUploading(null);
     }

@@ -79,10 +79,10 @@ export default function RootLayout({
     url: 'https://rollixmedia.vercel.app',
     logo: 'https://rollixmedia.vercel.app/og-image.jpg',
     image: 'https://rollixmedia.vercel.app/og-image.jpg',
-    telephone: '+91-XXXXXXXXXX',
+    telephone: '+91-9024675831',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Bhilwara',
+      streetAddress: 'Bhilwara, Rajasthan',
       addressLocality: 'Bhilwara',
       addressRegion: 'Rajasthan',
       postalCode: '311001',

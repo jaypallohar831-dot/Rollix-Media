@@ -48,11 +48,11 @@ export default function NewTestimonialPage() {
       }
 
       const uploadData = new FormData();
-      uploadData.append('file', file);
       uploadData.append('api_key', sigData.apiKey);
       uploadData.append('timestamp', sigData.timestamp);
       uploadData.append('signature', sigData.signature);
       uploadData.append('folder', sigData.folder);
+      uploadData.append('file', file);
 
       const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloudName}/auto/upload`, {
         method: 'POST',
@@ -60,11 +60,16 @@ export default function NewTestimonialPage() {
       });
       const uploadResult = await uploadRes.json();
 
+      if (uploadResult.error) {
+        throw new Error(uploadResult.error.message || 'Cloudinary upload failed');
+      }
+
       if (uploadResult.secure_url) {
         setFormData(prev => ({ ...prev, avatar_url: uploadResult.secure_url }));
       }
     } catch (err) {
       console.error('Upload failed:', err);
+      alert('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
     } finally {
       setUploading(false);
     }
