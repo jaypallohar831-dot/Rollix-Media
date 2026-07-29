@@ -71,7 +71,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     location: 'Udaipur, India',
     image: '/assets/portfolio/wedding.png',
     mediaType: 'video',
-    videoUrl: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4',
+    videoUrl: '/assets/loader-bg.mp4',
     tags: ['Wedding', 'Cinematic', 'Destination'],
     client: 'Private Commission',
     duration: '8 min',
@@ -83,7 +83,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { role: 'Editor', name: 'Karan Singh' },
     ],
     gallery: [
-      { type: 'video', src: 'https://res.cloudinary.com/dlvqjcd3o/video/upload/q_auto/f_auto/v1778642485/reel2_eh4suw.mp4', poster: '/assets/portfolio/wedding.png' },
+      { type: 'video', src: '/assets/loader-bg.mp4', poster: '/assets/portfolio/wedding.png' },
       { type: 'image', src: '/assets/portfolio/wedding.png', alt: 'Ceremony wide shot' },
     ],
   },

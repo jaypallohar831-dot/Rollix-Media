@@ -65,11 +65,17 @@ export const PortfolioCard = memo(function PortfolioCard({
           {isVideo && item.videoUrl && (
             <video
               ref={videoRef}
-              src={item.videoUrl}
+              src={getOptimizedVideoUrl(item.videoUrl, true)}
               preload="metadata"
               muted
               loop
               playsInline
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.src.includes('/assets/loader-bg.mp4')) {
+                  target.src = '/assets/loader-bg.mp4';
+                }
+              }}
               className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out will-change-transform group-hover:scale-105 opacity-0 group-hover:opacity-100"
             />
           )}

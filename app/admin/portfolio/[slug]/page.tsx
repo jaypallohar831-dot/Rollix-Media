@@ -16,6 +16,7 @@ import {
   Plus,
   Video
 } from 'lucide-react';
+import { uploadToSupabaseStorage } from '@/lib/supabase-upload';
 
 type Category = Database['public']['Tables']['categories']['Row'];
 
@@ -88,17 +89,7 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
       const ext = file.name.split('.').pop();
       const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-      const { data, error } = await supabase.storage
-        .from('media')
-        .upload(filename, file, { cacheControl: '3600', upsert: false });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('media')
-        .getPublicUrl(data.path);
+      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file);
 
       if (type === 'thumbnail') {
         setFormData(prev => ({ ...prev, thumbnail: publicUrl }));
@@ -136,33 +127,33 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
   if (fetching) return <div className="flex h-40 items-center justify-center"><Loader2 className="h-6 w-6 animate-spin text-cinematic-orange" /></div>;
 
   return (
-    <div className="mx-auto max-w-4xl pb-20">
+    <div className="mx-auto max-w-4xl pb-20 text-stone-900">
       <button 
         onClick={() => router.back()}
-        className="mb-8 flex items-center gap-2 text-sm text-muted-foreground hover:text-white transition-colors"
+        className="mb-8 flex items-center gap-2 text-sm font-bold text-stone-600 hover:text-cinematic-orange transition-colors"
       >
         <ChevronLeft className="h-4 w-4" />
         Back to Projects
       </button>
 
-      <div className="mb-12">
-        <h1 className="font-heading text-4xl font-light text-white">
+      <div className="mb-10 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
+        <h1 className="font-heading text-4xl font-light text-stone-900">
           Edit <span className="text-gradient-warm italic font-medium">Work</span>
         </h1>
-        <p className="mt-2 text-muted-foreground font-light">Update the details for &ldquo;{formData.title}&rdquo;.</p>
+        <p className="mt-2 text-stone-500 font-light">Update the details for &ldquo;{formData.title}&rdquo;.</p>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <section className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 space-y-6 backdrop-blur-md">
-            <h2 className="font-heading text-lg text-white flex items-center gap-2">
+          <section className="rounded-3xl border border-stone-200 bg-white p-8 space-y-6 shadow-xs">
+            <h2 className="font-heading text-lg text-stone-900 flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-cinematic-orange" />
               Project Essence
             </h2>
             
             <div className="grid grid-cols-1 gap-6">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Project Title</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Project Title</label>
                 <input
                   type="text"
                   required
@@ -178,59 +169,58 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
                     setFormData(prev => ({
                       ...prev,
                       title,
-                      // Only auto-update if field is empty or was previously auto-generated
                       seo_title: prev.seo_title === `${prev.title} — Rollix Media Portfolio` || !prev.seo_title ? autoSeoTitle : prev.seo_title,
                       seo_description: !prev.seo_description ? autoSeoDesc : prev.seo_description,
                     }));
                   }}
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
+                  className="w-full rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Location</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Location</label>
                   <input
                     type="text"
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
+                    className="w-full rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
                     placeholder="e.g. Udaipur, India"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Date / Month</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Date / Month</label>
                   <input
                     type="text"
                     value={formData.month}
                     onChange={(e) => setFormData({ ...formData, month: e.target.value })}
-                    className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
+                    className="w-full rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
                     placeholder="e.g. October 2023"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Video Source</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Video Source</label>
                 <div className="flex gap-4 items-center">
                   <div className="relative flex-1">
-                    <Video className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground/40" />
+                    <Video className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
                     <input
                       type="text"
                       value={formData.video_url}
                       onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
-                      className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] pl-11 pr-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all"
-                      placeholder="Cloudinary URL or /assets/... mp4"
+                      className="w-full rounded-xl border border-stone-300 bg-white pl-11 pr-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
+                      placeholder="Supabase Storage URL or /assets/... mp4"
                     />
                   </div>
-                  <label className="shrink-0 flex items-center justify-center h-12 px-6 rounded-xl bg-white/[0.05] hover:bg-cinematic-orange/20 hover:text-cinematic-orange border border-white/[0.1] hover:border-cinematic-orange/30 cursor-pointer transition-all">
+                  <label className="shrink-0 flex items-center justify-center h-12 px-6 rounded-xl bg-stone-100 hover:bg-cinematic-orange hover:text-white border border-stone-300 hover:border-cinematic-orange text-stone-700 cursor-pointer transition-all font-bold">
                     {uploading === 'video' ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
                     <span className="text-xs font-bold uppercase tracking-wider">{uploading === 'video' ? 'Uploading...' : 'Upload Video'}</span>
                     <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept="video/*" />
                   </label>
                 </div>
                 {formData.video_url && (
-                  <div className="mt-4 rounded-xl overflow-hidden border border-white/[0.1] bg-black aspect-video max-w-sm">
+                  <div className="mt-4 rounded-xl overflow-hidden border border-stone-200 bg-stone-900 aspect-video max-w-sm">
                     <video 
                       src={formData.video_url} 
                       className="h-full w-full object-cover"
@@ -241,7 +231,6 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
                 )}
               </div>
 
-              {/* Video Thumbnail Picker — appears when video URL is set */}
               {formData.video_url && (
                 <VideoThumbnailPicker
                   videoUrl={formData.video_url}
@@ -250,13 +239,13 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
               )}
 
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Story / Description</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Story / Description</label>
                 <textarea
                   required
                   rows={6}
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none transition-all leading-relaxed"
+                  className="w-full rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all leading-relaxed shadow-xs"
                 />
               </div>
             </div>
@@ -267,26 +256,26 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
             onChange={(crew) => setFormData(prev => ({ ...prev, crew }))} 
           />
 
-          <section className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 space-y-6">
-            <h2 className="font-heading text-lg text-white">Gallery Showcase</h2>
+          <section className="rounded-3xl border border-stone-200 bg-white p-8 space-y-6 shadow-xs">
+            <h2 className="font-heading text-lg text-stone-900">Gallery Showcase</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-{formData.gallery_images.map((img, idx) => (
-                 <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-white/[0.1] group">
-                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                   <img src={img} alt={`Gallery image ${idx + 1}`} className="h-full w-full object-cover" />
+              {formData.gallery_images.map((img, idx) => (
+                <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-stone-200 group">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img} alt={`Gallery image ${idx + 1}`} className="h-full w-full object-cover" />
                   <button 
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, gallery_images: prev.gallery_images.filter((_, i) => i !== idx) }))}
-                    className="absolute top-2 right-2 p-1.5 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="absolute top-2 right-2 p-1.5 rounded-full bg-stone-900/80 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <X className="h-3 w-3" />
                   </button>
                 </div>
               ))}
               
-              <label className="aspect-video rounded-xl border-2 border-dashed border-white/[0.05] hover:border-cinematic-orange/30 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer bg-white/[0.01] hover:bg-cinematic-orange/[0.02]">
-                {uploading === 'gallery' ? <Loader2 className="h-5 w-5 animate-spin text-cinematic-orange" /> : <Plus className="h-5 w-5 text-muted-foreground" />}
-                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">Add Image</span>
+              <label className="aspect-video rounded-xl border-2 border-dashed border-stone-300 hover:border-cinematic-orange transition-all flex flex-col items-center justify-center gap-2 cursor-pointer bg-stone-50 hover:bg-stone-100">
+                {uploading === 'gallery' ? <Loader2 className="h-5 w-5 animate-spin text-cinematic-orange" /> : <Plus className="h-5 w-5 text-stone-500" />}
+                <span className="text-[10px] font-bold uppercase tracking-widest text-stone-600">Add Image</span>
                 <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'gallery')} accept="image/*" />
               </label>
             </div>
@@ -294,33 +283,33 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
         </div>
 
         <div className="space-y-8">
-          <section className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 space-y-6">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Publish Settings</h2>
+          <section className="rounded-3xl border border-stone-200 bg-white p-8 space-y-6 shadow-xs">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-stone-600">Publish Settings</h2>
             <div className="space-y-4">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40 ml-1">Category</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Category</label>
                 <select
                   required
                   value={formData.category_id}
                   onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
-                  className="w-full rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 py-3.5 text-sm text-white focus:border-cinematic-orange/40 focus:outline-none appearance-none"
+                  className="w-full rounded-xl border border-stone-300 bg-white px-4 py-3.5 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none shadow-xs"
                 >
                   <option value="">Select Category</option>
                   {categories.map(cat => (
-                    <option key={cat.id} value={cat.id}>{cat.title}</option>
+                    <option key={cat.id} value={cat.id} className="text-stone-900 bg-white">{cat.title}</option>
                   ))}
                 </select>
               </div>
 
-              <div className="flex items-center justify-between p-4 rounded-xl border border-white/[0.04] bg-white/[0.01]">
+              <div className="flex items-center justify-between p-4 rounded-xl border border-stone-200 bg-stone-50">
                 <div className="space-y-0.5">
-                  <p className="text-xs font-medium text-white">Featured Project</p>
-                  <p className="text-[10px] text-muted-foreground">Show on homepage</p>
+                  <p className="text-xs font-semibold text-stone-900">Featured Project</p>
+                  <p className="text-[10px] text-stone-500">Show on homepage</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setFormData(prev => ({ ...prev, featured: !prev.featured }))}
-                  className={`w-10 h-5 rounded-full transition-colors relative ${formData.featured ? 'bg-cinematic-orange' : 'bg-white/10'}`}
+                  className={`w-10 h-5 rounded-full transition-colors relative ${formData.featured ? 'bg-cinematic-orange' : 'bg-stone-300'}`}
                 >
                   <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${formData.featured ? 'left-6' : 'left-1'}`} />
                 </button>
@@ -328,38 +317,37 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
             </div>
           </section>
 
-          {/* SEO Preview Card */}
           {formData.title && (
-            <section className="rounded-3xl border border-green-500/20 bg-green-500/[0.03] p-6 space-y-3">
-              <h2 className="text-xs font-bold uppercase tracking-widest text-green-400/70 flex items-center gap-2">
+            <section className="rounded-3xl border border-emerald-300 bg-emerald-50/50 p-6 space-y-3 shadow-xs">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-emerald-800 flex items-center gap-2">
                 <span>🔍</span> Google Preview
               </h2>
               <div className="space-y-1">
-                <p className="text-[11px] text-blue-400 truncate">{`rollixmedia.vercel.app/portfolio/${slug}`}</p>
-                <p className="text-sm font-medium text-white leading-tight line-clamp-1">{formData.seo_title || `${formData.title} — Rollix Media Portfolio`}</p>
-                <p className="text-[11px] text-muted-foreground leading-relaxed line-clamp-2">{formData.seo_description}</p>
+                <p className="text-[11px] text-blue-600 truncate">{`rollixmedia.vercel.app/portfolio/${slug}`}</p>
+                <p className="text-sm font-semibold text-stone-900 leading-tight line-clamp-1">{formData.seo_title || `${formData.title} — Rollix Media Portfolio`}</p>
+                <p className="text-[11px] text-stone-600 leading-relaxed line-clamp-2">{formData.seo_description}</p>
               </div>
             </section>
           )}
 
-          <section className="rounded-3xl border border-white/[0.08] bg-white/[0.02] p-8 space-y-6">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Project Cover</h2>
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/[0.08] bg-black/40 group">
+          <section className="rounded-3xl border border-stone-200 bg-white p-8 space-y-6 shadow-xs">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-stone-600">Project Cover</h2>
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 group">
               {formData.thumbnail ? (
                 <>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={formData.thumbnail} alt="Project cover" className="h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                     <label className="cursor-pointer p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-cinematic-orange hover:text-black transition-all">
+                  <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                     <label className="cursor-pointer p-3 rounded-full bg-white text-stone-900 shadow-md hover:bg-cinematic-orange hover:text-white transition-all">
                        <Upload className="h-5 w-5" />
                        <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept="image/*" />
                      </label>
                   </div>
                 </>
               ) : (
-                <label className="absolute inset-0 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-white/[0.02] transition-colors">
-                  {uploading === 'thumbnail' ? <Loader2 className="h-6 w-6 animate-spin text-cinematic-orange" /> : <Upload className="h-6 w-6 text-muted-foreground/40" />}
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/40">Upload Thumbnail</span>
+                <label className="absolute inset-0 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-stone-50 transition-colors">
+                  {uploading === 'thumbnail' ? <Loader2 className="h-6 w-6 animate-spin text-cinematic-orange" /> : <Upload className="h-6 w-6 text-stone-400" />}
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Upload Thumbnail</span>
                   <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept="image/*" />
                 </label>
               )}
@@ -369,7 +357,7 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-2xl bg-cinematic-orange py-5 text-sm font-bold text-black transition-all hover:shadow-[0_0_30px_rgba(212,118,60,0.4)] disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full rounded-2xl bg-cinematic-orange py-5 text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
             {loading ? 'Saving...' : 'Save Changes'}

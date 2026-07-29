@@ -25,10 +25,10 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
   };
 
   return (
-    <section id="portfolio" className="relative bg-background overflow-hidden py-24 sm:py-32 lg:py-40">
+    <section id="portfolio" className="relative bg-background overflow-hidden py-12 sm:py-16 lg:py-20">
       <div className="absolute inset-0 pointer-events-none bg-background" aria-hidden="true" />
 
-      <Container size="wide" className="relative z-10 border-t border-border/60 pt-16 sm:pt-24 lg:pt-32">
+      <Container size="wide" className="relative z-10 border-t border-border/40 pt-6 sm:pt-8 lg:pt-10">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-8 items-start">
           
           {/* Left Column: Text & CTA */}

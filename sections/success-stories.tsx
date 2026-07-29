@@ -38,7 +38,7 @@ export function SuccessStoriesSection() {
       {/* Top border accent */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-border" />
 
-      <Container size="wide" className="relative z-10 py-24 sm:py-36">
+      <Container size="wide" className="relative z-10 py-12 sm:py-16 lg:py-20">
         {/* Section Header */}
         <motion.div
           variants={staggerContainer}

@@ -145,7 +145,6 @@ export default function VideoThumbnailPicker({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Transform Cloudinary URLs to ensure browser compatibility (H.264/WebM)
   const getPlayableSrc = (url: string) => {
     if (!url) return url;
     return url;
@@ -158,13 +157,13 @@ export default function VideoThumbnailPicker({
       {/* Header */}
       <div className="flex items-center gap-2">
         <Camera className="h-4 w-4 text-cinematic-orange" />
-        <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-stone-600">
           Pick Thumbnail from Video
         </span>
       </div>
 
       {/* Video Player */}
-      <div className="rounded-2xl overflow-hidden border border-white/[0.08] bg-black/60 backdrop-blur-sm">
+      <div className="rounded-2xl overflow-hidden border border-stone-200 bg-stone-900 shadow-xs">
         <div className="relative aspect-video">
           <video
             ref={videoRef}
@@ -182,15 +181,15 @@ export default function VideoThumbnailPicker({
             className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity"
           >
             {isPlaying ? (
-              <Pause className="h-12 w-12 text-white/80 drop-shadow-lg" />
+              <Pause className="h-12 w-12 text-white drop-shadow-lg" />
             ) : (
-              <Play className="h-12 w-12 text-white/80 drop-shadow-lg" />
+              <Play className="h-12 w-12 text-white drop-shadow-lg" />
             )}
           </button>
         </div>
 
         {/* Controls Bar */}
-        <div className="px-4 py-3 space-y-2 bg-white/[0.03] border-t border-white/[0.06]">
+        <div className="px-4 py-3 space-y-2 bg-stone-950 border-t border-stone-800 text-white">
           {/* Timeline Scrubber */}
           <div className="relative group">
             <input
@@ -211,7 +210,7 @@ export default function VideoThumbnailPicker({
               <button
                 type="button"
                 onClick={() => skipFrames(-0.5)}
-                className="p-1.5 rounded-lg hover:bg-white/[0.06] text-muted-foreground hover:text-white transition-all"
+                className="p-1.5 rounded-lg hover:bg-stone-800 text-stone-300 hover:text-white transition-all"
                 title="Back 0.5s"
               >
                 <SkipBack className="h-3.5 w-3.5" />
@@ -221,7 +220,7 @@ export default function VideoThumbnailPicker({
               <button
                 type="button"
                 onClick={togglePlay}
-                className="p-1.5 rounded-lg hover:bg-white/[0.06] text-muted-foreground hover:text-white transition-all"
+                className="p-1.5 rounded-lg hover:bg-stone-800 text-stone-300 hover:text-white transition-all"
               >
                 {isPlaying ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
               </button>
@@ -230,14 +229,14 @@ export default function VideoThumbnailPicker({
               <button
                 type="button"
                 onClick={() => skipFrames(0.5)}
-                className="p-1.5 rounded-lg hover:bg-white/[0.06] text-muted-foreground hover:text-white transition-all"
+                className="p-1.5 rounded-lg hover:bg-stone-800 text-stone-300 hover:text-white transition-all"
                 title="Forward 0.5s"
               >
                 <SkipForward className="h-3.5 w-3.5" />
               </button>
 
               {/* Time display */}
-              <span className="ml-2 text-[10px] font-mono text-muted-foreground/60">
+              <span className="ml-2 text-[10px] font-mono text-stone-400">
                 {formatTime(currentTime)} / {formatTime(duration)}
               </span>
             </div>
@@ -247,7 +246,7 @@ export default function VideoThumbnailPicker({
               type="button"
               onClick={captureFrame}
               disabled={capturing}
-              className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-cinematic-orange/10 hover:bg-cinematic-orange/20 border border-cinematic-orange/20 hover:border-cinematic-orange/40 text-cinematic-orange transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-4 py-1.5 rounded-xl bg-cinematic-orange text-white hover:bg-stone-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-bold"
             >
               {capturing ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -264,21 +263,21 @@ export default function VideoThumbnailPicker({
 
       {/* Captured preview */}
       {capturedPreview && !error && (
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-          <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-          <span className="text-[11px] text-emerald-300">
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800">
+          <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+          <span className="text-[11px] font-medium">
             Thumbnail captured successfully! Preview updated in &ldquo;Project Cover&rdquo;.
           </span>
         </div>
       )}
 
       {error && (
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20">
-          <span className="text-[11px] text-red-300">⚠ {error}</span>
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-red-700">
+          <span className="text-[11px] font-medium">⚠ {error}</span>
         </div>
       )}
 
-      {/* Hidden canvas for fallback frame capture (non-Cloudinary videos) */}
+      {/* Hidden canvas for fallback frame capture */}
       <canvas ref={canvasRef} className="hidden" />
     </div>
   );

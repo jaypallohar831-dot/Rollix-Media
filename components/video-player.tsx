@@ -3,7 +3,7 @@
 import { useRef, useState, useCallback, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Maximize2, Volume2, VolumeX } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, getOptimizedVideoUrl } from '@/lib/utils';
 
 interface VideoPlayerProps {
   src: string;
@@ -85,17 +85,8 @@ export const VideoPlayer = memo(function VideoPlayer({
     }, 2500);
   }, [isPlaying]);
 
-  // Transform Cloudinary URLs to ensure browser compatibility (H.264/WebM)
   const getPlayableSrc = (url: string) => {
-    if (!url || !url.includes('res.cloudinary.com') || !url.includes('/video/upload/')) {
-      return url;
-    }
-    // If it already has transformations, just return it (or we could inject, but let's keep it simple)
-    if (url.includes('/q_') || url.includes('/f_') || url.includes('/vc_')) {
-      return url;
-    }
-    // Inject q_auto,f_auto
-    return url.replace('/video/upload/', '/video/upload/q_auto,f_auto/');
+    return url;
   };
 
   const playableSrc = getPlayableSrc(src);
@@ -112,7 +103,7 @@ export const VideoPlayer = memo(function VideoPlayer({
     >
       <video
         ref={videoRef}
-        src={playableSrc}
+        src={getOptimizedVideoUrl(playableSrc, true)}
         poster={poster}
         muted={isMuted}
         autoPlay={autoPlay}
@@ -120,6 +111,12 @@ export const VideoPlayer = memo(function VideoPlayer({
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onClick={togglePlay}
+        onError={(e) => {
+          const target = e.currentTarget;
+          if (!target.src.includes('/assets/loader-bg.mp4')) {
+            target.src = '/assets/loader-bg.mp4';
+          }
+        }}
         className={cn(
           'absolute inset-0 h-full w-full cursor-pointer',
           objectFit === 'contain' ? 'object-contain' : 'object-cover'

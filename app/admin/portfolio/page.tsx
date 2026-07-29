@@ -14,92 +14,92 @@ export default async function AdminPortfolioPage() {
     .order('created_at', { ascending: false });
 
   return (
-    <div style={{color:'#fff'}} className="space-y-10 pb-20">
+    <div className="space-y-10 pb-20 text-stone-900">
 
-      <div style={{background:'rgba(255,255,255,0.03)',border:'1px solid rgba(255,255,255,0.1)',borderRadius:'1.5rem',padding:'2rem',display:'flex',alignItems:'center',justifyContent:'space-between',flexWrap:'wrap',gap:'1rem'}}>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
         <div>
-          <h1 style={{fontSize:'2rem',fontWeight:300,color:'#ffffff',margin:0}}>
-            Portfolio <span style={{color:'#d4763c',fontStyle:'italic'}}>Vault</span>
+          <h1 className="font-heading text-4xl font-light tracking-tight text-stone-900">
+            Portfolio <span className="text-gradient-warm italic font-medium">Vault</span>
           </h1>
-          <p style={{marginTop:'0.5rem',color:'#a8a29e',margin:'0.5rem 0 0'}}>
+          <p className="mt-2 text-stone-500 font-light tracking-wide">
             You have{' '}
-            <span style={{color:'#fff',fontWeight:600}}>{projects?.length ?? 0}</span>
+            <span className="text-stone-900 font-semibold">{projects?.length ?? 0}</span>
             {' '}published works.
           </p>
         </div>
         <Link
           href="/admin/portfolio/new"
-          style={{display:'flex',alignItems:'center',gap:'0.5rem',background:'#d4763c',color:'#000',padding:'0.75rem 1.5rem',borderRadius:'0.75rem',fontWeight:700,fontSize:'0.875rem',textDecoration:'none'}}
+          className="flex items-center gap-2 rounded-xl bg-cinematic-orange px-6 py-3 text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02]"
         >
-          <Plus style={{width:'1rem',height:'1rem'}} />
+          <Plus className="h-4 w-4" />
           Add New Project
         </Link>
       </div>
 
       {error && (
-        <div style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.3)',borderRadius:'1rem',padding:'1.5rem',color:'#f87171'}}>
+        <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
           <strong>Error:</strong> {error.message}
         </div>
       )}
 
-      <div style={{borderRadius:'1.5rem',border:'1px solid rgba(255,255,255,0.1)',overflow:'hidden'}}>
+      <div className="rounded-3xl border border-stone-200 bg-white shadow-xs overflow-hidden">
         {projects && projects.length > 0 ? (
-          <table style={{width:'100%',borderCollapse:'collapse'}}>
+          <table className="w-full border-collapse">
             <thead>
-              <tr style={{background:'rgba(255,255,255,0.04)'}}>
-                <th style={{padding:'1rem 1.5rem',textAlign:'left',color:'#78716c',fontSize:'0.7rem',textTransform:'uppercase',letterSpacing:'0.1em'}}>Preview</th>
-                <th style={{padding:'1rem 1.5rem',textAlign:'left',color:'#78716c',fontSize:'0.7rem',textTransform:'uppercase',letterSpacing:'0.1em'}}>Project Details</th>
-                <th style={{padding:'1rem 1.5rem',textAlign:'left',color:'#78716c',fontSize:'0.7rem',textTransform:'uppercase',letterSpacing:'0.1em'}}>Category</th>
-                <th style={{padding:'1rem 1.5rem',textAlign:'right',color:'#78716c',fontSize:'0.7rem',textTransform:'uppercase',letterSpacing:'0.1em'}}>Actions</th>
+              <tr className="bg-stone-50 border-b border-stone-200">
+                <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-wider text-stone-500">Preview</th>
+                <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-wider text-stone-500">Project Details</th>
+                <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-wider text-stone-500">Category</th>
+                <th className="px-6 py-4 text-right text-[10px] font-bold uppercase tracking-wider text-stone-500">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-stone-100">
               {projects.map((project) => (
-                <tr key={project.id} style={{borderTop:'1px solid rgba(255,255,255,0.06)'}}>
+                <tr key={project.id} className="hover:bg-stone-50/50 transition-colors">
 
-                  <td style={{padding:'1.25rem 1.5rem'}}>
-                    <div style={{width:'5rem',height:'3.5rem',borderRadius:'0.5rem',overflow:'hidden',border:'1px solid rgba(255,255,255,0.1)',background:'#111'}}>
+                  <td className="px-6 py-4">
+                    <div className="h-14 w-20 rounded-lg overflow-hidden border border-stone-200 bg-stone-100 relative">
                       {project.thumbnail ? (
                         /* eslint-disable-next-line @next/next/no-img-element */
-                        <img src={project.thumbnail} alt={project.title} style={{width:'100%',height:'100%',objectFit:'cover'}} />
+                        <img src={project.thumbnail} alt={project.title} className="h-full w-full object-cover" />
                       ) : (
-                        <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}>
-                          <ImageIcon style={{width:'1rem',height:'1rem',color:'#57534e'}} />
+                        <div className="flex h-full w-full items-center justify-center text-stone-400">
+                          <ImageIcon className="h-4 w-4" />
                         </div>
                       )}
                     </div>
                   </td>
 
-                  <td style={{padding:'1.25rem 1.5rem'}}>
-                    <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
-                      <span style={{color:'#ffffff',fontWeight:600,fontSize:'1rem'}}>{project.title}</span>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-stone-900 text-base">{project.title}</span>
                       {project.featured && (
-                        <Star style={{width:'0.75rem',height:'0.75rem',fill:'#d4763c',color:'#d4763c'}} />
+                        <Star className="h-3.5 w-3.5 fill-cinematic-orange text-cinematic-orange" />
                       )}
                     </div>
-                    <div style={{marginTop:'0.3rem',display:'flex',alignItems:'center',gap:'0.5rem'}}>
-                      <span style={{color:'#fb923c',fontSize:'0.8rem'}}>{project.slug}</span>
-                      <span style={{color: project.status === 'published' ? '#4ade80' : '#facc15',fontSize:'0.75rem',background: project.status === 'published' ? 'rgba(20,83,45,0.4)' : 'rgba(113,63,18,0.4)',padding:'0.1rem 0.5rem',borderRadius:'0.25rem'}}>
+                    <div className="mt-1 flex items-center gap-2">
+                      <span className="text-xs text-cinematic-orange font-medium">{project.slug}</span>
+                      <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${project.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
                         {project.status}
                       </span>
                     </div>
                   </td>
 
-                  <td style={{padding:'1.25rem 1.5rem'}}>
-                    <span style={{color:'#a8a29e',fontSize:'0.75rem',textTransform:'uppercase',letterSpacing:'0.05em'}}>
+                  <td className="px-6 py-4">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-stone-500">
                       {project.categories?.title || 'Uncategorized'}
                     </span>
                   </td>
 
-                  <td style={{padding:'1.25rem 1.5rem',textAlign:'right'}}>
-                    <div style={{display:'flex',alignItems:'center',justifyContent:'flex-end',gap:'0.25rem'}}>
-                      <Link href={`/admin/portfolio/${project.slug}`} style={{padding:'0.5rem',borderRadius:'0.5rem',color:'#a8a29e',display:'inline-flex'}}>
-                        <Pencil style={{width:'1rem',height:'1rem'}} />
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <Link href={`/admin/portfolio/${project.slug}`} className="p-2 rounded-lg text-stone-500 hover:bg-stone-100 hover:text-stone-900 transition-colors">
+                        <Pencil className="h-4 w-4" />
                       </Link>
                       <ProjectStatusToggle projectId={project.id} currentStatus={project.status} />
                       <DeleteProjectButton projectId={project.id} projectTitle={project.title} />
-                      <Link href={`/portfolio/${project.slug}`} target="_blank" style={{padding:'0.5rem',borderRadius:'0.5rem',color:'#a8a29e',display:'inline-flex'}}>
-                        <ExternalLink style={{width:'1rem',height:'1rem'}} />
+                      <Link href={`/portfolio/${project.slug}`} target="_blank" className="p-2 rounded-lg text-stone-500 hover:bg-stone-100 hover:text-stone-900 transition-colors">
+                        <ExternalLink className="h-4 w-4" />
                       </Link>
                     </div>
                   </td>
@@ -109,10 +109,10 @@ export default async function AdminPortfolioPage() {
             </tbody>
           </table>
         ) : (
-          <div style={{display:'flex',flexDirection:'column',alignItems:'center',padding:'5rem',textAlign:'center'}}>
-            <Film style={{width:'3rem',height:'3rem',color:'#57534e',marginBottom:'1rem'}} />
-            <h3 style={{color:'#ffffff',margin:'0 0 0.5rem'}}>Vault is Empty</h3>
-            <p style={{color:'#a8a29e',margin:0}}>No projects yet.</p>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <Film className="h-12 w-12 text-stone-300 mb-4" />
+            <h3 className="text-stone-900 font-heading text-xl mb-1">Vault is Empty</h3>
+            <p className="text-stone-500 text-sm">No projects yet.</p>
           </div>
         )}
       </div>

@@ -55,10 +55,10 @@ interface SectionProps {
 
 const sectionSpacing = {
   none: '',
-  sm: 'py-16 sm:py-20',
-  md: 'py-20 sm:py-28 lg:py-32',
-  lg: 'py-28 sm:py-36 lg:py-44',
-  xl: 'py-36 sm:py-44 lg:py-56',
+  sm: 'py-8 sm:py-12',
+  md: 'py-12 sm:py-16',
+  lg: 'py-14 sm:py-20',
+  xl: 'py-16 sm:py-24',
 };
 
 export function Section({

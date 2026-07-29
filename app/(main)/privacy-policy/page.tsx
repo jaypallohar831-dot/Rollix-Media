@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">4. Third-Party Services</h2>
-              <p>We use Cloudinary for media hosting, Supabase for data storage, and Vercel for hosting. These services have their own privacy policies which govern how they handle your data.</p>
+              <p>We use Supabase for media and data storage, and Vercel for hosting. These services have their own privacy policies which govern how they handle your data.</p>
             </section>
 
             <section>

@@ -31,7 +31,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
   const current = testimonials[currentIndex];
 
   return (
-    <section className="relative overflow-hidden bg-background py-28 sm:py-36">
+    <section className="relative overflow-hidden bg-background py-12 sm:py-16 lg:py-20">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none bg-background overflow-hidden" />
 

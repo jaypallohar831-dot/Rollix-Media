@@ -25,12 +25,12 @@ const PILLARS = [
 export function PhilosophySection() {
   return (
     <section
-      className="relative overflow-hidden bg-background py-24 sm:py-32 lg:py-40"
+      className="relative overflow-hidden bg-background py-12 sm:py-16 lg:py-20"
       aria-label="Brand Philosophy"
     >
       <div className="absolute inset-0 pointer-events-none bg-background" aria-hidden="true" />
 
-      <Container size="wide" className="relative z-10 border-t border-border/60 pt-16 sm:pt-24 lg:pt-32">
+      <Container size="wide" className="relative z-10 border-t border-border/40 pt-6 sm:pt-8 lg:pt-10">
         <motion.div
           variants={staggerContainer}
           initial="initial"

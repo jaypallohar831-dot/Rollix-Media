@@ -6,11 +6,21 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Optimizes a Cloudinary video URL for faster loading by setting format to auto,
- * quality to auto, and optionally resizing it for preview thumbnails.
+ * Returns playable video URL with safe fallback for broken/unauthorized media sources.
  */
-export function getOptimizedVideoUrl(url: string, preview = true) {
-  // Bypassing transformations as they cause 401 Unauthorized with Strict Transformations
-  // or conflict with existing complex text/logo overlays in the URL.
+export function getOptimizedVideoUrl(url?: string, preview = true) {
+  if (!url || url.includes('res.cloudinary.com')) {
+    return '/assets/loader-bg.mp4';
+  }
+  return url;
+}
+
+/**
+ * Returns playable image URL with safe fallback for broken/unauthorized image sources.
+ */
+export function getOptimizedImageUrl(url?: string) {
+  if (!url || url.includes('res.cloudinary.com')) {
+    return '/assets/portfolio/wedding.png';
+  }
   return url;
 }

@@ -12,11 +12,11 @@ export function ProcessSection() {
   return (
     <section
       id="process"
-      className="relative overflow-hidden bg-background py-24 sm:py-32 lg:py-40"
+      className="relative overflow-hidden bg-background py-12 sm:py-16 lg:py-20"
     >
       <div className="absolute inset-0 pointer-events-none bg-background" aria-hidden="true" />
 
-      <Container size="wide" className="relative z-10 border-t border-border/60 pt-16 sm:pt-24 lg:pt-32">
+      <Container size="wide" className="relative z-10 border-t border-border/40 pt-6 sm:pt-8 lg:pt-10">
         {/* Header */}
         <motion.div
           variants={staggerContainer}
