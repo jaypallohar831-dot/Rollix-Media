@@ -39,7 +39,7 @@ export const NavLink = memo(function NavLink({ href, label, isActive, onClick }:
 
       {/* Hover line (only when not active) */}
       {!isActive && (
-        <span className="absolute -bottom-0.5 left-0 h-[1px] w-0 bg-white/20 transition-[width] duration-500 group-hover:w-full" />
+        <span className="absolute -bottom-0.5 left-0 h-[1px] w-0 bg-border transition-[width] duration-500 group-hover:w-full" />
       )}
     </Link>
   );

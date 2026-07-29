@@ -15,6 +15,9 @@ import {
 import { Play, ChevronLeft, ChevronRight, ArrowRight, Loader2 } from 'lucide-react';
 import { portfolioService } from '@/services/portfolio.service';
 import type { PortfolioProject } from '@/services/portfolio.service';
+import dynamic from 'next/dynamic';
+
+const ProcessSection = dynamic(() => import('@/sections/process').then(m => ({ default: m.ProcessSection })));
 
 /* ─────────────────────────────────────────
    HERO CAROUSEL  (TWF-style full-width slider)
@@ -69,6 +72,7 @@ function HeroCarousel({ items }: { items: PortfolioItem[] }) {
             alt={item.title}
             fill
             priority
+            unoptimized={item.image.startsWith('http')}
             className="object-cover"
             sizes="100vw"
             quality={80}
@@ -181,14 +185,14 @@ function FilmRow({
         <div className="flex items-center gap-2">
           <button
             onClick={() => scroll('left')}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.15] text-foreground/70 transition-all hover:border-white/30 hover:text-foreground"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/70 transition-all hover:border-cinematic-orange hover:text-cinematic-orange"
             aria-label="Scroll left"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/[0.15] text-foreground/70 transition-all hover:border-white/30 hover:text-foreground"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/70 transition-all hover:border-cinematic-orange hover:text-cinematic-orange"
             aria-label="Scroll right"
           >
             <ChevronRight className="h-4 w-4" />
@@ -204,7 +208,7 @@ function FilmRow({
         {items.map((item) => (
           <div
             key={item.id}
-            className="w-[280px] flex-shrink-0 sm:w-[340px] lg:w-[400px]"
+            className="w-[240px] flex-shrink-0 sm:w-[300px] lg:w-[340px]"
           >
             <FilmCard item={item} />
           </div>
@@ -319,9 +323,9 @@ export default function PortfolioPage() {
   const featuredItems = useMemo(() => items.filter(i => i.featured), [items]);
 
   return (
-    <main className="relative min-h-screen bg-[#030303]">
+    <main className="relative min-h-screen bg-background">
       {/* Ambient background */}
-      <div className="absolute inset-0 pointer-events-none fixed inset-0 z-0" aria-hidden="true">
+      <div className="absolute inset-0 pointer-events-none fixed z-0" aria-hidden="true">
         <div
           className="absolute inset-0 opacity-25"
           style={{
@@ -360,7 +364,7 @@ export default function PortfolioPage() {
                   className={`rounded-full border px-4 py-2 text-[10px] font-medium uppercase tracking-[0.18em] transition-all duration-300 sm:text-[11px] ${
                     activeCategory === cat
                       ? 'border-cinematic-orange/60 bg-cinematic-orange/20 text-cinematic-orange shadow-[0_0_15px_rgba(212,118,60,0.3)]'
-                      : 'border-white/[0.15] text-foreground/80 hover:border-white/[0.3] hover:text-white'
+                      : 'border-border/60 text-foreground/80 hover:border-border hover:text-foreground'
                   }`}
                 >
                   {cat}
@@ -388,17 +392,28 @@ export default function PortfolioPage() {
                       <HeroCarousel items={featuredItems} />
                     </div>
 
+                    <div className="mb-12 mt-8 flex flex-col items-center">
+                      <h2 className="font-heading text-3xl font-normal uppercase tracking-[0.1em] text-foreground sm:text-4xl">
+                        Our Projects
+                      </h2>
+                      <div className="mt-4 h-[1px] w-24 bg-gradient-to-r from-transparent via-cinematic-orange to-transparent opacity-50" />
+                    </div>
+
                     <div>
-                      <FilmRow label="Trending Now" items={trendingItems} />
-                      <FilmRow label="Featured Projects" items={featuredItems} />
-                      <FilmRow label="Our Classics" items={classicsItems} />
+                      {PORTFOLIO_CATEGORIES.filter(c => c !== 'All').map(category => {
+                        const catItems = items.filter(item => item.category === category);
+                        if (catItems.length === 0) return null;
+                        return (
+                          <FilmRow key={category} label={category} items={catItems} />
+                        );
+                      })}
                     </div>
 
                     <div
                       className="my-8 h-[1px] w-full sm:my-12"
                       style={{
                         background:
-                          'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%)',
+                          'linear-gradient(90deg, transparent 0%, hsl(var(--border)) 50%, transparent 100%)',
                       }}
                     />
 
@@ -425,8 +440,11 @@ export default function PortfolioPage() {
           )}
         </Container>
 
+        {/* ── PROCESS / STRATEGY SECTION ── */}
+        <ProcessSection />
+
         {/* ── BOTTOM CTA ── */}
-        <div className="border-t border-white/[0.04] bg-[#050505] py-20 sm:py-28">
+        <div className="border-t border-border/60 bg-background py-20 sm:py-28">
           <Container>
             <div className="text-center">
               <span className="mb-5 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80">

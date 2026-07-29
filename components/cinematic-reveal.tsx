@@ -52,10 +52,10 @@ export function CinematicReveal({ imageSrc, alt, priority = false, founders, chi
       ref={containerRef}
       className="relative w-full h-[60vh] sm:h-[80vh] overflow-hidden my-24 sm:my-32 rounded-xl sm:rounded-2xl"
     >
-      {/* ── Parallax image layer ── */}
+      {/* ── Image layer ── */}
       <motion.div
         className="absolute inset-0 w-full h-full"
-        style={{ scale, opacity, y }}
+        style={{ scale, opacity }}
       >
         <Image
           src={imageSrc}
@@ -66,9 +66,10 @@ export function CinematicReveal({ imageSrc, alt, priority = false, founders, chi
           quality={80}
           sizes="(max-width: 640px) 100vw, 80vw"
         />
-        {/* Cinematic dark overlay */}
-        <div className="absolute inset-0 bg-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/30" />
+        {/* Very light overlay to ensure text is readable if there are founders */}
+        {founders && founders.length > 0 && (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+        )}
       </motion.div>
 
       {/* ── Founder name overlays ── */}

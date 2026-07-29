@@ -73,54 +73,28 @@ export default function NewPortfolioPage() {
     setUploading(type);
     
     try {
-      const sigRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ folder: type === 'video' ? 'videos' : 'portfolio' })
-      });
-      const sigData = await sigRes.json();
-      
-      if (!sigData.success) {
-        throw new Error(sigData.error || 'Failed to get upload signature');
+      const folder = type === 'video' ? 'videos' : 'portfolio';
+      const ext = file.name.split('.').pop();
+      const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+
+      const { data, error } = await supabase.storage
+        .from('media')
+        .upload(filename, file, { cacheControl: '3600', upsert: false });
+
+      if (error) {
+        throw new Error(error.message);
       }
 
-      const uploadData = new FormData();
-      uploadData.append('api_key', sigData.apiKey);
-      uploadData.append('timestamp', sigData.timestamp);
-      uploadData.append('signature', sigData.signature);
-      uploadData.append('folder', sigData.folder);
-      uploadData.append('file', file);
+      const { data: { publicUrl } } = supabase.storage
+        .from('media')
+        .getPublicUrl(data.path);
 
-      const resourceType = type === 'video' ? 'video' : 'auto';
-      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloudName}/${resourceType}/upload`, {
-        method: 'POST',
-        body: uploadData
-      });
-      const uploadResult = await uploadRes.json();
-
-      if (uploadResult.error) {
-        throw new Error(uploadResult.error.message || 'Cloudinary upload failed');
-      }
-
-      if (uploadResult.secure_url) {
-        let finalUrl = uploadResult.secure_url;
-        
-        // Apply Rollix Media watermark and Project Title in the center for videos
-        if (type === 'video') {
-          const safeTitle = encodeURIComponent(formData.title || 'Rollix Media Project')
-            .replace(/%2C/gi, '%252C')
-            .replace(/%2F/gi, '%252F');
-          const watermarkTransform = `l_rollix_logo/c_scale,w_300/fl_layer_apply,g_center,y_-35/l_text:Playfair%20Display_50_bold_center:${safeTitle},c_fit,w_300,co_white/fl_layer_apply,g_center,y_105`;
-          finalUrl = finalUrl.replace('/upload/', `/upload/${watermarkTransform}/`);
-        }
-
-        if (type === 'thumbnail') {
-          setFormData(prev => ({ ...prev, thumbnail: finalUrl }));
-        } else if (type === 'gallery') {
-          setFormData(prev => ({ ...prev, gallery_images: [...prev.gallery_images, finalUrl] }));
-        } else if (type === 'video') {
-          setFormData(prev => ({ ...prev, video_url: finalUrl }));
-        }
+      if (type === 'thumbnail') {
+        setFormData(prev => ({ ...prev, thumbnail: publicUrl }));
+      } else if (type === 'gallery') {
+        setFormData(prev => ({ ...prev, gallery_images: [...prev.gallery_images, publicUrl] }));
+      } else if (type === 'video') {
+        setFormData(prev => ({ ...prev, video_url: publicUrl }));
       }
     } catch (err) {
       console.error('Upload failed:', err);

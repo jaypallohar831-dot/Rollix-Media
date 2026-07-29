@@ -71,20 +71,11 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
           exit="closed"
         >
           {/* Background — solid opaque, no blur */}
-          <div className="absolute inset-0 bg-[#050505]/[0.98]" />
-
-          {/* Subtle warm glow */}
-          <div
-            className="absolute inset-0 opacity-20 pointer-events-none"
-            style={{
-              background:
-                'radial-gradient(ellipse 50% 40% at 50% 80%, rgba(212,118,60,0.08) 0%, transparent 70%)',
-            }}
-          />
+          <div className="absolute inset-0 bg-background" />
 
           {/* Close button */}
           <motion.button
-            className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.08] text-foreground transition-colors duration-300 hover:border-cinematic-orange/40 hover:text-cinematic-orange sm:right-10 sm:top-10 cursor-pointer"
+            className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 hover:border-cinematic-orange hover:text-cinematic-orange sm:right-10 sm:top-10 cursor-pointer"
             onClick={onClose}
             initial={{ opacity: 0, rotate: -90 }}
             animate={{ opacity: 1, rotate: 0 }}
@@ -137,7 +128,7 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
 
             {/* Separator line */}
             <motion.div
-              className="mt-6 h-[1px] w-16 origin-center bg-white/[0.08]"
+              className="mt-6 h-[1px] w-16 origin-center bg-border"
               variants={lineVariants}
             />
 
@@ -154,7 +145,7 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
 
           {/* Footer info */}
           <motion.div
-            className="relative z-10 flex items-center justify-between border-t border-white/[0.04] px-6 py-6 sm:px-10"
+            className="relative z-10 flex items-center justify-between border-t border-border px-6 py-6 sm:px-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

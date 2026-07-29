@@ -74,7 +74,7 @@ export function Section({
       className={cn(
         'relative w-full',
         sectionSpacing[spacing],
-        withBackground && 'bg-[#050505]',
+        withBackground && 'bg-[#F5F5F5]',
         className
       )}
     >
@@ -115,7 +115,7 @@ export function SectionHeader({
     return (
       <>
         {parts[0]}
-        <span className="text-gradient-warm italic">{highlight}</span>
+        <span className="text-cinematic-orange italic">{highlight}</span>
         {parts[1]}
       </>
     );
@@ -130,7 +130,7 @@ export function SectionHeader({
       )}
     >
       {eyebrow && (
-        <span className="mb-5 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80 sm:mb-6">
+        <span className="mb-5 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange sm:mb-6">
           <span className="h-[1px] w-6 bg-cinematic-orange/40" />
           {eyebrow}
         </span>
@@ -138,7 +138,7 @@ export function SectionHeader({
 
       <h2
         className={cn(
-          'font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1] tracking-[-0.02em] text-foreground',
+          'font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1.1] tracking-[-0.02em] text-foreground',
           align === 'center' && 'mx-auto max-w-[800px]'
         )}
       >
@@ -172,7 +172,7 @@ export function Divider({ className, variant = 'gradient' }: DividerProps) {
   if (variant === 'dot') {
     return (
       <div className={cn('flex items-center justify-center py-4', className)}>
-        <span className="h-1 w-1 rounded-full bg-cinematic-orange/40" />
+        <span className="h-1 w-1 rounded-full bg-border" />
       </div>
     );
   }
@@ -180,7 +180,7 @@ export function Divider({ className, variant = 'gradient' }: DividerProps) {
   if (variant === 'line') {
     return (
       <div className={cn('mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-16', className)}>
-        <div className="h-[1px] w-full bg-white/[0.04]" />
+        <div className="h-[1px] w-full bg-border" />
       </div>
     );
   }
@@ -191,7 +191,7 @@ export function Divider({ className, variant = 'gradient' }: DividerProps) {
         className="h-[1px] w-full"
         style={{
           background:
-            'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%)',
+            'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.06) 50%, transparent 100%)',
         }}
       />
     </div>

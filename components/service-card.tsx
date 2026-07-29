@@ -1,10 +1,8 @@
 'use client';
 
 import { memo } from 'react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ArrowUpRight } from 'lucide-react';
-import { fadeUp } from '@/animations/variants';
 import type { LucideIcon } from 'lucide-react';
 import Link from 'next/link';
 import { toolIconMap } from '@/lib/tool-icons';
@@ -43,20 +41,13 @@ export const ServiceCard = memo(function ServiceCard({
   tools,
 }: ServiceCardProps) {
   return (
-    <motion.div
-      variants={fadeUp}
-      whileHover={{ 
-        y: -5,
-        rotateX: 2,
-        rotateY: -2,
-        transition: { duration: 0.4, ease: 'easeOut' } 
-      }}
+    <div
       className={cn(
-        'group relative flex cursor-pointer overflow-hidden rounded-2xl border transition-[border-color,background-color] duration-500 [transform-style:preserve-3d] [perspective:1000px]',
-        // Base glass surface
-        'border-white/[0.06] bg-white/[0.015]',
-        // Hover state
-        'hover:border-white/[0.12] hover:bg-white/[0.03]',
+        'group relative flex cursor-pointer overflow-hidden rounded-2xl border transition-[border-color,background-color,transform] duration-500',
+        // Base solid surface
+        'border-border bg-white shadow-sm',
+        // Hover state — pure CSS 3D tilt
+        'hover:border-cinematic-orange/40 hover:shadow-md hover:-translate-y-1',
         // Layout
         featured
           ? 'flex-col justify-between p-8 sm:p-10 lg:p-12'
@@ -68,25 +59,6 @@ export const ServiceCard = memo(function ServiceCard({
         <span className="sr-only">View {title}</span>
       </Link>
 
-      {/* Ambient hover glow — very subtle warm glow on hover */}
-      <div
-        className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"
-        style={{
-          background: featured
-            ? 'radial-gradient(ellipse 60% 60% at 30% 70%, rgba(212,118,60,0.06) 0%, transparent 70%)'
-            : 'radial-gradient(ellipse 70% 70% at 50% 100%, rgba(212,118,60,0.04) 0%, transparent 70%)',
-        }}
-      />
-
-      {/* Top edge gradient line */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[1px] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(212,118,60,0.2) 50%, transparent 100%)',
-        }}
-      />
-
       {/* Content */}
       <div className="relative z-10 pointer-events-none">
         {/* Header: index + icon */}
@@ -96,7 +68,7 @@ export const ServiceCard = memo(function ServiceCard({
           </span>
           <Icon
             className={cn(
-              'text-white/[0.2] transition-colors duration-500 group-hover:text-cinematic-orange/60',
+              'text-muted-foreground transition-colors duration-500 group-hover:text-cinematic-orange',
               featured ? 'h-8 w-8 sm:h-10 sm:w-10' : 'h-6 w-6 sm:h-7 sm:w-7'
             )}
             strokeWidth={1}
@@ -118,7 +90,7 @@ export const ServiceCard = memo(function ServiceCard({
         {/* Description */}
         <p
           className={cn(
-            'mt-3 leading-relaxed text-foreground/80 transition-colors duration-500 group-hover:text-foreground sm:mt-4',
+            'mt-3 leading-relaxed text-muted-foreground transition-colors duration-500 group-hover:text-foreground sm:mt-4',
             featured
               ? 'max-w-[380px] text-[15px] sm:text-base'
               : 'text-[13px] sm:text-[14px]'
@@ -135,16 +107,9 @@ export const ServiceCard = memo(function ServiceCard({
               return (
                 <div 
                   key={idx}
-                  className="group/tool relative flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 transition-[transform,border-color] duration-300 hover:scale-110 hover:border-white/20"
-                  style={{ 
-                    boxShadow: `0 4px 12px ${tool.color}15`,
-                  }}
+                  className="group/tool relative flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-white transition-transform duration-300 hover:scale-110 shadow-sm"
                   title={tool.name}
                 >
-                  <div
-                    className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover/tool:opacity-30 blur-md rounded-full"
-                    style={{ backgroundColor: tool.color }}
-                  />
                   <ToolIcon 
                     className="relative z-10 h-4 w-4 transition-colors duration-300" 
                     style={{ color: tool.color }}
@@ -156,13 +121,12 @@ export const ServiceCard = memo(function ServiceCard({
         )}
       </div>
 
-      {/* Footer: directional arrow */}
       <div className="relative z-10 mt-8 flex items-center justify-between sm:mt-10 pointer-events-none">
-        <div className="h-[1px] flex-1 bg-white/[0.08] transition-colors duration-500 group-hover:bg-white/[0.15]" />
-        <div className="ml-4 flex h-8 w-8 items-center justify-center rounded-full border border-white/[0.15] transition-[border-color,background-color] duration-500 group-hover:border-cinematic-orange/60 group-hover:bg-cinematic-orange/10 sm:h-9 sm:w-9">
-          <ArrowUpRight className="h-3.5 w-3.5 text-foreground/70 transition-[color,transform] duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cinematic-orange sm:h-4 sm:w-4" />
+        <div className="h-[1px] flex-1 bg-border transition-colors duration-500" />
+        <div className="ml-4 flex h-8 w-8 items-center justify-center rounded-full border border-border transition-[border-color,background-color] duration-500 group-hover:border-cinematic-orange group-hover:bg-cinematic-orange/10 sm:h-9 sm:w-9">
+          <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground transition-[color,transform] duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cinematic-orange sm:h-4 sm:w-4" />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 });

@@ -45,7 +45,7 @@ export const CinematicButton = memo(function CinematicButton({
     ),
     outline: cn(
       baseStyles,
-      'border border-white/[0.12] text-foreground hover:border-white/[0.25] hover:bg-white/[0.03]',
+      'border border-border text-foreground hover:border-cinematic-orange hover:text-cinematic-orange hover:bg-cinematic-orange/5',
       className
     ),
   };
@@ -60,10 +60,7 @@ export const CinematicButton = memo(function CinematicButton({
       whileHover={buttonHover}
       whileTap={buttonTap}
     >
-      {/* Inner glow on hover for primary */}
-      {variant === 'primary' && (
-        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      )}
+      {/* Inner glow removed for minimal theme */}
 
       <span className="relative z-10 flex items-center gap-2.5">
         {children}

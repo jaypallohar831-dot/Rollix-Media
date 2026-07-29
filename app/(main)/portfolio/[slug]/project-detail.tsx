@@ -89,6 +89,7 @@ export function ProjectDetail({ item, relatedItems, slug }: Props) {
                   alt={item.title}
                   fill
                   priority
+                  unoptimized={item.image.startsWith('http')}
                   className="object-cover"
                   sizes="100vw"
                   quality={80}
@@ -286,6 +287,7 @@ export function ProjectDetail({ item, relatedItems, slug }: Props) {
                         src={g.src}
                         alt={g.alt || item.title}
                         fill
+                        unoptimized={g.src.startsWith('http')}
                         className="object-cover transition-transform duration-700 hover:scale-[1.03]"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         quality={80}

@@ -75,19 +75,10 @@ export function ServicesSection() {
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-[#050505] py-28 sm:py-36 lg:py-44"
+      className="relative overflow-hidden bg-background py-28 sm:py-36 lg:py-44"
     >
-      {/* Ambient background */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            background:
-              'radial-gradient(ellipse 50% 40% at 70% 30%, rgba(212,118,60,0.05) 0%, transparent 70%)',
-          }}
-        />
-        <div className="grain-overlay absolute inset-0" />
-      </div>
+      {/* Clean minimal background */}
+      <div className="absolute inset-0 pointer-events-none bg-background" aria-hidden="true" />
 
       <Container size="wide" className="relative z-10">
         {/* Section header */}
@@ -95,12 +86,12 @@ export function ServicesSection() {
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
-          viewport={{ once: true, margin: '-10%' }}
+          viewport={{ once: false, margin: '-10%' }}
           className="mb-16 sm:mb-20 lg:mb-24"
         >
           <motion.div variants={fadeIn} className="mb-5 sm:mb-6">
-            <span className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80">
-              <span className="h-[1px] w-6 bg-cinematic-orange/40" />
+            <span className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange">
+              <span className="h-[1px] w-6 bg-cinematic-orange" />
               Our Expertise
             </span>
           </motion.div>
@@ -111,12 +102,12 @@ export function ServicesSection() {
               className="font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1] tracking-[-0.02em] text-foreground"
             >
               Growth &{' '}
-              <span className="text-gradient-warm italic">Production</span>
+              <span className="text-cinematic-orange italic">Production</span>
             </motion.h2>
 
             <motion.p
               variants={fadeUp}
-              className="max-w-[420px] text-base leading-relaxed text-foreground/90 lg:text-right"
+              className="max-w-[420px] text-base leading-relaxed text-muted-foreground lg:text-right"
             >
               We engineer strategic digital ecosystems and cinematic content 
               that turn your vision into market-leading reality.
@@ -205,15 +196,15 @@ export function ServicesSection() {
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mt-16 flex items-center justify-center gap-5 sm:mt-20"
         >
-          <div className="h-[1px] w-10 bg-gradient-to-r from-transparent to-white/[0.15]" />
-          <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-foreground/60">
+          <div className="h-[1px] w-10 bg-gradient-to-r from-transparent to-border" />
+          <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground">
             {services.length} Disciplines · One Vision
           </span>
-          <div className="h-[1px] w-10 bg-gradient-to-l from-transparent to-white/[0.15]" />
+          <div className="h-[1px] w-10 bg-gradient-to-l from-transparent to-border" />
         </motion.div>
       </Container>
     </section>

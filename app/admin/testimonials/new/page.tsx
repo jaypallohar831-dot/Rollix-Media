@@ -36,37 +36,23 @@ export default function NewTestimonialPage() {
     setUploading(true);
 
     try {
-      const sigRes = await fetch('/api/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ folder: 'testimonials' })
-      });
-      const sigData = await sigRes.json();
-      
-      if (!sigData.success) {
-        throw new Error(sigData.error || 'Failed to get upload signature');
+      const folder = 'testimonials';
+      const ext = file.name.split('.').pop();
+      const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+
+      const { data, error } = await supabase.storage
+        .from('media')
+        .upload(filename, file, { cacheControl: '3600', upsert: false });
+
+      if (error) {
+        throw new Error(error.message);
       }
 
-      const uploadData = new FormData();
-      uploadData.append('api_key', sigData.apiKey);
-      uploadData.append('timestamp', sigData.timestamp);
-      uploadData.append('signature', sigData.signature);
-      uploadData.append('folder', sigData.folder);
-      uploadData.append('file', file);
+      const { data: { publicUrl } } = supabase.storage
+        .from('media')
+        .getPublicUrl(data.path);
 
-      const uploadRes = await fetch(`https://api.cloudinary.com/v1_1/${sigData.cloudName}/auto/upload`, {
-        method: 'POST',
-        body: uploadData
-      });
-      const uploadResult = await uploadRes.json();
-
-      if (uploadResult.error) {
-        throw new Error(uploadResult.error.message || 'Cloudinary upload failed');
-      }
-
-      if (uploadResult.secure_url) {
-        setFormData(prev => ({ ...prev, avatar_url: uploadResult.secure_url }));
-      }
+      setFormData(prev => ({ ...prev, avatar_url: publicUrl }));
     } catch (err) {
       console.error('Upload failed:', err);
       alert('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'));

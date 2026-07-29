@@ -1,50 +1,36 @@
 import type { Metadata } from 'next';
-import { geistSans, geistMono, playfair } from './fonts';
+import { geistSans, geistMono, inter, playfairDisplay } from './fonts';
 import './globals.css';
-import { SmoothScroll } from '@/components/smooth-scroll';
-import { MouseFollowLight } from '@/components/mouse-follow-light';
-import { BokehBackground } from '@/components/bokeh-background';
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Navbar } from '@/components/navbar';
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://rollixmedia.vercel.app'),
-  title: {
-    default: 'Rollix Media | Digital Marketing Agency in Bhilwara',
-    template: '%s | Rollix Media',
-  },
+  title: 'Rollix Media | Premium Digital Agency',
   description:
-    'Rollix Media is a premium digital marketing agency in Bhilwara, India. We specialize in video editing, social media marketing, web development, SEO, and graphics designing.',
+    'Award-winning digital creative studio specializing in premium web design, SEO, and cinematic production for high-growth brands.',
   keywords: [
-    'digital marketing agency Bhilwara',
-    'video editing Bhilwara',
-    'social media marketing Rajasthan',
-    'web development Bhilwara',
-    'SEO agency India',
-    'graphics designing Bhilwara',
+    'digital agency',
+    'premium web design',
+    'creative studio',
+    'SEO optimization',
+    'cinematic video production',
+    'brand strategy',
     'Rollix Media',
-    'content creation agency',
   ],
-  authors: [{ name: 'Rollix Media', url: 'https://rollixmedia.vercel.app' }],
+  authors: [{ name: 'Rollix Media' }],
   creator: 'Rollix Media',
   publisher: 'Rollix Media',
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
+  metadataBase: new URL('https://rollixmedia.com'),
   openGraph: {
-    type: 'website',
-    locale: 'en_IN',
-    url: 'https://rollixmedia.vercel.app',
+    title: 'Rollix Media | Premium Digital Agency',
+    description: 'Award-winning digital creative studio specializing in premium web design.',
+    url: 'https://rollixmedia.com',
     siteName: 'Rollix Media',
-    title: 'Rollix Media | Digital Marketing Agency in Bhilwara',
-    description:
-      'Premium digital marketing agency in Bhilwara, India. Video editing, social media, web development & more.',
     images: [
       {
         url: '/og-image.jpg',
@@ -65,6 +51,8 @@ export const metadata: Metadata = {
     canonical: 'https://rollixmedia.vercel.app',
   },
 };
+
+import { ScrollMotionBlur } from '@/components/scroll-motion-blur';
 
 export default function RootLayout({
   children,
@@ -114,7 +102,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" suppressHydrationWarning className="dark relative antialiased" data-scroll-behavior="smooth">
+    <html lang="en" suppressHydrationWarning className="relative antialiased" data-scroll-behavior="smooth">
       <head>
         <script
           type="application/ld+json"
@@ -122,15 +110,13 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} relative min-h-full font-sans`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfairDisplay.variable} relative min-h-full font-sans`}
         style={{ position: 'relative' }}
         suppressHydrationWarning
       >
-        <BokehBackground />
-        <SmoothScroll>
+        <ScrollMotionBlur>
           {children}
-        </SmoothScroll>
-        <MouseFollowLight />
+        </ScrollMotionBlur>
         <SpeedInsights />
       </body>
     </html>

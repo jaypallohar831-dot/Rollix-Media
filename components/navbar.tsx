@@ -37,9 +37,9 @@ export const Navbar = memo(function Navbar() {
     <>
       <motion.header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color] duration-500 ease-out',
+          'fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ease-out',
           isScrolled
-            ? 'border-b border-white/[0.04] bg-[#050505]/90'
+            ? 'border-b border-border bg-white/90 backdrop-blur-md'
             : 'border-b border-transparent bg-transparent'
         )}
         initial={{ y: -20, opacity: 0 }}
@@ -78,8 +78,8 @@ export const Navbar = memo(function Navbar() {
               className={cn(
                 'hidden items-center justify-center rounded-full px-6 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-[border-color,color,background-color] duration-500 lg:inline-flex cursor-pointer',
                 isScrolled
-                  ? 'border border-cinematic-orange/30 text-cinematic-orange hover:bg-cinematic-orange hover:text-white'
-                  : 'border border-white/[0.1] text-foreground/80 hover:border-white/[0.2] hover:text-foreground'
+                  ? 'border border-cinematic-orange text-cinematic-orange hover:bg-cinematic-orange hover:text-white'
+                  : 'border border-border text-foreground hover:border-cinematic-orange hover:text-cinematic-orange'
               )}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -90,7 +90,7 @@ export const Navbar = memo(function Navbar() {
 
             {/* Mobile hamburger */}
             <motion.button
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/[0.08] text-foreground transition-[border-color] duration-300 hover:border-white/[0.15] lg:hidden cursor-pointer"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-[border-color] duration-300 hover:border-cinematic-orange lg:hidden cursor-pointer"
               onClick={toggleMobile}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -100,23 +100,6 @@ export const Navbar = memo(function Navbar() {
             </motion.button>
           </div>
         </nav>
-
-        {/* Subtle bottom gradient line when scrolled */}
-        <AnimatePresence>
-          {isScrolled && (
-            <motion.div
-              className="absolute bottom-0 left-0 right-0 h-[1px]"
-              initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: 1, opacity: 1 }}
-              exit={{ scaleX: 0, opacity: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              style={{
-                background:
-                  'linear-gradient(90deg, transparent 0%, rgba(212,118,60,0.15) 50%, transparent 100%)',
-              }}
-            />
-          )}
-        </AnimatePresence>
       </motion.header>
 
       {/* Mobile menu overlay */}

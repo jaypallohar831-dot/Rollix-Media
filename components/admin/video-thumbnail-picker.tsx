@@ -8,12 +8,6 @@ interface VideoThumbnailPickerProps {
   onThumbnailCaptured: (thumbnailUrl: string) => void;
 }
 
-/**
- * Checks if a URL is a Cloudinary video URL
- */
-function isCloudinaryVideoUrl(url: string) {
-  return url.includes('res.cloudinary.com') && url.includes('/video/upload/');
-}
 
 export default function VideoThumbnailPicker({ 
   videoUrl, 
@@ -28,7 +22,6 @@ export default function VideoThumbnailPicker({
   const [capturedPreview, setCapturedPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const isCloudinary = isCloudinaryVideoUrl(videoUrl);
 
   // Update time as video plays
   useEffect(() => {
@@ -87,11 +80,6 @@ export default function VideoThumbnailPicker({
     setCurrentTime(newTime);
   }, []);
 
-  /**
-   * Capture the current frame using Cloudinary URL transformation.
-   * Transforms the video URL into an image URL at a specific time offset.
-   * Falls back to canvas capture for non-Cloudinary URLs.
-   */
   const captureFrame = useCallback(async () => {
     const video = videoRef.current;
     if (!video) return;
@@ -100,88 +88,56 @@ export default function VideoThumbnailPicker({
     setCapturing(true);
     setError(null);
 
-    const time = video.currentTime;
-
     try {
-      if (isCloudinary) {
-        // ── Cloudinary approach: URL transformation (reliable, no CORS issues) ──
-        // Replace extension with .jpg
-        const withoutExt = videoUrl.substring(0, videoUrl.lastIndexOf('.'));
-        const jpgUrl = withoutExt + '.jpg';
-        
-        // Insert transform after /upload/
-        const transform = `so_${time.toFixed(2)},w_1280,c_limit,q_auto,f_jpg/`;
-        const thumbnailUrl = jpgUrl.replace('/upload/', `/upload/${transform}`);
+      // ── Canvas capture ──
+      const canvas = canvasRef.current;
+      if (!canvas) throw new Error('Canvas not available');
 
-        // Verify the URL works (Cloudinary generates the image on-the-fly)
-        const checkRes = await fetch(thumbnailUrl, { method: 'HEAD' });
-        if (!checkRes.ok) {
-          throw new Error('Cloudinary failed to generate thumbnail from video');
-        }
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
 
-        setCapturedPreview(thumbnailUrl);
-        onThumbnailCaptured(thumbnailUrl);
-      } else {
-        // ── Fallback: Canvas capture for non-Cloudinary videos ──
-        const canvas = canvasRef.current;
-        if (!canvas) throw new Error('Canvas not available');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas context not available');
 
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-        const ctx = canvas.getContext('2d');
-        if (!ctx) throw new Error('Canvas context not available');
-
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Convert to blob
-        const blob = await new Promise<Blob>((resolve, reject) => {
-          canvas.toBlob(
-            (b) => (b ? resolve(b) : reject(new Error('Failed to create image blob'))),
-            'image/jpeg',
-            0.92
-          );
-        });
-
-        // Upload to Cloudinary
-        const sigRes = await fetch('/api/upload', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ folder: 'portfolio' })
-        });
-        const sigData = await sigRes.json();
-
-        if (!sigData.success) {
-          throw new Error(sigData.error || 'Failed to get upload signature');
-        }
-
-        const uploadData = new FormData();
-        uploadData.append('file', blob, 'video-thumbnail.jpg');
-        uploadData.append('api_key', sigData.apiKey);
-        uploadData.append('timestamp', sigData.timestamp);
-        uploadData.append('signature', sigData.signature);
-        uploadData.append('folder', sigData.folder);
-
-        const uploadRes = await fetch(
-          `https://api.cloudinary.com/v1_1/${sigData.cloudName}/image/upload`,
-          { method: 'POST', body: uploadData }
+      // Convert to blob
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob(
+          (b) => (b ? resolve(b) : reject(new Error('Failed to create image blob'))),
+          'image/jpeg',
+          0.92
         );
-        const uploadResult = await uploadRes.json();
+      });
 
-        if (uploadResult.secure_url) {
-          setCapturedPreview(uploadResult.secure_url);
-          onThumbnailCaptured(uploadResult.secure_url);
-        } else {
-          throw new Error('Upload failed — no URL returned');
-        }
+      // Upload to Supabase Storage
+      const { createClient } = await import('@/lib/supabase/client');
+      const supabase = createClient();
+      
+      const filename = `portfolio/thumb_${Date.now()}_${Math.random().toString(36).substring(7)}.jpg`;
+
+      const { data, error } = await supabase.storage
+        .from('media')
+        .upload(filename, blob, { cacheControl: '3600', upsert: false, contentType: 'image/jpeg' });
+
+      if (error) {
+        throw new Error(error.message);
       }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('media')
+        .getPublicUrl(data.path);
+
+      setCapturedPreview(publicUrl);
+      onThumbnailCaptured(publicUrl);
+
     } catch (err) {
       console.error('Thumbnail capture failed:', err);
       setError(err instanceof Error ? err.message : 'Capture failed');
     } finally {
       setCapturing(false);
     }
-  }, [videoUrl, onThumbnailCaptured, isCloudinary]);
+  }, [videoUrl, onThumbnailCaptured]);
 
   const formatTime = (t: number) => {
     const mins = Math.floor(t / 60);
@@ -191,9 +147,8 @@ export default function VideoThumbnailPicker({
 
   // Transform Cloudinary URLs to ensure browser compatibility (H.264/WebM)
   const getPlayableSrc = (url: string) => {
-    if (!url || !isCloudinary) return url;
-    if (url.includes('/q_') || url.includes('/f_') || url.includes('/vc_')) return url;
-    return url.replace('/video/upload/', '/video/upload/q_auto,f_auto/');
+    if (!url) return url;
+    return url;
   };
 
   const playableSrc = getPlayableSrc(videoUrl);
@@ -206,11 +161,6 @@ export default function VideoThumbnailPicker({
         <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
           Pick Thumbnail from Video
         </span>
-        {isCloudinary && (
-          <span className="ml-auto text-[9px] font-mono text-emerald-500/60 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-            Cloudinary ✓
-          </span>
-        )}
       </div>
 
       {/* Video Player */}

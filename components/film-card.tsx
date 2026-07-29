@@ -72,43 +72,42 @@ export const FilmCard = memo(function FilmCard({
       {/* ── THUMBNAIL ── */}
       <div
         className={cn(
-          'relative overflow-hidden rounded-2xl bg-[#050505]',
+          'relative overflow-hidden rounded-2xl bg-muted',
           aspectMap[size]
         )}
       >
-        {isVideo && item.videoUrl ? (
+        <Image
+          src={item.image}
+          alt={item.title}
+          fill
+          unoptimized={item.image.startsWith('http')}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+          priority={priority}
+        />
+        {isVideo && item.videoUrl && (
           <video
             ref={videoRef}
-            src={`${getOptimizedVideoUrl(item.videoUrl, true)}#t=1.0`}
+            src={getOptimizedVideoUrl(item.videoUrl, true)}
             preload="metadata"
             muted
             loop
             playsInline
-            className="absolute inset-0 h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-          />
-        ) : (
-          <Image
-            src={item.image}
-            alt={`${item.title} — ${item.category}`}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            priority={priority}
-            className="object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.04] opacity-0 group-hover:opacity-100"
           />
         )}
-
-        {/* Dark gradient overlay — stronger at bottom */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+        {/* Very subtle overlay for contrast if needed */}
+        <div className="absolute inset-0 bg-black/5 pointer-events-none" />
 
         {/* Hover dim */}
-        <div className="absolute inset-0 bg-black/10 transition-opacity duration-500 group-hover:opacity-0" />
+        <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
 
         {/* Center play button (video projects) */}
         {isVideo && (
           <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-500 group-hover:opacity-0">
             <div
               className={cn(
-                'flex items-center justify-center rounded-full bg-black/40 text-white/80 ring-1 ring-white/20 backdrop-blur-[2px] transition-all duration-500 group-hover:scale-110 group-hover:bg-black/50 group-hover:text-white group-hover:ring-white/30',
+                'flex items-center justify-center rounded-full bg-white/90 text-foreground shadow-[0_4px_24px_rgba(0,0,0,0.1)] transition-transform duration-500 group-hover:scale-110',
                 size === 'hero'
                   ? 'h-18 w-18 sm:h-22 sm:w-22'
                   : size === 'large'
@@ -138,7 +137,7 @@ export const FilmCard = memo(function FilmCard({
       </div>
 
       {/* ── METADATA ROW ── */}
-      <div className="mt-4 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground/90">
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
         <span>{item.month ? `${item.month} ${item.year}` : item.year}</span>
         {item.location && (
           <>
@@ -151,7 +150,7 @@ export const FilmCard = memo(function FilmCard({
       {/* ── TITLE ── */}
       <h3
         className={cn(
-          'mt-1.5 font-heading font-normal tracking-[0.02em] text-foreground transition-colors duration-300',
+          'mt-1.5 py-1 leading-normal font-heading font-normal tracking-[0.02em] text-foreground transition-colors duration-300',
           highlightOnHover && 'group-hover:text-cinematic-orange',
           size === 'hero'
             ? 'text-2xl sm:text-4xl'
@@ -169,7 +168,7 @@ export const FilmCard = memo(function FilmCard({
           {item.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-white/[0.2] bg-white/[0.08] px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.15em] text-foreground/90"
+              className="rounded-full border border-border bg-white shadow-sm px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.15em] text-muted-foreground"
             >
               {tag}
             </span>

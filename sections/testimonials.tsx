@@ -31,31 +31,26 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
   const current = testimonials[currentIndex];
 
   return (
-    <section className="relative overflow-hidden bg-[#030303] py-28 sm:py-36">
+    <section className="relative overflow-hidden bg-background py-28 sm:py-36">
       {/* Background elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-30"
-          style={{ background: 'radial-gradient(circle, rgba(212,118,60,0.08) 0%, transparent 60%)' }}
-        />
-      </div>
+      <div className="absolute inset-0 pointer-events-none bg-background overflow-hidden" />
 
       <Container>
         <motion.div
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           className="text-center mb-16"
         >
           <motion.div variants={fadeIn} className="mb-4">
             <span className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-cinematic-orange">
-              <span className="h-[1px] w-8 bg-cinematic-orange/40" />
+              <span className="h-[1px] w-8 bg-cinematic-orange" />
               Client Voices
             </span>
           </motion.div>
-          <motion.h2 variants={fadeUp} className="font-heading text-4xl sm:text-5xl font-light text-white">
-            Words from the <span className="text-gradient-warm italic">Heart</span>
+          <motion.h2 variants={fadeUp} className="font-heading text-4xl sm:text-5xl font-light text-foreground">
+            Words from the <span className="text-cinematic-orange italic">Heart</span>
           </motion.h2>
         </motion.div>
 
@@ -67,36 +62,36 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.05 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative rounded-3xl border border-white/[0.08] bg-[#0c0c0c]/95 p-8 sm:p-16 text-center"
+                className="relative rounded-3xl border border-border bg-white shadow-sm p-8 sm:p-16 text-center"
               >
                 <Quote className="absolute top-8 left-8 h-12 w-12 text-cinematic-orange/10" />
                 
                 <div className="flex justify-center mb-8">
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`h-4 w-4 ${i < current.rating ? 'fill-cinematic-orange text-cinematic-orange' : 'text-white/10'}`} />
+                      <Star key={i} className={`h-4 w-4 ${i < current.rating ? 'fill-cinematic-orange text-cinematic-orange' : 'text-muted-foreground/30'}`} />
                     ))}
                   </div>
                 </div>
 
-                <p className="text-xl sm:text-2xl font-light leading-relaxed text-white/90 italic mb-10">
+                <p className="text-xl sm:text-2xl font-light leading-relaxed text-foreground italic mb-10">
                   &ldquo;{current.content}&rdquo;
                 </p>
 
                 <div className="flex flex-col items-center">
-                  <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-cinematic-orange/20 mb-4 bg-black/40">
+                  <div className="h-16 w-16 rounded-full overflow-hidden border border-border mb-4 bg-muted">
                     {current.avatar_url ? (
                       <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={current.avatar_url} alt={current.name} className="h-full w-full object-cover" />
                       </>
                     ) : (
-                      <div className="flex h-full w-full items-center justify-center text-white/20">
+                      <div className="flex h-full w-full items-center justify-center text-muted-foreground/50">
                         <User className="h-8 w-8" />
                       </div>
                     )}
                   </div>
-                  <h4 className="text-lg font-medium text-white">{current.name}</h4>
+                  <h4 className="text-lg font-medium text-foreground">{current.name}</h4>
                   <p className="text-sm text-muted-foreground font-light">
                     {current.role} {current.company ? `· ${current.company}` : ''}
                   </p>
@@ -108,7 +103,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
             <div className="absolute top-1/2 -left-4 sm:-left-20 -translate-y-1/2 hidden sm:block">
               <button 
                 onClick={prev}
-                className="p-4 rounded-full border border-white/[0.08] bg-white/[0.02] text-white/40 hover:text-white hover:border-cinematic-orange/40 transition-[color,border-color] duration-300"
+                className="p-4 rounded-full border border-border bg-white text-muted-foreground hover:text-foreground hover:border-cinematic-orange/40 shadow-sm transition-[color,border-color] duration-300"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
@@ -116,7 +111,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
             <div className="absolute top-1/2 -right-4 sm:-right-20 -translate-y-1/2 hidden sm:block">
               <button 
                 onClick={next}
-                className="p-4 rounded-full border border-white/[0.08] bg-white/[0.02] text-white/40 hover:text-white hover:border-cinematic-orange/40 transition-[color,border-color] duration-300"
+                className="p-4 rounded-full border border-border bg-white text-muted-foreground hover:text-foreground hover:border-cinematic-orange/40 shadow-sm transition-[color,border-color] duration-300"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
@@ -124,8 +119,8 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
 
             {/* Mobile Navigation */}
             <div className="flex justify-center gap-4 mt-8 sm:hidden">
-               <button onClick={prev} className="p-3 rounded-full border border-white/[0.08] text-white/40"><ChevronLeft className="h-5 w-5" /></button>
-               <button onClick={next} className="p-3 rounded-full border border-white/[0.08] text-white/40"><ChevronRight className="h-5 w-5" /></button>
+               <button onClick={prev} className="p-3 rounded-full border border-border bg-white shadow-sm text-muted-foreground"><ChevronLeft className="h-5 w-5" /></button>
+               <button onClick={next} className="p-3 rounded-full border border-border bg-white shadow-sm text-muted-foreground"><ChevronRight className="h-5 w-5" /></button>
             </div>
 
             {/* Indicators */}
@@ -134,7 +129,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}
-                  className={`h-1 rounded-full transition-[width,background-color] duration-500 ${i === currentIndex ? 'w-8 bg-cinematic-orange' : 'w-2 bg-white/10 hover:bg-white/20'}`}
+                  className={`h-1 rounded-full transition-[width,background-color] duration-500 ${i === currentIndex ? 'w-8 bg-cinematic-orange' : 'w-2 bg-border hover:bg-muted-foreground/50'}`}
                 />
               ))}
             </div>

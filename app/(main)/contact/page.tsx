@@ -107,13 +107,13 @@ export default function ContactPage() {
         <Container>
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-24">
             {/* Contact Form */}
-            <div className="rounded-3xl border border-white/[0.06] bg-white/[0.015] p-8 sm:p-12 backdrop-blur-sm">
+            <div className="rounded-3xl border border-border bg-card p-8 sm:p-12 backdrop-blur-sm">
               {status === 'success' ? (
                 <div className="flex h-full min-h-[400px] flex-col items-center justify-center text-center">
                   <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-cinematic-orange/10 text-cinematic-orange">
                     <Check className="h-10 w-10" />
                   </div>
-                  <h2 className="font-heading text-3xl text-white">Inquiry Sent</h2>
+                  <h2 className="font-heading text-3xl text-foreground">Inquiry Sent</h2>
                   <p className="mt-4 max-w-sm text-muted-foreground">
                     Thank you for reaching out. Our creative team will review your vision and get back to you within 48 hours.
                   </p>
@@ -141,24 +141,24 @@ export default function ContactPage() {
                   </div>
                   <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
                     <div className="flex flex-col gap-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Your Name</label>
+                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground ml-1">Your Name</label>
                       <input
                         type="text"
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none"
+                        className="border-b border-border bg-transparent py-2 text-lg text-foreground transition-all focus:border-cinematic-orange focus:outline-none"
                         placeholder="Jane Doe"
                       />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Email Address</label>
+                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground ml-1">Email Address</label>
                       <input
                         type="email"
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none"
+                        className="border-b border-border bg-transparent py-2 text-lg text-foreground transition-all focus:border-cinematic-orange focus:outline-none"
                         placeholder="jane@example.com"
                       />
                     </div>
@@ -166,40 +166,40 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
                     <div className="flex flex-col gap-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Phone Number</label>
+                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground ml-1">Phone Number</label>
                       <input
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none"
+                        className="border-b border-border bg-transparent py-2 text-lg text-foreground transition-all focus:border-cinematic-orange focus:outline-none"
                         placeholder="+91 00000-00000"
                       />
                     </div>
                     <div className="flex flex-col gap-2">
-                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Service of Interest</label>
+                      <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground ml-1">Service of Interest</label>
                       <div className="relative">
                         <select
                           required
                           value={formData.service_interest}
                           onChange={(e) => setFormData({ ...formData, service_interest: e.target.value })}
-                          className="w-full border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none appearance-none cursor-pointer pr-10"
+                          className="w-full border-b border-border bg-transparent py-2 text-lg text-foreground transition-all focus:border-cinematic-orange focus:outline-none appearance-none cursor-pointer pr-10"
                         >
-                          <option value="" className="bg-[#0a0a0a]">Select a service</option>
+                          <option value="" className="bg-background">Select a service</option>
                           {services.map(service => (
-                            <option key={service.id} value={service.title} className="bg-[#0a0a0a]">
+                            <option key={service.id} value={service.title} className="bg-background">
                               {service.title}
                             </option>
                           ))}
                           {services.length === 0 && (
                             <>
-                              <option value="Wedding Film" className="bg-[#0a0a0a]">Wedding Film</option>
-                              <option value="Commercial Ad" className="bg-[#0a0a0a]">Commercial Ad</option>
-                              <option value="Brand Story" className="bg-[#0a0a0a]">Brand Story</option>
-                              <option value="Photography" className="bg-[#0a0a0a]">Photography</option>
+                              <option value="Wedding Film" className="bg-background">Wedding Film</option>
+                              <option value="Commercial Ad" className="bg-background">Commercial Ad</option>
+                              <option value="Brand Story" className="bg-background">Brand Story</option>
+                              <option value="Photography" className="bg-background">Photography</option>
                             </>
                           )}
                         </select>
-                        <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-white/40">
+                        <div className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 text-muted-foreground">
                           <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                           </svg>
@@ -209,12 +209,12 @@ export default function ContactPage() {
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40 ml-1">Project Vision</label>
+                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground ml-1">Project Vision</label>
                     <textarea
                       required
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="min-h-[120px] resize-none border-b border-white/[0.1] bg-transparent py-2 text-lg text-white transition-all focus:border-cinematic-orange focus:outline-none"
+                      className="min-h-[120px] resize-none border-b border-border bg-transparent py-2 text-lg text-foreground transition-all focus:border-cinematic-orange focus:outline-none"
                       placeholder="Tell us about your cinematic vision..."
                     />
                   </div>
@@ -253,7 +253,7 @@ export default function ContactPage() {
                   <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-cinematic-orange/80">
                     Location
                   </h3>
-                  <p className="text-xl leading-relaxed text-white/70 font-light">
+                  <p className="text-xl leading-relaxed text-muted-foreground font-light">
                     Available world wide
                     <br />
                     Bhilwara IN , 311001
@@ -264,10 +264,10 @@ export default function ContactPage() {
                   <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-cinematic-orange/80">
                     Inquiries
                   </h3>
-                  <p className="text-xl leading-relaxed text-white/70 font-light underline-offset-4 decoration-cinematic-orange/30">
-                    <a href="mailto:rollixmedia@gmail.com" className="hover:text-white transition-colors">rollixmedia@gmail.com</a><br />
-                    <a href="tel:+919024675831" className="hover:text-white transition-colors">+91 9024675831</a><br />
-                    <a href="tel:+919351775546" className="hover:text-white transition-colors">+91 93517 75546</a>
+                  <p className="text-xl leading-relaxed text-muted-foreground font-light underline-offset-4 decoration-cinematic-orange/30">
+                    <a href="mailto:rollixmedia@gmail.com" className="hover:text-foreground transition-colors">rollixmedia@gmail.com</a><br />
+                    <a href="tel:+919024675831" className="hover:text-foreground transition-colors">+91 9024675831</a><br />
+                    <a href="tel:+919351775546" className="hover:text-foreground transition-colors">+91 93517 75546</a>
                   </p>
                 </div>
               </div>
@@ -284,7 +284,7 @@ export default function ContactPage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={cn(
-                        "group flex items-center gap-4 text-xl font-light text-white/70 transition-all duration-500",
+                        "group flex items-center gap-4 text-xl font-light text-muted-foreground transition-all duration-500",
                         social.color
                       )}
                     >

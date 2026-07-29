@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
 import { HeroSection } from '@/sections/hero';
-import { PhilosophySection } from '@/sections/philosophy';
-import { PortfolioSection } from '@/sections/portfolio';
-import { TestimonialsSection } from '@/sections/testimonials';
-import { ProcessSection } from '@/sections/process';
 import { Section, Container, Divider } from '@/components/layout';
 import { HomepageLoader } from '@/components/homepage-loader';
 import { getHomepageData } from './data';
+import dynamic from 'next/dynamic';
+
+// Below-fold sections: lazy-loaded to reduce initial JS bundle (not visible at LCP)
+const PhilosophySection = dynamic(() => import('@/sections/philosophy').then(m => ({ default: m.PhilosophySection })));
+const PortfolioSection = dynamic(() => import('@/sections/portfolio').then(m => ({ default: m.PortfolioSection })));
+const TestimonialsSection = dynamic(() => import('@/sections/testimonials').then(m => ({ default: m.TestimonialsSection })));
+const SuccessStoriesSection = dynamic(() => import('@/sections/success-stories').then(m => ({ default: m.SuccessStoriesSection })));
+const ProcessSection = dynamic(() => import('@/sections/process').then(m => ({ default: m.ProcessSection })));
 
 export const metadata: Metadata = {
   title: 'Rollix Media | Digital Marketing Agency in Bhilwara',
@@ -45,6 +49,11 @@ export default async function Home() {
 
       <Divider />
 
+      {/* Success Stories — featured case study */}
+      <SuccessStoriesSection />
+
+      <Divider />
+
       {/* Process — behind the craft */}
       <ProcessSection />
 
@@ -53,17 +62,17 @@ export default async function Home() {
       <Section id="contact" spacing="lg" withBackground>
         <Container>
           <div className="text-center">
-            <span className="mb-6 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80">
+            <span className="mb-6 inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange">
               <span className="h-[1px] w-6 bg-cinematic-orange/40" />
               Let&rsquo;s Connect
             </span>
-            <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.02em] text-foreground">
-              Ready to accelerate your <span className="text-gradient-warm italic">Digital Growth</span>?
+            <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1.1] tracking-[-0.02em] text-foreground">
+              Ready to accelerate your <span className="text-cinematic-orange italic">Digital Growth</span>?
             </h2>
             <div className="mt-12 flex justify-center">
               <a 
                 href="/contact"
-                className="inline-flex h-14 items-center justify-center rounded-full border border-cinematic-orange/30 bg-cinematic-orange/10 px-8 text-[11px] font-medium uppercase tracking-[0.2em] text-cinematic-orange transition-all duration-500 hover:bg-cinematic-orange hover:text-white"
+                className="inline-flex h-14 items-center justify-center rounded-full border border-border bg-white shadow-sm px-8 text-[11px] font-medium uppercase tracking-[0.2em] text-foreground transition-all duration-500 hover:border-cinematic-orange hover:text-cinematic-orange"
               >
                 Start Your Project
               </a>
