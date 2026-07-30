@@ -100,6 +100,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
                         alt={project.title}
                         fill
                         unoptimized={(project.image || '').startsWith('http')}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />

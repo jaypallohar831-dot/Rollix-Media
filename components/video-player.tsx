@@ -118,7 +118,8 @@ export const VideoPlayer = memo(function VideoPlayer({
           }
         }}
         className={cn(
-          'absolute inset-0 h-full w-full cursor-pointer',
+          aspect === 'aspect-auto' && !className?.includes('absolute') ? 'w-full h-auto' : 'absolute inset-0 h-full w-full',
+          'cursor-pointer',
           objectFit === 'contain' ? 'object-contain' : 'object-cover'
         )}
       />

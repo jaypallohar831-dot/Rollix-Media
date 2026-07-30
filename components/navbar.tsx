@@ -37,10 +37,8 @@ export const Navbar = memo(function Navbar() {
     <>
       <motion.header
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ease-out',
-          isScrolled
-            ? 'border-b border-border bg-white/90 backdrop-blur-md'
-            : 'border-b border-transparent bg-transparent'
+          'fixed left-0 right-0 z-50 flex justify-center transition-all duration-500 ease-out',
+          isScrolled ? 'top-4 px-4 sm:px-6' : 'top-0 px-0'
         )}
         initial={{ y: -20, opacity: 0 }}
         animate={{
@@ -49,8 +47,19 @@ export const Navbar = memo(function Navbar() {
         }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Inner container with premium spacing */}
-        <nav className="mx-auto flex h-[72px] max-w-[1400px] items-center justify-between px-6 sm:px-10 lg:px-16">
+        <div
+          className={cn(
+            'w-full max-w-[1400px] transition-all duration-500 ease-out overflow-hidden',
+            isScrolled
+              ? 'rounded-full border border-white/50 bg-white/40 backdrop-blur-2xl backdrop-saturate-200 shadow-[0_8px_32px_rgba(0,0,0,0.1),inset_0_2px_3px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.05)]'
+              : 'rounded-none border-b border-transparent bg-transparent'
+          )}
+        >
+          {/* Inner container with premium spacing */}
+          <nav className={cn(
+            'mx-auto flex items-center justify-between transition-all duration-500 ease-out',
+            isScrolled ? 'h-[64px] px-6 sm:px-10' : 'h-[72px] px-6 sm:px-10 lg:px-16'
+          )}>
           {/* Logo — left */}
           <NavLogo />
 
@@ -100,6 +109,7 @@ export const Navbar = memo(function Navbar() {
             </motion.button>
           </div>
         </nav>
+        </div>
       </motion.header>
 
       {/* Mobile menu overlay */}

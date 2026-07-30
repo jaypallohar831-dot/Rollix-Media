@@ -63,17 +63,17 @@ export function DeliverableModal({ deliverable, isOpen, onClose }: DeliverableMo
             /* ── STRATEGY LAYOUT (SPLIT 50/50) ── */
             <div className="flex flex-col lg:grid lg:grid-cols-[1.2fr,1fr] max-h-[90vh]">
               {/* Media Section */}
-              <div className="relative bg-black w-full min-h-[40vh] lg:h-[85vh] lg:min-h-0">
+              <div className="relative bg-black w-full min-h-[40vh] lg:h-[85vh] lg:min-h-0 flex items-center justify-center">
                 {deliverable.type === 'video' ? (
                   <VideoPlayer
                     src={deliverable.url}
                     aspect="aspect-auto"
-                    objectFit="cover"
+                    objectFit="contain"
                     className="absolute inset-0 w-full h-full"
                   />
                 ) : deliverable.type === 'image' ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
-                  <img src={deliverable.url} alt={deliverable.title} className="absolute inset-0 w-full h-full object-cover" />
+                  <img src={deliverable.url} alt={deliverable.title} className="absolute inset-0 w-full h-full object-contain p-4" />
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-white/50 bg-stone-900">
                     <ImageIcon className="h-16 w-16 mb-4 opacity-40" />
@@ -140,25 +140,23 @@ export function DeliverableModal({ deliverable, isOpen, onClose }: DeliverableMo
             </div>
           ) : (
             /* ── MEDIA ONLY LAYOUT (NO STRATEGY) ── */
-            <div className="relative w-full bg-black/50 overflow-hidden rounded-3xl ring-1 ring-white/10">
-              <div className="relative w-full h-[60vh] sm:h-[75vh] lg:h-[85vh] flex items-center justify-center">
+            <div className="relative w-full bg-black/50 overflow-hidden rounded-3xl ring-1 ring-white/10 flex items-center justify-center min-h-[40vh] max-h-[90vh]">
                 {deliverable.type === 'video' ? (
                   <VideoPlayer
                     src={deliverable.url}
                     aspect="aspect-auto"
                     objectFit="contain"
-                    className="absolute inset-0 w-full h-full"
+                    className="w-full h-auto max-h-[90vh]"
                   />
                 ) : deliverable.type === 'image' ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
-                  <img src={deliverable.url} alt={deliverable.title} className="absolute inset-0 w-full h-full object-contain p-2" />
+                  <img src={deliverable.url} alt={deliverable.title} className="w-full h-auto max-h-[90vh] object-contain p-2" />
                 ) : (
-                  <div className="flex flex-col items-center justify-center text-white/50">
+                  <div className="flex flex-col items-center justify-center text-white/50 h-[50vh]">
                     <ImageIcon className="h-16 w-16 mb-4 opacity-40" />
                     <p className="text-sm font-medium">Document View Not Supported</p>
                   </div>
                 )}
-              </div>
               
               {/* Overlay Title */}
               <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none flex flex-col justify-end">
