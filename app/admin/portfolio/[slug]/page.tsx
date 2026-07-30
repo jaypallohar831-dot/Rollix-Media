@@ -31,6 +31,8 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
   const [fetching, setFetching] = useState(true);
   const [uploading, setUploading] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [hasDraft, setHasDraft] = useState(false);
+  const [draftData, setDraftData] = useState<any>(null);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -100,6 +102,27 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
     loadData();
   }, [slug, supabase]);
 
+  // Check for unsaved draft
+  useEffect(() => {
+    const saved = localStorage.getItem(`portfolio_edit_draft_${slug}`);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setDraftData(parsed);
+        setHasDraft(true);
+      } catch (e) {
+        console.error('Failed to parse draft', e);
+      }
+    }
+  }, [slug]);
+
+  // Save draft on change (only if not fetching to avoid overwriting with empty initial state)
+  useEffect(() => {
+    if (!fetching && (formData.title || formData.description)) {
+      localStorage.setItem(`portfolio_edit_draft_${slug}`, JSON.stringify(formData));
+    }
+  }, [formData, fetching, slug]);
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'thumbnail' | 'gallery' | 'video') => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -141,6 +164,7 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
     if (error) {
       alert('Error updating project: ' + error.message);
     } else {
+      localStorage.removeItem(`portfolio_edit_draft_${slug}`);
       router.push('/admin/portfolio');
       router.refresh();
     }
@@ -158,11 +182,43 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
         Back to Projects
       </button>
 
-      <div className="mb-10 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
-        <h1 className="font-heading text-4xl font-light text-stone-900">
-          Edit <span className="text-gradient-warm italic font-medium">Work</span>
-        </h1>
-        <p className="mt-2 text-stone-500 font-light">Update the details for &ldquo;{formData.title}&rdquo;.</p>
+      <div className="mb-10 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs relative">
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="font-heading text-4xl font-light text-stone-900">
+              Edit <span className="text-gradient-warm italic font-medium">Work</span>
+            </h1>
+            <p className="mt-2 text-stone-500 font-light">Update the details for &ldquo;{formData.title}&rdquo;.</p>
+          </div>
+          
+          {hasDraft && (
+            <div className="flex flex-col items-end bg-amber-50 border border-amber-200 p-3 rounded-xl">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-amber-600 mb-2">Unsaved Draft Found</span>
+              <div className="flex gap-2">
+                <button 
+                  onClick={() => {
+                    setFormData(draftData);
+                    setHasDraft(false);
+                  }}
+                  className="rounded bg-amber-500 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-white hover:bg-amber-600 transition-colors"
+                >
+                  Restore Draft
+                </button>
+                <button 
+                  onClick={() => {
+                    if(confirm('Discard this unsaved draft?')) {
+                      localStorage.removeItem(`portfolio_edit_draft_${slug}`);
+                      setHasDraft(false);
+                    }
+                  }}
+                  className="rounded border border-amber-200 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-amber-600 hover:bg-amber-100 transition-colors"
+                >
+                  Discard
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">

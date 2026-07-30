@@ -70,19 +70,20 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
           animate="open"
           exit="closed"
         >
-          {/* Background — solid opaque, no blur */}
-          <div className="absolute inset-0 bg-background" />
+          {/* Background — solid opaque, no blur, clicking it closes menu */}
+          <div className="absolute inset-0 bg-background" onClick={onClose} />
 
           {/* Close button */}
           <motion.button
-            className="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 hover:border-cinematic-orange hover:text-cinematic-orange sm:right-10 sm:top-10 cursor-pointer"
+            className="absolute right-6 top-8 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-background/50 backdrop-blur-sm text-foreground transition-colors duration-300 hover:border-cinematic-orange hover:text-cinematic-orange sm:right-10 sm:top-10 cursor-pointer shadow-sm"
             onClick={onClose}
             initial={{ opacity: 0, rotate: -90 }}
             animate={{ opacity: 1, rotate: 0 }}
             exit={{ opacity: 0, rotate: 90 }}
             transition={{ duration: 0.3, delay: 0.1 }}
+            aria-label="Close menu"
           >
-            <X className="h-5 w-5" />
+            <X className="h-6 w-6" />
           </motion.button>
 
           {/* Navigation links */}

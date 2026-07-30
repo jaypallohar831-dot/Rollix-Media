@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   X,
@@ -24,13 +26,19 @@ interface StrategyModalProps {
 }
 
 export function StrategyModal({ project, isOpen, onClose }: StrategyModalProps) {
-  if (!isOpen || !project) return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!isOpen || !project || !mounted) return null;
 
   const strategy = project.strategy;
 
-  return (
+  const modalContent = (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -46,17 +54,17 @@ export function StrategyModal({ project, isOpen, onClose }: StrategyModalProps) 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          className="relative w-full max-w-3xl rounded-3xl border border-border bg-white shadow-2xl overflow-hidden z-10 my-auto"
+          className="relative w-full max-w-3xl rounded-3xl border border-border bg-white shadow-2xl z-10 flex flex-col max-h-[90vh] sm:max-h-[85vh] overflow-hidden"
         >
           {/* Header Bar */}
-          <div className="relative bg-gradient-to-r from-stone-900 via-stone-800 to-stone-900 p-6 sm:p-8 text-white">
+          <div className="relative shrink-0 bg-gradient-to-r from-stone-900 via-stone-800 to-stone-900 p-6 sm:p-8 text-white">
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
+              className="absolute top-5 right-5 flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white/20 hover:text-white"
               aria-label="Close modal"
             >
-              <X className="h-5 w-5" />
+              <X className="h-5 w-5 sm:h-4 sm:w-4" />
             </button>
 
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-cinematic-orange mb-2">
@@ -64,7 +72,7 @@ export function StrategyModal({ project, isOpen, onClose }: StrategyModalProps) 
               <span>Behind the Strategy</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight pr-8">
               {project.title}
             </h2>
 
@@ -89,7 +97,7 @@ export function StrategyModal({ project, isOpen, onClose }: StrategyModalProps) 
           </div>
 
           {/* Modal Body */}
-          <div className="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto scrollbar-thin">
+          <div className="p-6 sm:p-8 space-y-6 flex-1 overflow-y-auto scrollbar-thin bg-white">
             
             {/* 1. Project Objective */}
             {strategy?.objective && (
@@ -205,4 +213,6 @@ export function StrategyModal({ project, isOpen, onClose }: StrategyModalProps) 
       </div>
     </AnimatePresence>
   );
+
+  return createPortal(modalContent, document.body);
 }

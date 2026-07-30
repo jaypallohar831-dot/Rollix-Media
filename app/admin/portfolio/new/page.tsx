@@ -26,6 +26,7 @@ export default function NewPortfolioPage() {
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [draftRestored, setDraftRestored] = useState(false);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -64,6 +65,28 @@ export default function NewPortfolioPage() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     void fetchCategories();
   }, [fetchCategories]);
+
+  // Load draft on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('portfolio_new_draft');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFormData(parsed);
+        setDraftRestored(true);
+      } catch (e) {
+        console.error('Failed to parse draft', e);
+      }
+    }
+  }, []);
+
+  // Save draft on change
+  useEffect(() => {
+    // Only save if there's actual content to prevent saving empty state
+    if (formData.title || formData.slug || formData.description) {
+      localStorage.setItem('portfolio_new_draft', JSON.stringify(formData));
+    }
+  }, [formData]);
 
   const handleCreateCategory = async () => {
     const title = prompt('Enter new category name (e.g. Wedding Film):');
@@ -136,6 +159,7 @@ export default function NewPortfolioPage() {
     if (error) {
       alert('Error creating project: ' + error.message);
     } else {
+      localStorage.removeItem('portfolio_new_draft');
       router.push('/admin/portfolio');
       router.refresh();
     }
@@ -151,11 +175,33 @@ export default function NewPortfolioPage() {
         Back to Projects
       </button>
 
-      <div className="mb-10 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
-        <h1 className="font-heading text-4xl font-light text-stone-900">
-          Create New <span className="text-gradient-warm italic font-medium">Work</span>
-        </h1>
-        <p className="mt-2 text-stone-500 font-light">Craft a new masterpiece showcase in your digital vault.</p>
+      <div className="mb-10 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs relative">
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="font-heading text-4xl font-light text-stone-900">
+              Create New <span className="text-gradient-warm italic font-medium">Work</span>
+            </h1>
+            <p className="mt-2 text-stone-500 font-light">Craft a new masterpiece showcase in your digital vault.</p>
+          </div>
+          {draftRestored && (
+            <div className="flex flex-col items-end">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-emerald-600 border border-emerald-200">
+                <Check className="h-3 w-3" /> Draft Restored
+              </span>
+              <button 
+                onClick={() => {
+                  if(confirm('Are you sure you want to clear the draft? This will reset all fields.')) {
+                    localStorage.removeItem('portfolio_new_draft');
+                    window.location.reload();
+                  }
+                }}
+                className="mt-2 text-[10px] font-bold uppercase tracking-widest text-stone-400 hover:text-red-500 transition-colors"
+              >
+                Clear Draft
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
