@@ -20,6 +20,9 @@ export type Deliverable = {
   title: string;
   type: 'video' | 'image' | 'document';
   url: string;
+  thinking?: string;
+  result?: string;
+  resultImage?: string;
 };
 
 export type PortfolioItem = {

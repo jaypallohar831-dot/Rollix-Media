@@ -9,6 +9,9 @@ export type Deliverable = {
   title: string;
   type: 'video' | 'image' | 'document';
   url: string;
+  thinking?: string;
+  result?: string;
+  resultImage?: string;
 };
 
 interface DeliverablesBuilderProps {
@@ -64,6 +67,38 @@ export function DeliverablesBuilder({ deliverables, onChange }: DeliverablesBuil
       onChange(
         deliverables.map((d) =>
           d.id === id ? { ...d, url: publicUrl, type, title: d.title || file.name.split('.')[0] } : d
+        )
+      );
+    } catch (error: any) {
+      alert('Upload failed: ' + error.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleResultImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const folder = 'deliverables/results';
+      const ext = file.name.split('.').pop();
+      const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
+
+      const { data, error } = await supabase.storage
+        .from('media')
+        .upload(filename, file, { cacheControl: '3600', upsert: false });
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('media')
+        .getPublicUrl(data.path);
+
+      onChange(
+        deliverables.map((d) =>
+          d.id === id ? { ...d, resultImage: publicUrl } : d
         )
       );
     } catch (error: any) {
@@ -165,6 +200,59 @@ export function DeliverablesBuilder({ deliverables, onChange }: DeliverablesBuil
                     className="w-full rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
                   />
                 </div>
+                
+                {/* Advanced Deliverable Strategy Fields (Videos Only) */}
+                {item.type === 'video' && (
+                  <div className="mt-4 pt-4 border-t border-stone-200/60 grid grid-cols-1 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Behind the Edit / Thinking</label>
+                      <textarea
+                        value={item.thinking || ''}
+                        onChange={(e) => handleUpdate(item.id, 'thinking', e.target.value)}
+                        placeholder="e.g. We chose a fast-paced cut to align with Gen-Z attention spans..."
+                        className="w-full rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs min-h-[60px]"
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Result / Impact</label>
+                        <input
+                          type="text"
+                          value={item.result || ''}
+                          onChange={(e) => handleUpdate(item.id, 'result', e.target.value)}
+                          placeholder="e.g. 50K Views in 24 Hours"
+                          className="w-full rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
+                        />
+                      </div>
+                      
+                      <div className="space-y-1 flex flex-col">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Result Photo</label>
+                        <div className="flex items-center gap-2 mt-1">
+                          {item.resultImage ? (
+                            <div className="relative group rounded-lg overflow-hidden border border-stone-200">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img src={item.resultImage} alt="Result" className="h-10 w-16 object-cover" />
+                              <button
+                                type="button"
+                                onClick={() => handleUpdate(item.id, 'resultImage', '')}
+                                className="absolute inset-0 bg-black/50 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <Trash2 className="h-3 w-3" />
+                              </button>
+                            </div>
+                          ) : (
+                            <label className="flex h-10 px-4 items-center justify-center gap-2 cursor-pointer rounded-lg border border-dashed border-stone-300 hover:border-cinematic-orange hover:bg-cinematic-orange/5 bg-white transition-colors w-full sm:w-auto">
+                              {uploading ? <Loader2 className="h-3 w-3 animate-spin text-cinematic-orange" /> : <ImageIcon className="h-3 w-3 text-stone-400" />}
+                              <span className="text-[10px] font-bold uppercase text-stone-500 whitespace-nowrap">Upload Result Photo</span>
+                              <input type="file" accept="image/*" className="hidden" onChange={(e) => handleResultImageUpload(e, item.id)} />
+                            </label>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Remove */}

@@ -12,6 +12,7 @@ import {
   type PortfolioItem,
   type Deliverable
 } from '@/lib/portfolio';
+import { DeliverableModal } from '@/components/deliverable-modal';
 import {
   ArrowLeft,
   ArrowRight,
@@ -34,6 +35,7 @@ interface Props {
 }
 
 export function ProjectDetail({ item, relatedItems, slug }: Props) {
+  const [activeDeliverable, setActiveDeliverable] = useState<Deliverable | null>(null);
   const adjacent = useMemo(() => getFallbackAdjacent(slug), [slug]);
   const deliverables: Deliverable[] = item.deliverables && item.deliverables.length > 0
     ? item.deliverables 
@@ -197,13 +199,23 @@ export function ProjectDetail({ item, relatedItems, slug }: Props) {
                 {otherMedia.map((media, idx) => (
                   <div key={media.id} className="w-full flex flex-col gap-2">
                     {media.type === 'video' ? (
-                      <div className="relative overflow-hidden rounded-xl border border-stone-200 shadow-sm bg-black" style={{ aspectRatio: '4/5' }}>
+                      <div 
+                        className="relative overflow-hidden rounded-xl border border-stone-200 shadow-sm bg-black group cursor-pointer" 
+                        style={{ aspectRatio: '4/5' }}
+                        onClick={() => setActiveDeliverable(media)}
+                      >
                         <VideoPlayer
                           src={media.url}
                           aspect="aspect-auto"
                           objectFit="cover"
-                          className="absolute inset-0 w-full h-full"
+                          className="absolute inset-0 w-full h-full pointer-events-none"
                         />
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 z-10">
+                           <Play className="h-10 w-10 text-white drop-shadow-md mb-2" />
+                           {(media.thinking || media.result) && (
+                             <span className="bg-cinematic-orange text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-lg">View Details</span>
+                           )}
+                        </div>
                       </div>
                     ) : (
                       <a href={media.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center h-full min-h-[180px] rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 transition-colors">
@@ -239,13 +251,13 @@ export function ProjectDetail({ item, relatedItems, slug }: Props) {
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
                 {imagesOnly.map((img, i) => (
                   <div key={img.id} className="flex flex-col gap-2">
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-stone-200 shadow-sm bg-stone-100">
+                    <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-stone-200 shadow-sm bg-stone-100 group">
                       <Image
                         src={img.url}
                         alt={img.title || item.title}
                         fill
                         unoptimized={img.url.startsWith('http')}
-                        className="object-cover transition-transform duration-700 hover:scale-[1.03]"
+                        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                         sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                         quality={80}
                       />
@@ -388,6 +400,12 @@ export function ProjectDetail({ item, relatedItems, slug }: Props) {
           </motion.div>
         </Container>
       </div>
+
+      <DeliverableModal 
+        deliverable={activeDeliverable} 
+        isOpen={!!activeDeliverable} 
+        onClose={() => setActiveDeliverable(null)} 
+      />
     </main>
   );
 }
