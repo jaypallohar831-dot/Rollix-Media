@@ -80,6 +80,15 @@ export interface Database {
           status: string | null
           seo_title: string | null
           seo_description: string | null
+          video_url: string | null
+          location: string | null
+          month: string | null
+          crew: Json | null
+          client: string | null
+          duration: string | null
+          live_url: string | null
+          strategy: Json | null
+          deliverables: Json | null
         }
         Insert: {
           id?: string
@@ -96,6 +105,15 @@ export interface Database {
           status?: string | null
           seo_title?: string | null
           seo_description?: string | null
+          video_url?: string | null
+          location?: string | null
+          month?: string | null
+          crew?: Json | null
+          client?: string | null
+          duration?: string | null
+          live_url?: string | null
+          strategy?: Json | null
+          deliverables?: Json | null
         }
         Update: {
           id?: string
@@ -112,6 +130,15 @@ export interface Database {
           status?: string | null
           seo_title?: string | null
           seo_description?: string | null
+          video_url?: string | null
+          location?: string | null
+          month?: string | null
+          crew?: Json | null
+          client?: string | null
+          duration?: string | null
+          live_url?: string | null
+          strategy?: Json | null
+          deliverables?: Json | null
         }
       }
       services: {

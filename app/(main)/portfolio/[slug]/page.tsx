@@ -142,6 +142,8 @@ export default async function FilmDetailPage({ params }: PageProps) {
         client: projectData.client,
         duration: projectData.duration,
         crew: projectData.crew || [],
+        strategy: projectData.strategy,
+        deliverables: projectData.deliverables || [],
         gallery: (projectData.gallery_images || []).map((img: string) => ({
           type: 'image' as const,
           src: img,

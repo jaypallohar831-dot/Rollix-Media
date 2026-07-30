@@ -52,8 +52,6 @@ export const metadata: Metadata = {
   },
 };
 
-import { ScrollMotionBlur } from '@/components/scroll-motion-blur';
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -114,9 +112,7 @@ export default function RootLayout({
         style={{ position: 'relative' }}
         suppressHydrationWarning
       >
-        <ScrollMotionBlur>
-          {children}
-        </ScrollMotionBlur>
+        {children}
         <SpeedInsights />
       </body>
     </html>

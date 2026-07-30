@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/client';
 import type { Database } from '@/types/database.types';
 import VideoThumbnailPicker from '@/components/admin/video-thumbnail-picker';
 import { CrewBuilder, type CrewMember } from '@/components/admin/crew-builder';
+import { StrategyBuilder, type ProjectStrategy } from '@/components/admin/strategy-builder';
+import { DeliverablesBuilder, type Deliverable } from '@/components/admin/deliverables-builder';
 import { 
   Upload, 
   X, 
@@ -40,7 +42,17 @@ export default function NewPortfolioPage() {
     location: '',
     month: '',
     tags: [] as string[],
-    crew: [] as CrewMember[]
+    crew: [] as CrewMember[],
+    client: '',
+    duration: '',
+    live_url: '',
+    strategy: {
+      objective: '',
+      approach: [],
+      tools: [],
+      results: []
+    } as ProjectStrategy,
+    deliverables: [] as Deliverable[]
   });
 
   const fetchCategories = useCallback(async () => {
@@ -208,41 +220,39 @@ export default function NewPortfolioPage() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Video File (Optional)</label>
-                <div className="flex gap-4 items-center">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Client (Optional)</label>
                   <input
                     type="text"
-                    value={formData.video_url}
-                    onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
-                    className="flex-1 rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
-                    placeholder="https://vimeo.com/... or upload mp4 ->"
+                    value={formData.client}
+                    onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+                    className="w-full rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
+                    placeholder="e.g. Vision Classes"
                   />
-                  <label className="shrink-0 flex items-center justify-center h-12 px-6 rounded-xl bg-stone-100 hover:bg-cinematic-orange hover:text-white border border-stone-300 hover:border-cinematic-orange text-stone-700 cursor-pointer transition-all font-bold">
-                    {uploading === 'video' ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
-                    <span className="text-xs font-bold uppercase tracking-wider">{uploading === 'video' ? 'Uploading...' : 'Upload Video'}</span>
-                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept="video/*" />
-                  </label>
                 </div>
-                {formData.video_url && (
-                  <div className="mt-4 rounded-xl overflow-hidden border border-stone-200 bg-stone-900 aspect-video max-w-sm">
-                    <video 
-                      src={formData.video_url} 
-                      className="h-full w-full object-cover"
-                      controls
-                      muted
-                    />
-                  </div>
-                )}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Duration (Optional)</label>
+                  <input
+                    type="text"
+                    value={formData.duration}
+                    onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                    className="w-full rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
+                    placeholder="e.g. 2 Months"
+                  />
+                </div>
               </div>
 
-              {/* Video Thumbnail Picker — appears when video URL is set */}
-              {formData.video_url && (
-                <VideoThumbnailPicker
-                  videoUrl={formData.video_url}
-                  onThumbnailCaptured={(url) => setFormData(prev => ({ ...prev, thumbnail: url }))}
+              <div className="space-y-2">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Live URL (Optional)</label>
+                <input
+                  type="text"
+                  value={formData.live_url}
+                  onChange={(e) => setFormData({ ...formData, live_url: e.target.value })}
+                  className="w-full rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
+                  placeholder="https://client-website.com"
                 />
-              )}
+              </div>
 
               <div className="space-y-2">
                 <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Permanent Slug</label>
@@ -277,31 +287,15 @@ export default function NewPortfolioPage() {
             onChange={(crew) => setFormData(prev => ({ ...prev, crew }))} 
           />
 
-          <section className="rounded-3xl border border-stone-200 bg-white p-8 space-y-6 shadow-xs">
-            <h2 className="font-heading text-lg text-stone-900">Gallery Showcase</h2>
-            
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {formData.gallery_images.map((img, idx) => (
-                <div key={idx} className="relative aspect-video rounded-xl overflow-hidden border border-stone-200 group">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img} alt={`Gallery image ${idx + 1}`} className="h-full w-full object-cover" />
-                  <button 
-                    type="button"
-                    onClick={() => setFormData(prev => ({ ...prev, gallery_images: prev.gallery_images.filter((_, i) => i !== idx) }))}
-                    className="absolute top-2 right-2 p-1.5 rounded-full bg-stone-900/80 text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                </div>
-              ))}
-              
-              <label className="aspect-video rounded-xl border-2 border-dashed border-stone-300 hover:border-cinematic-orange transition-all flex flex-col items-center justify-center gap-2 cursor-pointer bg-stone-50 hover:bg-stone-100">
-                {uploading === 'gallery' ? <Loader2 className="h-5 w-5 animate-spin text-cinematic-orange" /> : <Plus className="h-5 w-5 text-stone-500" />}
-                <span className="text-[10px] font-bold uppercase tracking-widest text-stone-600">Add Image</span>
-                <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'gallery')} accept="image/*" />
-              </label>
-            </div>
-          </section>
+          <StrategyBuilder
+            strategy={formData.strategy}
+            onChange={(strategy) => setFormData(prev => ({ ...prev, strategy }))}
+          />
+
+          <DeliverablesBuilder
+            deliverables={formData.deliverables}
+            onChange={(d) => setFormData(prev => ({ ...prev, deliverables: d }))}
+          />
         </div>
 
         {/* Sidebar / Settings Area */}

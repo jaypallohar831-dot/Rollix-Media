@@ -72,7 +72,9 @@ export default async function AdminPortfolioPage() {
 
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-stone-900 text-base">{project.title}</span>
+                      <Link href={`/admin/portfolio/${project.slug}`} className="font-semibold text-stone-900 text-base hover:text-cinematic-orange transition-colors">
+                        {project.title}
+                      </Link>
                       {project.featured && (
                         <Star className="h-3.5 w-3.5 fill-cinematic-orange text-cinematic-orange" />
                       )}

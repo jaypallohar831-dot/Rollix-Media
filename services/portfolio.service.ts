@@ -14,6 +14,13 @@ export interface PortfolioProject {
   categories?: { title: string };
 }
 
+export type Deliverable = {
+  id: string;
+  title: string;
+  type: 'video' | 'image' | 'document';
+  url: string;
+};
+
 export interface PortfolioProjectDetail extends PortfolioProject {
   id: string;
   category_id?: string;
@@ -23,6 +30,14 @@ export interface PortfolioProjectDetail extends PortfolioProject {
   crew?: Array<{ role: string; name: string }>;
   month?: string;
   status?: string;
+  live_url?: string;
+  strategy?: {
+    objective?: string;
+    approach?: string[];
+    tools?: string[];
+    results?: string[];
+  };
+  deliverables?: Deliverable[];
 }
 
 export const portfolioService = {

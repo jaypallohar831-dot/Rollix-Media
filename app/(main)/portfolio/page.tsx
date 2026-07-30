@@ -6,13 +6,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '@/components/layout';
 import { FilmCard } from '@/components/film-card';
+import { StrategyModal } from '@/components/strategy-modal';
 import {
   PORTFOLIO_CATEGORIES,
   PORTFOLIO_ITEMS,
   type PortfolioCategory,
   type PortfolioItem,
 } from '@/lib/portfolio';
-import { Play, ChevronLeft, ChevronRight, ArrowRight, Loader2 } from 'lucide-react';
+import { Play, ChevronLeft, ChevronRight, ArrowRight, Loader2, Sparkles } from 'lucide-react';
 import { portfolioService } from '@/services/portfolio.service';
 import type { PortfolioProject } from '@/services/portfolio.service';
 import dynamic from 'next/dynamic';
@@ -20,9 +21,15 @@ import dynamic from 'next/dynamic';
 const ProcessSection = dynamic(() => import('@/sections/process').then(m => ({ default: m.ProcessSection })));
 
 /* ─────────────────────────────────────────
-   HERO CAROUSEL  (TWF-style full-width slider)
+   HERO CAROUSEL (Full-width featured slider)
    ───────────────────────────────────────── */
-function HeroCarousel({ items }: { items: PortfolioItem[] }) {
+function HeroCarousel({
+  items,
+  onOpenStrategy,
+}: {
+  items: PortfolioItem[];
+  onOpenStrategy: (item: PortfolioItem) => void;
+}) {
   const [current, setCurrent] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval>>(null);
 
@@ -31,14 +38,12 @@ function HeroCarousel({ items }: { items: PortfolioItem[] }) {
   const next = useCallback(() => setCurrent((c) => (c + 1) % total), [total]);
   const prev = useCallback(() => setCurrent((c) => (c - 1 + total) % total), [total]);
 
-  // Auto-advance every 6 seconds
   useEffect(() => {
     if (total === 0) return;
     timerRef.current = setInterval(next, 6000);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [next, total]);
 
-  // Reset timer on manual navigation
   const go = useCallback(
     (dir: 'next' | 'prev') => {
       if (timerRef.current) clearInterval(timerRef.current);
@@ -57,7 +62,6 @@ function HeroCarousel({ items }: { items: PortfolioItem[] }) {
 
   return (
     <div className="relative w-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl">
-      {/* Slides */}
       <AnimatePresence mode="wait">
         <motion.div
           key={item.id}
@@ -78,42 +82,50 @@ function HeroCarousel({ items }: { items: PortfolioItem[] }) {
             quality={80}
           />
 
-          {/* Cinematic overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
 
-          {/* Content */}
           <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 lg:p-14">
-            {/* Meta */}
-            <div className="mb-3 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-white/90 sm:text-xs">
-              <span>{item.location || 'Global'}</span>
+            <div className="mb-3 flex flex-wrap items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-white/90 sm:text-xs">
+              <span className="rounded-full bg-cinematic-orange px-2.5 py-0.5 text-white font-bold text-[10px]">
+                {item.category}
+              </span>
+              <span>{item.location || 'India'}</span>
               <span className="text-cinematic-orange">►</span>
               <span>{item.month || 'Selected'} {item.year}</span>
             </div>
 
-            {/* Title */}
             <h2 className="font-heading text-3xl font-normal tracking-[0.01em] text-white sm:text-5xl lg:text-6xl">
               {item.title}
             </h2>
 
-            {/* Tagline */}
-            <p className="mt-2 max-w-[500px] text-sm leading-relaxed text-white/90 sm:text-base">
+            <p className="mt-2 max-w-[550px] text-sm leading-relaxed text-white/90 sm:text-base">
               {item.tagline}
             </p>
 
-            {/* View Film button */}
-            <Link
-              href={`/portfolio/${item.id}`}
-              className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm transition-all duration-400 hover:border-cinematic-orange/60 hover:bg-cinematic-orange/20 hover:text-white sm:px-6 sm:py-3"
-            >
-              {item.mediaType === 'video' && <Play className="h-3.5 w-3.5" fill="currentColor" />}
-              {item.mediaType === 'video' ? 'View Film' : 'View Project'}
-            </Link>
+            <div className="mt-5 flex flex-wrap items-center gap-3">
+              <Link
+                href={`/portfolio/${item.id}`}
+                className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] text-white backdrop-blur-sm transition-all duration-400 hover:border-cinematic-orange hover:bg-cinematic-orange/30 sm:px-6 sm:py-3"
+              >
+                {item.mediaType === 'video' && <Play className="h-3.5 w-3.5" fill="currentColor" />}
+                {item.mediaType === 'video' ? 'View Film' : 'View Project'}
+              </Link>
+
+              {item.strategy && (
+                <button
+                  onClick={() => onOpenStrategy(item)}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-cinematic-orange bg-cinematic-orange px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-white transition-all hover:bg-white hover:text-stone-900 sm:px-6 sm:py-3 shadow-md"
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Behind Strategy
+                </button>
+              )}
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation arrows */}
       <button
         onClick={() => go('prev')}
         className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white/90 backdrop-blur-sm transition-all hover:bg-black/60 hover:text-white sm:left-5 sm:h-12 sm:w-12"
@@ -129,7 +141,6 @@ function HeroCarousel({ items }: { items: PortfolioItem[] }) {
         <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
       </button>
 
-      {/* Dots */}
       <div className="absolute bottom-4 right-6 z-20 flex items-center gap-1.5 sm:bottom-6 sm:right-10">
         {items.map((_, i) => (
           <button
@@ -153,14 +164,16 @@ function HeroCarousel({ items }: { items: PortfolioItem[] }) {
 }
 
 /* ─────────────────────────────────────────
-   HORIZONTAL SCROLL ROW (TWF-style section)
+   HORIZONTAL SCROLL ROW
    ───────────────────────────────────────── */
 function FilmRow({
   label,
   items,
+  onOpenStrategy,
 }: {
   label: string;
   items: PortfolioItem[];
+  onOpenStrategy: (item: PortfolioItem) => void;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -177,11 +190,15 @@ function FilmRow({
 
   return (
     <div className="mb-14 sm:mb-20">
-      {/* Row header */}
       <div className="mb-6 flex items-center justify-between sm:mb-8">
-        <h2 className="font-heading text-xl font-normal uppercase tracking-[0.08em] text-foreground sm:text-2xl">
-          {label}
-        </h2>
+        <div className="flex items-center gap-3">
+          <h2 className="font-heading text-xl font-normal uppercase tracking-[0.08em] text-foreground sm:text-2xl">
+            {label}
+          </h2>
+          <span className="rounded-full bg-cinematic-orange/10 px-2.5 py-0.5 text-xs font-bold text-cinematic-orange">
+            {items.length} {items.length === 1 ? 'project' : 'projects'}
+          </span>
+        </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => scroll('left')}
@@ -200,7 +217,6 @@ function FilmRow({
         </div>
       </div>
 
-      {/* Scrollable row */}
       <div
         ref={scrollRef}
         className="flex gap-5 overflow-x-auto pb-4 scrollbar-thin sm:gap-6"
@@ -208,9 +224,9 @@ function FilmRow({
         {items.map((item) => (
           <div
             key={item.id}
-            className="w-[240px] flex-shrink-0 sm:w-[300px] lg:w-[340px]"
+            className="w-[260px] flex-shrink-0 sm:w-[320px] lg:w-[360px]"
           >
-            <FilmCard item={item} />
+            <FilmCard item={item} onOpenStrategy={onOpenStrategy} />
           </div>
         ))}
       </div>
@@ -219,43 +235,43 @@ function FilmRow({
 }
 
 /* ─────────────────────────────────────────
-   ALL FILMS GRID (TWF-style 2-col grid)
+   ALL FILMS GRID
    ───────────────────────────────────────── */
 function AllFilmsGrid({
   items,
+  onOpenStrategy,
 }: {
   items: PortfolioItem[];
+  onOpenStrategy: (item: PortfolioItem) => void;
 }) {
   return (
     <div>
-      {/* Section header */}
       <div className="mb-8 flex flex-col gap-6 sm:mb-10 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="font-heading text-xl font-normal uppercase tracking-[0.08em] text-foreground sm:text-2xl">
-          The Full Archive
+          Project Showcase & Strategy Case Studies
         </h2>
       </div>
 
-      {/* 2-col grid like TWF */}
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.35 }}
-          className="grid grid-cols-1 gap-8 sm:gap-10 md:grid-cols-2"
+          className="grid grid-cols-1 gap-8 sm:gap-10 md:grid-cols-2 lg:grid-cols-3"
         >
           {items.map((item, i) => (
             <FilmCard
               key={item.id}
               item={item}
-              size="large"
+              size="default"
               priority={i < 4}
+              onOpenStrategy={onOpenStrategy}
             />
           ))}
         </motion.div>
       </AnimatePresence>
 
-      {/* Empty state */}
       {items.length === 0 && (
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <p className="text-foreground/80">
@@ -274,6 +290,7 @@ export default function PortfolioPage() {
   const [activeCategory, setActiveCategory] = useState<PortfolioCategory>('All');
   const [items, setItems] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [strategyProject, setStrategyProject] = useState<PortfolioItem | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -293,7 +310,10 @@ export default function PortfolioPage() {
             tags: item.tags || [],
             featured: item.featured,
             group: item.featured ? 'featured' : 'trending',
-            location: item.location || 'India'
+            location: item.location || 'India',
+            liveUrl: (item as any).live_url || undefined,
+            strategy: (item as any).strategy || undefined,
+            deliverables: (item as any).deliverables || [],
           }));
           setItems(mapped);
         } else {
@@ -312,19 +332,26 @@ export default function PortfolioPage() {
   const filteredItems = useMemo(
     () => {
       if (activeCategory === 'All') return items;
-      return items.filter(item => item.category === activeCategory);
+      return items.filter(
+        item => item.category.toLowerCase().trim() === activeCategory.toLowerCase().trim() ||
+                (activeCategory === 'Web Development' && item.category === 'Web Development') ||
+                (activeCategory === 'Ad Campaigns' && item.category === 'Ad Campaigns')
+      );
     },
     [activeCategory, items]
   );
 
-  // Group items for horizontal rows
-  const trendingItems = useMemo(() => items.filter(i => i.group === 'trending'), [items]);
-  const classicsItems = useMemo(() => items.filter(i => i.group === 'classics'), [items]);
   const featuredItems = useMemo(() => items.filter(i => i.featured), [items]);
 
   return (
     <main className="relative min-h-screen bg-background">
-      {/* Ambient background */}
+      {/* Behind the Strategy Modal */}
+      <StrategyModal
+        project={strategyProject}
+        isOpen={Boolean(strategyProject)}
+        onClose={() => setStrategyProject(null)}
+      />
+
       <div className="absolute inset-0 pointer-events-none fixed z-0" aria-hidden="true">
         <div
           className="absolute inset-0 opacity-25"
@@ -344,32 +371,44 @@ export default function PortfolioPage() {
             transition={{ duration: 0.6 }}
             className="mb-10 text-center sm:mb-14"
           >
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-cinematic-orange mb-3">
+              <Sparkles className="h-3.5 w-3.5" /> Work & Execution Strategy
+            </span>
             <h1 className="font-heading text-3xl font-normal uppercase tracking-[0.1em] text-foreground sm:text-4xl lg:text-5xl">
-              Cinematic Archives
+              Project Case Studies & Strategy
             </h1>
+            <p className="mt-3 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+              Select a discipline to explore completed client projects along with the strategy, workflow, tools, and ROI achieved.
+            </p>
             <div
-              className="mx-auto mt-4 mb-10 h-[1px] w-12"
+              className="mx-auto mt-4 mb-8 h-[1px] w-16"
               style={{
                 background:
-                  'linear-gradient(90deg, transparent, rgba(212,118,60,0.4), transparent)',
+                  'linear-gradient(90deg, transparent, rgba(212,118,60,0.5), transparent)',
               }}
             />
 
             {/* ── GLOBAL CATEGORY FILTER TABS ── */}
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-              {PORTFOLIO_CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`rounded-full border px-4 py-2 text-[10px] font-medium uppercase tracking-[0.18em] transition-all duration-300 sm:text-[11px] ${
-                    activeCategory === cat
-                      ? 'border-cinematic-orange/60 bg-cinematic-orange/20 text-cinematic-orange shadow-[0_0_15px_rgba(212,118,60,0.3)]'
-                      : 'border-border/60 text-foreground/80 hover:border-border hover:text-foreground'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+              {PORTFOLIO_CATEGORIES.map((cat) => {
+                const count = cat === 'All' ? items.length : items.filter(i => i.category.toLowerCase().trim() === cat.toLowerCase().trim()).length;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`rounded-full border px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] transition-all duration-300 sm:text-[11px] flex items-center gap-1.5 ${
+                      activeCategory === cat
+                        ? 'border-cinematic-orange bg-cinematic-orange/20 text-cinematic-orange shadow-[0_0_15px_rgba(212,118,60,0.3)]'
+                        : 'border-border/60 text-foreground/80 hover:border-border hover:text-foreground'
+                    }`}
+                  >
+                    <span>{cat}</span>
+                    <span className="rounded-full bg-black/10 px-1.5 py-0.2 text-[9px]">
+                      {count}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </motion.div>
 
@@ -389,22 +428,30 @@ export default function PortfolioPage() {
                     transition={{ duration: 0.5 }}
                   >
                     <div className="mb-16 sm:mb-24">
-                      <HeroCarousel items={featuredItems} />
+                      <HeroCarousel
+                        items={featuredItems}
+                        onOpenStrategy={(item) => setStrategyProject(item)}
+                      />
                     </div>
 
                     <div className="mb-12 mt-8 flex flex-col items-center">
                       <h2 className="font-heading text-3xl font-normal uppercase tracking-[0.1em] text-foreground sm:text-4xl">
-                        Our Projects
+                        Featured Projects
                       </h2>
                       <div className="mt-4 h-[1px] w-24 bg-gradient-to-r from-transparent via-cinematic-orange to-transparent opacity-50" />
                     </div>
 
                     <div>
                       {PORTFOLIO_CATEGORIES.filter(c => c !== 'All').map(category => {
-                        const catItems = items.filter(item => item.category === category);
+                        const catItems = items.filter(item => item.category.toLowerCase().trim() === category.toLowerCase().trim());
                         if (catItems.length === 0) return null;
                         return (
-                          <FilmRow key={category} label={category} items={catItems} />
+                          <FilmRow
+                            key={category}
+                            label={category}
+                            items={catItems}
+                            onOpenStrategy={(item) => setStrategyProject(item)}
+                          />
                         );
                       })}
                     </div>
@@ -418,7 +465,10 @@ export default function PortfolioPage() {
                     />
 
                     <div className="pb-20 sm:pb-28">
-                      <AllFilmsGrid items={filteredItems} />
+                      <AllFilmsGrid
+                        items={filteredItems}
+                        onOpenStrategy={(item) => setStrategyProject(item)}
+                      />
                     </div>
                   </motion.div>
                 </AnimatePresence>
@@ -430,9 +480,22 @@ export default function PortfolioPage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.5 }}
-                    className="pb-20 sm:pb-28 pt-8"
+                    className="pb-20 sm:pb-28 pt-4"
                   >
-                    <AllFilmsGrid items={filteredItems} />
+                    {/* Category Header */}
+                    <div className="mb-10 rounded-2xl border border-border/80 bg-white/60 p-6 backdrop-blur-md">
+                      <h2 className="text-2xl font-extrabold text-foreground">
+                        {activeCategory} Projects
+                      </h2>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        Showing {filteredItems.length} {filteredItems.length === 1 ? 'project' : 'projects'} under {activeCategory}. Click <strong className="text-cinematic-orange">Behind Strategy</strong> on any card to view the exact process and strategy used.
+                      </p>
+                    </div>
+
+                    <AllFilmsGrid
+                      items={filteredItems}
+                      onOpenStrategy={(item) => setStrategyProject(item)}
+                    />
                   </motion.div>
                 </AnimatePresence>
               )}
@@ -440,10 +503,8 @@ export default function PortfolioPage() {
           )}
         </Container>
 
-        {/* ── PROCESS / STRATEGY SECTION ── */}
         <ProcessSection />
 
-        {/* ── BOTTOM CTA ── */}
         <div className="border-t border-border/60 bg-background py-20 sm:py-28">
           <Container>
             <div className="text-center">
@@ -452,8 +513,8 @@ export default function PortfolioPage() {
                 Ready to create?
               </span>
               <h2 className="mx-auto max-w-2xl font-heading text-[clamp(2rem,4vw,3.5rem)] font-light leading-[1.1] tracking-[-0.02em] text-foreground">
-                Let&rsquo;s tell your{' '}
-                <span className="text-gradient-warm italic">story</span>
+                Let&rsquo;s engineer your next{' '}
+                <span className="text-cinematic-orange italic font-normal">growth story</span>
               </h2>
               <div className="mt-8 flex justify-center">
                 <Link
