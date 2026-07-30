@@ -69,19 +69,19 @@ export function MessageList({ initialMessages }: { initialMessages: Message[] })
 
   return (
     <div className="space-y-10 text-stone-900">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-white border border-stone-200 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xs">
         <div>
-          <h1 className="font-heading text-4xl font-light tracking-tight text-stone-900">
+          <h1 className="font-heading text-3xl sm:text-4xl font-light tracking-tight text-stone-900">
             Client <span className="text-gradient-warm italic font-medium">Enquiries</span>
           </h1>
-          <p className="mt-2 text-stone-500 font-light tracking-wide">
+          <p className="mt-2 text-xs sm:text-sm text-stone-500 font-light tracking-wide">
             You have <span className="text-stone-900 font-semibold">{messages.length}</span> messages from potential clients.
           </p>
         </div>
         <button 
           onClick={handleRefresh}
           disabled={refreshing}
-          className="flex items-center gap-2 rounded-xl bg-stone-100 border border-stone-300 px-6 py-3 text-sm font-bold text-stone-800 transition-all hover:bg-cinematic-orange hover:text-white disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-stone-100 border border-stone-300 px-5 py-3 text-xs sm:text-sm font-bold text-stone-800 transition-all hover:bg-cinematic-orange hover:text-white disabled:opacity-50 shrink-0"
         >
           <RefreshCcw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
           Refresh

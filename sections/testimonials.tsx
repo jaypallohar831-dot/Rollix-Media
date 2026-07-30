@@ -100,7 +100,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
             </AnimatePresence>
 
             {/* Navigation */}
-            <div className="absolute top-1/2 -left-4 sm:-left-20 -translate-y-1/2 hidden sm:block">
+            <div className="absolute top-1/2 -left-4 sm:-left-12 lg:-left-20 -translate-y-1/2 hidden sm:block">
               <button 
                 onClick={prev}
                 className="p-4 rounded-full border border-border bg-white text-muted-foreground hover:text-foreground hover:border-cinematic-orange/40 shadow-sm transition-[color,border-color] duration-300"
@@ -108,7 +108,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                 <ChevronLeft className="h-6 w-6" />
               </button>
             </div>
-            <div className="absolute top-1/2 -right-4 sm:-right-20 -translate-y-1/2 hidden sm:block">
+            <div className="absolute top-1/2 -right-4 sm:-right-12 lg:-right-20 -translate-y-1/2 hidden sm:block">
               <button 
                 onClick={next}
                 className="p-4 rounded-full border border-border bg-white text-muted-foreground hover:text-foreground hover:border-cinematic-orange/40 shadow-sm transition-[color,border-color] duration-300"

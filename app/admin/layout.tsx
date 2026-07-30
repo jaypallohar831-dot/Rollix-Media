@@ -36,7 +36,7 @@ export default function AdminLayout({
 
       {/* Main content - must have relative z-10 to sit above BokehBackground */}
       <main className={`flex-1 overflow-auto min-w-0 bg-[#fafafa] relative z-10 ${isLoginPage ? '' : 'md:ml-[260px]'}`}>
-        <div className="p-8 h-full w-full">
+        <div className="p-4 sm:p-6 lg:p-8 h-full w-full">
           {children}
         </div>
       </main>

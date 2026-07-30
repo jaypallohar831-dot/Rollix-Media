@@ -7,32 +7,28 @@
 @keyframes fadeUp {
   0% {
     opacity: 0;
-    transform: translateY(24px);
-    filter: blur(10px);
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0px);
   }
 }
 
 .hero-fade-up {
   opacity: 0;
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: transform, opacity, filter;
+  animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
 }
 
 @keyframes fadeDown {
   0% {
     opacity: 0;
-    transform: translateY(-24px);
-    filter: blur(10px);
+    transform: translateY(-20px);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0px);
   }
 }
 

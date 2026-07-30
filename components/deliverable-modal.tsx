@@ -42,129 +42,107 @@ export function DeliverableModal({ deliverable, isOpen, onClose }: DeliverableMo
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 20 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className={`relative w-full overflow-hidden rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] ${
-            hasStrategy ? 'bg-white max-w-6xl' : 'bg-transparent max-w-5xl'
-          }`}
+          className="relative w-full overflow-hidden rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] bg-white max-w-6xl"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button - Outside the media area for clarity */}
           <button
             onClick={onClose}
-            className={`absolute right-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-md transition-colors ${
-              hasStrategy
-                ? 'bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900'
-                : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
-            }`}
+            className="absolute right-4 top-4 z-50 flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-md transition-colors bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900"
           >
             <X className="h-5 w-5" />
           </button>
 
-          {hasStrategy ? (
-            /* ── STRATEGY LAYOUT (SPLIT 50/50) ── */
-            <div className="flex flex-col lg:grid lg:grid-cols-[1.2fr,1fr] max-h-[90vh]">
-              {/* Media Section */}
-              <div className="relative bg-black w-full min-h-[40vh] lg:h-[85vh] lg:min-h-0 flex items-center justify-center">
-                {deliverable.type === 'video' ? (
-                  <VideoPlayer
-                    src={deliverable.url}
-                    aspect="aspect-auto"
-                    objectFit="contain"
-                    className="absolute inset-0 w-full h-full"
-                  />
-                ) : deliverable.type === 'image' ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img src={deliverable.url} alt={deliverable.title} className="absolute inset-0 w-full h-full object-contain p-4" />
-                ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-white/50 bg-stone-900">
-                    <ImageIcon className="h-16 w-16 mb-4 opacity-40" />
-                    <p className="text-sm font-medium uppercase tracking-widest">Document View</p>
-                  </div>
-                )}
-                {/* Subtle gradient overlay to ensure text readability if we add any */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                
-                <div className="absolute bottom-6 left-6 right-6">
-                  <span className="inline-block px-3 py-1 mb-2 rounded-full bg-white/20 backdrop-blur-md text-[9px] font-bold uppercase tracking-widest text-white border border-white/20">
-                    {deliverable.type}
-                  </span>
-                  <h3 className="text-2xl font-heading text-white drop-shadow-md">{deliverable.title}</h3>
+          {/* Main Layout Container */}
+          <div className="flex flex-col md:flex-row h-[85vh] max-h-[850px] min-h-[500px] w-full overflow-hidden">
+            {/* Left: Media Section (Video / Image) */}
+            <div className="relative flex-1 bg-black md:w-3/5 lg:w-2/3 h-[40vh] md:h-full shrink-0 flex items-center justify-center overflow-hidden">
+              {deliverable.type === 'video' ? (
+                <VideoPlayer
+                  src={deliverable.url}
+                  aspect="aspect-auto"
+                  objectFit="contain"
+                  className="absolute inset-0 h-full w-full"
+                />
+              ) : deliverable.type === 'image' ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={deliverable.url}
+                  alt={deliverable.title}
+                  className="h-full w-full object-contain p-4"
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center text-white/50">
+                  <ImageIcon className="mb-4 h-16 w-16 opacity-40" />
+                  <p className="text-sm font-medium uppercase tracking-widest">Document View</p>
                 </div>
+              )}
+            </div>
+
+            {/* Right: Details & Strategy Section */}
+            <div className="flex-1 md:w-2/5 lg:w-1/3 h-full overflow-y-auto bg-stone-50 p-6 sm:p-8 lg:p-10">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cinematic-orange/30 bg-cinematic-orange/10 px-3 py-1">
+                <Sparkles className="h-3.5 w-3.5 text-cinematic-orange" />
+                <span className="text-[10px] font-bold uppercase tracking-widest text-cinematic-orange">
+                  {deliverable.type} Deliverable
+                </span>
               </div>
 
-              {/* Strategy Section */}
-              <div className="p-8 sm:p-10 lg:p-12 overflow-y-auto bg-stone-50">
-                <div className="inline-flex items-center gap-2 rounded-full border border-cinematic-orange/30 bg-cinematic-orange/10 px-3 py-1 mb-8">
-                  <Sparkles className="h-4 w-4 text-cinematic-orange" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-cinematic-orange">
-                    Deliverable Insights
-                  </span>
-                </div>
+              <div className="space-y-8">
+                <section>
+                  <h3 className="font-heading text-2xl sm:text-3xl font-normal text-stone-900 mb-3">
+                    {deliverable.title}
+                  </h3>
+                  {!deliverable.thinking && !deliverable.result && (
+                    <p className="text-sm leading-relaxed text-stone-600 font-light">
+                      A crafted digital asset designed to elevate the brand&apos;s visual identity and engage the target audience.
+                    </p>
+                  )}
+                </section>
 
-                <div className="space-y-10">
-                  {deliverable.thinking && (
-                    <section>
-                      <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-stone-400 mb-4">
-                        Behind the Edit
-                      </h4>
-                      <div className="prose prose-stone prose-sm sm:prose-base leading-[1.8] text-stone-700 font-light">
-                        {deliverable.thinking.split('\n').map((para, idx) => (
-                          <p key={idx} className="mb-4 last:mb-0">{para}</p>
-                        ))}
+                {deliverable.thinking && (
+                  <section>
+                    <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-stone-400">
+                      Behind the Edit
+                    </h4>
+                    <div className="text-sm sm:text-base leading-relaxed text-stone-700 font-light space-y-3">
+                      {deliverable.thinking.split('\n').map((para, idx) => (
+                        <p key={idx}>{para}</p>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {(deliverable.result || deliverable.resultImage) && (
+                  <section>
+                    <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-stone-400">
+                      Impact & Results
+                    </h4>
+
+                    {deliverable.result && (
+                      <div className="mb-4 flex items-start gap-3 rounded-xl border border-cinematic-orange/20 bg-white p-4 shadow-sm">
+                        <TrendingUp className="h-5 w-5 text-cinematic-orange shrink-0 mt-0.5" />
+                        <span className="text-sm font-medium text-stone-900 leading-relaxed">
+                          {deliverable.result}
+                        </span>
                       </div>
-                    </section>
-                  )}
+                    )}
 
-                  {(deliverable.result || deliverable.resultImage) && (
-                    <section>
-                      <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-stone-400 mb-4">
-                        Impact & Results
-                      </h4>
-                      
-                      {deliverable.result && (
-                        <div className="mb-6 flex items-start gap-4 rounded-2xl border border-cinematic-orange/20 bg-white p-6 shadow-sm">
-                          <TrendingUp className="h-6 w-6 text-cinematic-orange shrink-0 mt-0.5" />
-                          <span className="font-medium text-stone-900 leading-relaxed text-lg">{deliverable.result}</span>
-                        </div>
-                      )}
-
-                      {deliverable.resultImage && (
-                        <div className="rounded-2xl overflow-hidden border border-stone-200 shadow-lg bg-white p-2">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={deliverable.resultImage} alt="Result Impact" className="w-full h-auto object-cover rounded-xl" />
-                        </div>
-                      )}
-                    </section>
-                  )}
-                </div>
-              </div>
-            </div>
-          ) : (
-            /* ── MEDIA ONLY LAYOUT (NO STRATEGY) ── */
-            <div className="relative w-full bg-black/50 overflow-hidden rounded-3xl ring-1 ring-white/10 flex items-center justify-center min-h-[40vh] max-h-[90vh]">
-                {deliverable.type === 'video' ? (
-                  <VideoPlayer
-                    src={deliverable.url}
-                    aspect="aspect-auto"
-                    objectFit="contain"
-                    className="w-full h-auto max-h-[90vh]"
-                  />
-                ) : deliverable.type === 'image' ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img src={deliverable.url} alt={deliverable.title} className="w-full h-auto max-h-[90vh] object-contain p-2" />
-                ) : (
-                  <div className="flex flex-col items-center justify-center text-white/50 h-[50vh]">
-                    <ImageIcon className="h-16 w-16 mb-4 opacity-40" />
-                    <p className="text-sm font-medium">Document View Not Supported</p>
-                  </div>
+                    {deliverable.resultImage && (
+                      <div className="rounded-xl overflow-hidden border border-stone-200 shadow-sm bg-white p-3 flex justify-center bg-stone-100/50">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={deliverable.resultImage}
+                          alt="Result Impact"
+                          className="max-h-48 w-auto object-contain rounded-lg"
+                        />
+                      </div>
+                    )}
+                  </section>
                 )}
-              
-              {/* Overlay Title */}
-              <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none flex flex-col justify-end">
-                <span className="text-white/60 text-[10px] uppercase tracking-[0.2em] font-bold mb-2">{deliverable.type} Deliverable</span>
-                <span className="text-white font-heading text-2xl sm:text-3xl drop-shadow-lg">{deliverable.title}</span>
               </div>
             </div>
-          )}
+          </div>
         </motion.div>
       </div>
     </AnimatePresence>

@@ -88,7 +88,7 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
 
           {/* Navigation links */}
           <motion.nav
-            className="relative z-10 flex flex-1 flex-col items-center justify-center gap-2"
+            className="relative z-10 flex flex-1 flex-col items-center justify-center gap-2 overflow-y-auto py-16 px-6"
             variants={menuContainerVariants}
             initial="closed"
             animate="open"

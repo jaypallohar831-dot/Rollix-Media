@@ -36,7 +36,7 @@ export function HeroSection() {
             </span>
           </div>
 
-          <h1 className="font-heading text-[clamp(3rem,6vw,5.5rem)] font-light leading-[1.05] tracking-[-0.02em] text-foreground">
+          <h1 className="font-heading text-[clamp(2.25rem,6vw,5.5rem)] font-light leading-[1.08] tracking-[-0.02em] text-foreground">
             <span className="block overflow-hidden pb-1 -mb-1">
               <span className="block hero-fade-up" style={{ animationDelay: '0.15s' }}>Architecting</span>
             </span>
@@ -59,7 +59,7 @@ export function HeroSection() {
           </p>
 
           <div
-            className="mt-10 flex flex-col items-start gap-4 sm:mt-12 sm:flex-row sm:items-center sm:gap-4 hero-fade-up"
+            className="mt-8 flex flex-col w-full items-stretch gap-4 sm:w-auto sm:mt-12 sm:flex-row sm:items-center sm:gap-4 hero-fade-up"
             style={{ animationDelay: '0.45s' }}
           >
             <CinematicButton variant="primary" href="/services">
@@ -71,7 +71,7 @@ export function HeroSection() {
           </div>
 
           <div
-            className="mt-16 sm:mt-24 hero-fade-up"
+            className="mt-12 sm:mt-24 hero-fade-up"
             style={{ animationDelay: '0.52s' }}
           >
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/50">
@@ -82,13 +82,15 @@ export function HeroSection() {
 
         {/* Right Column: Video Reel and Scroll Indicator */}
         <div className="relative flex items-center justify-end w-full hero-fade-up" style={{ animationDelay: '0.6s' }}>
-          <div className="relative w-full max-w-[600px] aspect-[4/3] sm:aspect-[4/4.5] overflow-hidden rounded-3xl sm:rounded-[32px] bg-muted shadow-lg mr-0 lg:mr-12 group">
+          <div className="relative w-full max-w-[600px] aspect-video sm:aspect-square lg:aspect-[4/4.5] overflow-hidden rounded-2xl sm:rounded-[32px] bg-muted shadow-lg mr-0 lg:mr-12 group">
             <video
               src="/assets/premium/hero-bg-video.mp4"
+              poster="/assets/premium/hero-bg-poster.jpg"
               autoPlay
               loop
               muted
               playsInline
+              preload="metadata"
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             {/* Subtle overlay for depth */}

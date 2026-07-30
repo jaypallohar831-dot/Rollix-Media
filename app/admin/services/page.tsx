@@ -15,18 +15,18 @@ export default async function AdminServicesPage() {
 
   return (
     <div className="space-y-10 pb-20 text-stone-900">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-white border border-stone-200 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xs">
         <div>
-          <h1 className="font-heading text-4xl font-light tracking-tight text-stone-900">
+          <h1 className="font-heading text-3xl sm:text-4xl font-light tracking-tight text-stone-900">
             Agency <span className="text-gradient-warm italic font-medium">Services</span>
           </h1>
-          <p className="mt-2 text-stone-500 font-light tracking-wide">
+          <p className="mt-2 text-xs sm:text-sm text-stone-500 font-light tracking-wide">
             Manage the core offerings of your digital studio.
           </p>
         </div>
         <Link 
           href="/admin/services/new"
-          className="flex items-center gap-2 rounded-xl bg-cinematic-orange px-6 py-3 text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02]"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-cinematic-orange px-5 py-3 text-xs sm:text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02] shrink-0"
         >
           <Plus className="h-4 w-4" />
           Add New Service

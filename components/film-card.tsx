@@ -87,13 +87,8 @@ export const FilmCard = memo(function FilmCard({
               muted
               loop
               playsInline
-              onError={(e) => {
-                const target = e.currentTarget;
-                if (!target.src.includes('/assets/loader-bg.mp4')) {
-                  target.src = '/assets/loader-bg.mp4';
-                }
-              }}
-              className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.04] opacity-0 group-hover:opacity-100"
+              className="absolute inset-0 z-10 h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.04] opacity-0 group-hover:opacity-100"
+              onError={(e) => console.error("Video failed to load:", item.videoUrl, e)}
             />
           )}
 

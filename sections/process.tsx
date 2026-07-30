@@ -55,8 +55,8 @@ export function ProcessSection() {
               return (
                 <motion.div key={step.id} variants={fadeUp} className="flex flex-col items-center text-center group">
                   {/* Icon in Circle */}
-                  <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-full border border-border bg-white shadow-sm transition-all duration-500 group-hover:border-cinematic-orange group-hover:shadow-md relative z-10">
-                    <Icon className="h-6 w-6 text-cinematic-orange transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
+                  <div className="mb-5 sm:mb-8 flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border border-border bg-white shadow-sm transition-all duration-500 group-hover:border-cinematic-orange group-hover:shadow-md relative z-10">
+                    <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-cinematic-orange transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
                   </div>
 
                   <span className="mb-3 text-[11px] font-bold text-cinematic-orange">

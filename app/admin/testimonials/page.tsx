@@ -16,18 +16,18 @@ export default async function AdminTestimonialsPage() {
 
   return (
     <div className="space-y-10 pb-20">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-white border border-stone-200 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xs">
         <div>
-          <h1 className="font-heading text-4xl font-light tracking-tight text-stone-900">
+          <h1 className="font-heading text-3xl sm:text-4xl font-light tracking-tight text-stone-900">
             Client <span className="text-gradient-warm italic font-medium">Voices</span>
           </h1>
-          <p className="mt-2 text-stone-500 font-light tracking-wide">
+          <p className="mt-2 text-xs sm:text-sm text-stone-500 font-light tracking-wide">
             Manage the praise and stories from your satisfied clients.
           </p>
         </div>
         <Link 
           href="/admin/testimonials/new"
-          className="flex items-center gap-2 rounded-xl bg-cinematic-orange px-6 py-3 text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02]"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-cinematic-orange px-5 py-3 text-xs sm:text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02] shrink-0"
         >
           <Plus className="h-4 w-4" />
           Add Testimonial
@@ -45,10 +45,10 @@ export default async function AdminTestimonialsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {testimonials && testimonials.length > 0 ? (
           testimonials.map((item) => (
-            <div key={item.id} className="group relative rounded-3xl border border-stone-200 bg-white p-8 transition-all hover:shadow-md">
+            <div key={item.id} className="group relative rounded-2xl sm:rounded-3xl border border-stone-200 bg-white p-5 sm:p-8 transition-all hover:shadow-md">
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-4">
-                  <div className="relative h-12 w-12 overflow-hidden rounded-full border border-stone-200 bg-stone-100">
+                  <div className="relative h-12 w-12 overflow-hidden rounded-full border border-stone-200 bg-stone-100 shrink-0">
                     {item.avatar_url ? (
                       <>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -83,7 +83,7 @@ export default async function AdminTestimonialsPage() {
                 <span className={`text-[10px] font-bold uppercase tracking-widest ${item.status === 'published' ? 'text-green-600' : 'text-stone-400'}`}>
                   {item.status}
                 </span>
-                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                   <button className="p-2 rounded-lg text-stone-500 hover:bg-stone-100 hover:text-stone-900">
                     <Pencil className="h-4 w-4" />
                   </button>

@@ -302,13 +302,13 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Live URL (Optional)</label>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Social Media Link (Optional)</label>
                 <input
                   type="text"
                   value={formData.live_url}
                   onChange={(e) => setFormData({ ...formData, live_url: e.target.value })}
                   className="w-full rounded-xl border border-stone-300 bg-white px-5 py-4 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
-                  placeholder="https://client-website.com"
+                  placeholder="https://instagram.com/p/..."
                 />
               </div>
 

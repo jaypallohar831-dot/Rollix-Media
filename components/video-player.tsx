@@ -111,12 +111,6 @@ export const VideoPlayer = memo(function VideoPlayer({
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onClick={togglePlay}
-        onError={(e) => {
-          const target = e.currentTarget;
-          if (!target.src.includes('/assets/loader-bg.mp4')) {
-            target.src = '/assets/loader-bg.mp4';
-          }
-        }}
         className={cn(
           aspect === 'aspect-auto' && !className?.includes('absolute') ? 'w-full h-auto' : 'absolute inset-0 h-full w-full',
           'cursor-pointer',

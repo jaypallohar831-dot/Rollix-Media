@@ -46,6 +46,32 @@ async function fetchRelated(slug: string) {
   }
 }
 
+async function fetchAdjacent(slug: string) {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from('portfolio_projects')
+      .select('slug, title')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false });
+
+    if (!data) return { prev: null, next: null };
+
+    const index = data.findIndex(p => p.slug === slug);
+    if (index === -1) return { prev: null, next: null };
+
+    const prevRaw = index > 0 ? data[index - 1] : null;
+    const nextRaw = index < data.length - 1 ? data[index + 1] : null;
+
+    return {
+      prev: prevRaw ? { id: prevRaw.slug, title: prevRaw.title } : null,
+      next: nextRaw ? { id: nextRaw.slug, title: nextRaw.title } : null,
+    };
+  } catch {
+    return { prev: null, next: null };
+  }
+}
+
 // ── Automatic SEO Metadata ──────────────────────────────────────────────────
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -141,6 +167,7 @@ export default async function FilmDetailPage({ params }: PageProps) {
         location: projectData.location || 'India',
         client: projectData.client,
         duration: projectData.duration,
+        liveUrl: projectData.live_url || undefined,
         crew: projectData.crew || [],
         strategy: projectData.strategy,
         deliverables: projectData.deliverables || [],
@@ -166,8 +193,8 @@ export default async function FilmDetailPage({ params }: PageProps) {
           description: '',
           image: p.thumbnail || '/assets/portfolio/wedding.png',
           year: new Date(p.created_at).getFullYear().toString(),
-          mediaType: (p.video_url ? 'video' : 'image') as 'video' | 'image',
-          videoUrl: p.video_url || undefined,
+          mediaType: (p.video_url && p.video_url !== '/assets/loader-bg.mp4' ? 'video' : 'image') as 'video' | 'image',
+          videoUrl: (p.video_url && p.video_url !== '/assets/loader-bg.mp4') ? p.video_url : undefined,
           tags: p.tags || [],
         }))
     : fallbackItems.filter((p) => p.id !== decodedSlug).slice(0, 3);
@@ -206,13 +233,15 @@ export default async function FilmDetailPage({ params }: PageProps) {
     keywords: (item.tags || []).join(', '),
   };
 
+  const adjacent = await fetchAdjacent(decodedSlug);
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ProjectDetail item={item} relatedItems={relatedItems} slug={decodedSlug} />
+      <ProjectDetail item={item} relatedItems={relatedItems} slug={decodedSlug} adjacent={adjacent} />
     </>
   );
 }

@@ -85,35 +85,11 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
             >
               <div 
                 ref={scrollRef}
-                className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-thin pb-8 -mx-6 px-6 lg:mx-0 lg:px-0"
+                className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-thin pb-6 sm:pb-8 w-full"
                 style={{ scrollBehavior: 'smooth' }}
               >
                 {displayProjects.map((project) => (
-                  <Link 
-                    href={`/portfolio/${project.id}`} 
-                    key={project.id}
-                    className="group flex-shrink-0 w-[220px] sm:w-[280px] snap-start flex flex-col gap-4"
-                  >
-                    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
-                      <Image
-                        src={project.image || '/assets/portfolio/motion.png'}
-                        alt={project.title}
-                        fill
-                        unoptimized={(project.image || '').startsWith('http')}
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />
-                    </div>
-                    <div>
-                      <h4 className="font-heading text-lg font-medium text-foreground mb-2 group-hover:text-cinematic-orange transition-colors">
-                        {project.title}
-                      </h4>
-                      <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                        {project.description || `Transforming raw potential into engaging masterpieces.`}
-                      </p>
-                    </div>
-                  </Link>
+                  <ProjectCard key={project.id} project={project} />
                 ))}
               </div>
 
@@ -131,5 +107,64 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
         </div>
       </Container>
     </section>
+  );
+}
+
+function ProjectCard({ project }: { project: PortfolioItem }) {
+  const isVideo = project.mediaType === 'video' && !!project.videoUrl;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    if (isVideo && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (isVideo && videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
+
+  return (
+    <Link 
+      href={`/portfolio/${project.id}`} 
+      className="group flex-shrink-0 w-[240px] sm:w-[280px] snap-start flex flex-col gap-3 sm:gap-4"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
+        {!isVideo && (
+          <Image
+            src={project.image || '/assets/portfolio/motion.png'}
+            alt={project.title}
+            fill
+            unoptimized={(project.image || '').startsWith('http')}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        )}
+        {isVideo && project.videoUrl && (
+          <video
+            ref={videoRef}
+            src={project.videoUrl}
+            preload="metadata"
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+        )}
+        <div className="absolute inset-0 z-20 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />
+      </div>
+      <div>
+        <h4 className="font-heading text-lg font-medium text-foreground mb-2 group-hover:text-cinematic-orange transition-colors">
+          {project.title}
+        </h4>
+        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+          {project.description || `Transforming raw potential into engaging masterpieces.`}
+        </p>
+      </div>
+    </Link>
   );
 }

@@ -35,12 +35,12 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-10 pb-20">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-white border border-stone-200 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xs">
         <div>
-          <h1 className="font-heading text-4xl font-light tracking-tight text-stone-900">
+          <h1 className="font-heading text-3xl sm:text-4xl font-light tracking-tight text-stone-900">
             Studio <span className="text-gradient-warm italic font-medium">Control</span>
           </h1>
-          <p className="mt-2 text-stone-500 font-light tracking-wide">
+          <p className="mt-2 text-xs sm:text-sm text-stone-500 font-light tracking-wide">
             Connected to Supabase Cluster: <span className="text-cinematic-orange font-medium">Active</span>
           </p>
         </div>
@@ -48,7 +48,7 @@ export default async function AdminDashboardPage() {
         <div className="flex items-center gap-3">
           <Link 
             href="/admin/portfolio/new" 
-            className="flex items-center gap-2 rounded-xl bg-cinematic-orange px-6 py-3 text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02]"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-cinematic-orange px-5 py-3 text-xs sm:text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02] shrink-0"
           >
             <Plus className="h-4 w-4" />
             New Project

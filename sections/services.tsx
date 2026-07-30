@@ -33,11 +33,17 @@ const iconMap: Record<string, LucideIcon> = {
   Zap: Zap
 };
 
-export function ServicesSection() {
-  const [services, setServices] = useState<ServiceItem[]>([]);
-  const [loading, setLoading] = useState(true);
+interface ServicesSectionProps {
+  initialServices?: ServiceItem[];
+}
+
+export function ServicesSection({ initialServices }: ServicesSectionProps = {}) {
+  const [services, setServices] = useState<ServiceItem[]>(initialServices || fallbackServices);
+  const [loading, setLoading] = useState(!initialServices && services.length === 0);
 
   useEffect(() => {
+    if (initialServices && initialServices.length > 0) return;
+    
     async function loadServices() {
       try {
         const data = await servicesService.getServices();
@@ -51,18 +57,15 @@ export function ServicesSection() {
             featured: s.featured
           }));
           setServices(mapped);
-        } else {
-          setServices(fallbackServices);
         }
       } catch (err: unknown) {
         console.error('Failed to fetch services:', err instanceof Error ? err.message : String(err));
-        setServices(fallbackServices);
       } finally {
         setLoading(false);
       }
     }
     loadServices();
-  }, []);
+  }, [initialServices]);
 
   // Split services into layout groups
   const featured = services.find(s => s.featured) || services[0];

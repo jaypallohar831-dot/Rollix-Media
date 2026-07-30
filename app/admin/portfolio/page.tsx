@@ -16,12 +16,12 @@ export default async function AdminPortfolioPage() {
   return (
     <div className="space-y-10 pb-20 text-stone-900">
 
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white border border-stone-200 p-8 rounded-3xl shadow-xs">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-white border border-stone-200 p-5 sm:p-8 rounded-2xl sm:rounded-3xl shadow-xs">
         <div>
-          <h1 className="font-heading text-4xl font-light tracking-tight text-stone-900">
+          <h1 className="font-heading text-3xl sm:text-4xl font-light tracking-tight text-stone-900">
             Portfolio <span className="text-gradient-warm italic font-medium">Vault</span>
           </h1>
-          <p className="mt-2 text-stone-500 font-light tracking-wide">
+          <p className="mt-2 text-xs sm:text-sm text-stone-500 font-light tracking-wide">
             You have{' '}
             <span className="text-stone-900 font-semibold">{projects?.length ?? 0}</span>
             {' '}published works.
@@ -29,7 +29,7 @@ export default async function AdminPortfolioPage() {
         </div>
         <Link
           href="/admin/portfolio/new"
-          className="flex items-center gap-2 rounded-xl bg-cinematic-orange px-6 py-3 text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02]"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-cinematic-orange px-5 py-3 text-xs sm:text-sm font-bold text-white transition-all hover:bg-stone-900 shadow-md hover:scale-[1.02] shrink-0"
         >
           <Plus className="h-4 w-4" />
           Add New Project
@@ -42,9 +42,10 @@ export default async function AdminPortfolioPage() {
         </div>
       )}
 
-      <div className="rounded-3xl border border-stone-200 bg-white shadow-xs overflow-hidden">
+      <div className="rounded-2xl sm:rounded-3xl border border-stone-200 bg-white shadow-xs overflow-hidden">
         {projects && projects.length > 0 ? (
-          <table className="w-full border-collapse">
+          <div className="overflow-x-auto w-full">
+            <table className="w-full border-collapse min-w-[600px]">
             <thead>
               <tr className="bg-stone-50 border-b border-stone-200">
                 <th className="px-6 py-4 text-left text-[10px] font-bold uppercase tracking-wider text-stone-500">Preview</th>
@@ -110,6 +111,7 @@ export default async function AdminPortfolioPage() {
               ))}
             </tbody>
           </table>
+          </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <Film className="h-12 w-12 text-stone-300 mb-4" />

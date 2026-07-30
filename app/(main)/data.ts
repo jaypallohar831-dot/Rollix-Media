@@ -69,8 +69,8 @@ export async function getHomepageData(): Promise<HomepageData> {
         tagline: item.seo_title || item.title,
         year: new Date(item.created_at).getFullYear().toString(),
         image: item.thumbnail || '/assets/portfolio/wedding.png',
-        mediaType: item.video_url ? 'video' as const : 'image' as const,
-        videoUrl: item.video_url || undefined,
+        mediaType: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? 'video' as const : 'image' as const,
+        videoUrl: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? item.video_url : undefined,
         tags: item.tags || [],
         featured: item.featured,
       }));

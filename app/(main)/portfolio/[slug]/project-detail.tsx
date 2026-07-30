@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,7 +8,6 @@ import { Container } from '@/components/layout';
 import { VideoPlayer } from '@/components/video-player';
 import { FilmCard } from '@/components/film-card';
 import {
-  getAdjacentItems as getFallbackAdjacent,
   type PortfolioItem,
   type Deliverable
 } from '@/lib/portfolio';
@@ -25,18 +24,19 @@ import {
   ChevronRight,
   Video,
   ImageIcon,
-  File
+  File,
+  ExternalLink
 } from 'lucide-react';
 
 interface Props {
   item: PortfolioItem;
   relatedItems: PortfolioItem[];
   slug: string;
+  adjacent: { prev: { id: string; title: string } | null; next: { id: string; title: string } | null };
 }
 
-export function ProjectDetail({ item, relatedItems, slug }: Props) {
+export function ProjectDetail({ item, relatedItems, slug, adjacent }: Props) {
   const [activeDeliverable, setActiveDeliverable] = useState<Deliverable | null>(null);
-  const adjacent = useMemo(() => getFallbackAdjacent(slug), [slug]);
   const deliverables: Deliverable[] = item.deliverables && item.deliverables.length > 0
     ? item.deliverables 
     : [];
@@ -114,6 +114,20 @@ export function ProjectDetail({ item, relatedItems, slug }: Props) {
               <p className="mt-8 max-w-[800px] text-base leading-[1.8] text-stone-700 sm:text-lg sm:leading-[1.9] font-light">
                 {item.description}
               </p>
+            )}
+
+            {item.liveUrl && (
+              <div className="mt-8">
+                <a 
+                  href={item.liveUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-stone-900 px-6 py-3 text-sm font-bold text-white transition-all hover:bg-cinematic-orange hover:-translate-y-1 shadow-lg hover:shadow-xl"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Watch on Social Media
+                </a>
+              </div>
             )}
           </motion.div>
 
@@ -199,24 +213,7 @@ export function ProjectDetail({ item, relatedItems, slug }: Props) {
                 {otherMedia.map((media, idx) => (
                   <div key={media.id} className="w-full flex flex-col gap-2">
                     {media.type === 'video' ? (
-                      <div 
-                        className="relative overflow-hidden rounded-xl border border-stone-200 shadow-sm bg-black group cursor-pointer" 
-                        style={{ aspectRatio: '4/5' }}
-                        onClick={() => setActiveDeliverable(media)}
-                      >
-                        <VideoPlayer
-                          src={media.url}
-                          aspect="aspect-auto"
-                          objectFit="cover"
-                          className="absolute inset-0 w-full h-full pointer-events-none"
-                        />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 z-10">
-                           <Play className="h-10 w-10 text-white drop-shadow-md mb-2" />
-                           {(media.thinking || media.result) && (
-                             <span className="bg-cinematic-orange text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-lg">View Details</span>
-                           )}
-                        </div>
-                      </div>
+                      <DeliverableVideoThumb media={media} onClick={() => setActiveDeliverable(media)} />
                     ) : (
                       <a href={media.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center h-full min-h-[180px] rounded-xl border border-stone-200 bg-stone-50 hover:bg-stone-100 transition-colors">
                         <div className="flex flex-col items-center gap-2 text-center p-3">
@@ -407,5 +404,47 @@ export function ProjectDetail({ item, relatedItems, slug }: Props) {
         onClose={() => setActiveDeliverable(null)} 
       />
     </main>
+  );
+}
+
+function DeliverableVideoThumb({ media, onClick }: { media: Deliverable; onClick: () => void }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+  };
+
+  return (
+    <div 
+      className="relative overflow-hidden rounded-xl border border-stone-200 shadow-sm bg-black group cursor-pointer" 
+      style={{ aspectRatio: '4/5' }}
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <video
+        ref={videoRef}
+        src={media.url}
+        preload="metadata"
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center z-10">
+         <Play className="h-10 w-10 text-white drop-shadow-md mb-2 opacity-0 group-hover:opacity-100 transition-opacity" />
+         {(media.title || media.url) && (
+           <span className="bg-cinematic-orange text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">View Details</span>
+         )}
+      </div>
+    </div>
   );
 }
