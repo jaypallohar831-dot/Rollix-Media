@@ -59,11 +59,14 @@ export function HeroSection() {
           </p>
 
           <div
-            className="mt-8 flex flex-col w-full items-stretch gap-4 sm:w-auto sm:mt-12 sm:flex-row sm:items-center sm:gap-4 hero-fade-up"
+            className="mt-8 flex flex-col w-full items-stretch gap-3 sm:w-auto sm:mt-12 sm:flex-row sm:items-center sm:flex-wrap hero-fade-up"
             style={{ animationDelay: '0.45s' }}
           >
             <CinematicButton variant="primary" href="/services">
               Explore Our Services
+            </CinematicButton>
+            <CinematicButton variant="outline" href="/portfolio">
+              View Portfolio
             </CinematicButton>
             <CinematicButton variant="outline" href="/contact" showArrow={false}>
               Start Your Growth

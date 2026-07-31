@@ -91,20 +91,20 @@ export default function VideoThumbnailPicker({
     try {
       // ── Canvas capture ──
       const canvas = canvasRef.current;
-      if (!canvas) throw new Error('Canvas not available');
+      if (!canvas) throw new Error('Canvas element not found');
 
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      canvas.width = video.videoWidth || 1280;
+      canvas.height = video.videoHeight || 720;
 
       const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('Canvas context not available');
 
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // Convert to blob
+      // Convert to blob (Works 100% because video is proxied same-origin)
       const blob = await new Promise<Blob>((resolve, reject) => {
         canvas.toBlob(
-          (b) => (b ? resolve(b) : reject(new Error('Failed to create image blob'))),
+          (b) => (b ? resolve(b) : reject(new Error('Failed to export canvas frame'))),
           'image/jpeg',
           0.92
         );
@@ -137,7 +137,7 @@ export default function VideoThumbnailPicker({
     } finally {
       setCapturing(false);
     }
-  }, [videoUrl, onThumbnailCaptured]);
+  }, [onThumbnailCaptured]);
 
   const formatTime = (t: number) => {
     const mins = Math.floor(t / 60);
@@ -146,8 +146,11 @@ export default function VideoThumbnailPicker({
   };
 
   const getPlayableSrc = (url: string) => {
-    if (!url) return url;
-    return url;
+    if (!url) return '';
+    if (url.startsWith('/') || url.startsWith('blob:') || url.startsWith('data:')) {
+      return url;
+    }
+    return `/api/admin/proxy-video?url=${encodeURIComponent(url)}`;
   };
 
   const playableSrc = getPlayableSrc(videoUrl);
@@ -168,6 +171,7 @@ export default function VideoThumbnailPicker({
           <video
             ref={videoRef}
             src={playableSrc}
+            crossOrigin="anonymous"
             className="h-full w-full object-contain bg-black"
             preload="metadata"
             playsInline

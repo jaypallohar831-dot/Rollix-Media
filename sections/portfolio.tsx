@@ -158,12 +158,17 @@ function ProjectCard({ project }: { project: PortfolioItem }) {
         <div className="absolute inset-0 z-20 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />
       </div>
       <div>
-        <h4 className="font-heading text-lg font-medium text-foreground mb-2 group-hover:text-cinematic-orange transition-colors">
+        <h4 className="font-heading text-lg font-medium text-foreground mb-1 group-hover:text-cinematic-orange transition-colors">
           {project.title}
         </h4>
-        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-          {project.description || `Transforming raw potential into engaging masterpieces.`}
+        <p className="text-xs font-medium text-cinematic-orange uppercase tracking-wider mb-1">
+          {project.tags && project.tags.length > 0 ? project.tags.join(' • ') : (project.category || 'Digital Marketing')}
         </p>
+        {project.description && (
+          <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+            {project.description}
+          </p>
+        )}
       </div>
     </Link>
   );

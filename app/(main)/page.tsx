@@ -44,11 +44,6 @@ export default async function Home() {
 
       <Divider />
 
-      {/* Testimonials — social proof */}
-      <TestimonialsSection testimonials={testimonials} />
-
-      <Divider />
-
       {/* Success Stories — featured case study */}
       <SuccessStoriesSection />
 
@@ -56,6 +51,11 @@ export default async function Home() {
 
       {/* Process — behind the craft */}
       <ProcessSection />
+
+      <Divider />
+
+      {/* Testimonials — social proof (2nd last) */}
+      <TestimonialsSection testimonials={testimonials} />
 
       <Divider />
 

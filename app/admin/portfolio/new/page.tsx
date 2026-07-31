@@ -15,7 +15,8 @@ import {
   Loader2, 
   ChevronLeft,
   Sparkles,
-  Plus
+  Plus,
+  Video
 } from 'lucide-react';
 
 type Category = Database['public']['Tables']['categories']['Row'];
@@ -27,6 +28,7 @@ export default function NewPortfolioPage() {
   const [uploading, setUploading] = useState<string | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [draftRestored, setDraftRestored] = useState(false);
+  const [thumbnailTab, setThumbnailTab] = useState<'manual' | 'video'>('manual');
 
   const [formData, setFormData] = useState({
     title: '',
@@ -153,7 +155,17 @@ export default function NewPortfolioPage() {
       category_id: submitData.category_id || null,
     };
 
-    const { error } = await supabase.from('portfolio_projects').insert([finalData]);
+    let { error } = await supabase.from('portfolio_projects').insert([finalData]);
+
+    // Handle duplicate slug collision automatically
+    if (error && (error.message.includes('portfolio_projects_slug_key') || error.code === '23505')) {
+      const uniqueSlug = `${finalData.slug}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const retryData = { ...finalData, slug: uniqueSlug };
+      const retryRes = await supabase.from('portfolio_projects').insert([retryData]);
+      if (!retryRes.error) {
+        error = null;
+      }
+    }
 
     setLoading(false);
     if (error) {
@@ -223,7 +235,7 @@ export default function NewPortfolioPage() {
                   value={formData.title}
                   onChange={(e) => {
                     const title = e.target.value;
-                    const slug = title.toLowerCase().replace(/\s+/g, '-');
+                    const slug = title.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
                     const cat = categories.find(c => c.id === formData.category_id)?.title || 'Digital Marketing';
                     const loc = formData.location || 'Bhilwara, Rajasthan';
                     const autoSeoTitle = title ? `${title} — Rollix Media Portfolio` : '';
@@ -401,29 +413,128 @@ export default function NewPortfolioPage() {
             </section>
           )}
 
-          <section className="rounded-3xl border border-stone-200 bg-white p-8 space-y-6 shadow-xs">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-stone-600">Project Cover</h2>
-            
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 group">
-              {formData.thumbnail ? (
-                <>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={formData.thumbnail} alt="Project cover" className="h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                     <label className="cursor-pointer p-3 rounded-full bg-white text-stone-900 shadow-md hover:bg-cinematic-orange hover:text-white transition-all">
-                       <Upload className="h-5 w-5" />
-                       <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept="image/*" />
-                     </label>
-                  </div>
-                </>
-              ) : (
-                <label className="absolute inset-0 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-stone-50 transition-colors">
-                  {uploading === 'thumbnail' ? <Loader2 className="h-6 w-6 animate-spin text-cinematic-orange" /> : <Upload className="h-6 w-6 text-stone-400" />}
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Upload Thumbnail</span>
-                  <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept="image/*" />
-                </label>
-              )}
+          <section className="rounded-3xl border border-stone-200 bg-white p-6 sm:p-8 space-y-6 shadow-xs">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-stone-600">Project Cover & Video</h2>
+              <div className="flex gap-1 rounded-xl bg-stone-100 p-1">
+                <button
+                  type="button"
+                  onClick={() => setThumbnailTab('manual')}
+                  className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all ${thumbnailTab === 'manual' ? 'bg-white text-stone-900 shadow-xs' : 'text-stone-500 hover:text-stone-900'}`}
+                >
+                  🖼 Manual
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setThumbnailTab('video')}
+                  className={`px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all ${thumbnailTab === 'video' ? 'bg-white text-stone-900 shadow-xs' : 'text-stone-500 hover:text-stone-900'}`}
+                >
+                  🎬 From Video
+                </button>
+              </div>
             </div>
+
+            {/* Current Thumbnail Preview */}
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Current Active Thumbnail</label>
+              <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-stone-200 bg-stone-100 group">
+                {formData.thumbnail ? (
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={formData.thumbnail} alt="Project cover" className="h-full w-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => setFormData(prev => ({ ...prev, thumbnail: '' }))}
+                      className="absolute top-3 right-3 p-1.5 rounded-full bg-black/60 text-white hover:bg-red-600 transition-colors"
+                      title="Remove thumbnail"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </>
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-stone-400 p-4 text-center">
+                    <Upload className="h-6 w-6 opacity-60" />
+                    <span className="text-xs font-medium">No thumbnail selected yet</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* TAB 1: Manual Upload / URL */}
+            {thumbnailTab === 'manual' && (
+              <div className="space-y-4 pt-2 border-t border-stone-100">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Upload Image File</label>
+                  <label className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl border border-dashed border-stone-300 bg-stone-50 hover:bg-stone-100 cursor-pointer transition-colors text-xs font-bold text-stone-700">
+                    {uploading === 'thumbnail' ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-cinematic-orange" />
+                    ) : (
+                      <Upload className="h-4 w-4 text-cinematic-orange" />
+                    )}
+                    <span>{uploading === 'thumbnail' ? 'Uploading Image...' : 'Choose Image File'}</span>
+                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept="image/*" />
+                  </label>
+                </div>
+
+                <div className="relative flex py-1 items-center">
+                  <div className="flex-grow border-t border-stone-200"></div>
+                  <span className="flex-shrink mx-3 text-[10px] uppercase tracking-widest text-stone-400 font-bold">Or Paste Image URL</span>
+                  <div className="flex-grow border-t border-stone-200"></div>
+                </div>
+
+                <div className="space-y-2">
+                  <input
+                    type="url"
+                    value={formData.thumbnail}
+                    onChange={(e) => setFormData({ ...formData, thumbnail: e.target.value })}
+                    className="w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: Pick from Video */}
+            {thumbnailTab === 'video' && (
+              <div className="space-y-4 pt-2 border-t border-stone-100">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Video File / URL</label>
+                  <label className="flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl border border-stone-300 bg-stone-50 hover:bg-stone-100 cursor-pointer transition-colors text-xs font-bold text-stone-700">
+                    {uploading === 'video' ? (
+                      <Loader2 className="h-4 w-4 animate-spin text-cinematic-orange" />
+                    ) : (
+                      <Video className="h-4 w-4 text-cinematic-orange" />
+                    )}
+                    <span>{uploading === 'video' ? 'Uploading Video...' : 'Upload Video File'}</span>
+                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept="video/*" />
+                  </label>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-stone-600 ml-1">Video URL</label>
+                  <input
+                    type="text"
+                    value={formData.video_url}
+                    onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
+                    className="w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-sm text-stone-900 focus:border-cinematic-orange focus:outline-none transition-all shadow-xs"
+                    placeholder="https://... (mp4 / webm)"
+                  />
+                </div>
+
+                {formData.video_url ? (
+                  <div className="pt-2">
+                    <VideoThumbnailPicker
+                      videoUrl={formData.video_url}
+                      onThumbnailCaptured={(url) => setFormData(prev => ({ ...prev, thumbnail: url }))}
+                    />
+                  </div>
+                ) : (
+                  <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium">
+                    💡 Please upload or enter a Video URL above to enable frame selection.
+                  </div>
+                )}
+              </div>
+            )}
           </section>
 
           <button

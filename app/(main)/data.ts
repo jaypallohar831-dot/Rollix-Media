@@ -67,6 +67,7 @@ export async function getHomepageData(): Promise<HomepageData> {
         title: item.title,
         category: item.categories?.title || 'Uncategorized',
         tagline: item.seo_title || item.title,
+        description: item.description,
         year: new Date(item.created_at).getFullYear().toString(),
         image: item.thumbnail || '/assets/portfolio/wedding.png',
         mediaType: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? 'video' as const : 'image' as const,
