@@ -1,17 +1,37 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/layout';
+import { PAGE_SEO, getCanonicalUrl } from '@/lib/seo.config';
+import { WebPageSchema } from '@/components/seo/json-ld';
+import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service',
-  description: 'Terms and conditions for using Rollix Media services.',
+  title: PAGE_SEO.terms.title,
+  description: PAGE_SEO.terms.description,
+  alternates: { canonical: getCanonicalUrl('/terms') },
   robots: { index: true, follow: false },
+  openGraph: {
+    title: PAGE_SEO.terms.title,
+    description: PAGE_SEO.terms.description,
+    url: getCanonicalUrl('/terms'),
+  },
 };
 
 export default function TermsPage() {
   return (
     <main className="relative min-h-screen bg-background pt-36 pb-24">
+      <WebPageSchema
+        name="Terms of Service"
+        description={PAGE_SEO.terms.description}
+        url={getCanonicalUrl('/terms')}
+        breadcrumb={[
+          { name: 'Home', url: getCanonicalUrl('/') },
+          { name: 'Terms of Service', url: getCanonicalUrl('/terms') },
+        ]}
+      />
       <Container>
         <div className="mx-auto max-w-3xl">
+          <Breadcrumbs items={[{ label: 'Terms of Service', href: '/terms' }]} className="mb-8" />
+
           <span className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80 mb-6">
             <span className="h-[1px] w-6 bg-cinematic-orange/40" />
             Legal
@@ -21,7 +41,7 @@ export default function TermsPage() {
           </h1>
           <p className="text-muted-foreground mb-12">Last updated: May 2025</p>
 
-          <div className="space-y-10 text-foreground/80 leading-relaxed">
+          <article className="space-y-10 text-foreground/80 leading-relaxed">
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">1. Services</h2>
               <p>Rollix Media provides digital marketing services including video editing, social media management, web development, SEO, and graphic design. All services are delivered as agreed upon in individual project contracts or proposals.</p>
@@ -59,9 +79,9 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">8. Contact</h2>
-              <p>For any questions regarding these terms, contact us at <a href="mailto:hello@rollixmedia.com" className="text-cinematic-orange hover:underline">hello@rollixmedia.com</a>.</p>
+              <p>For any questions regarding these terms, contact us at <a href="mailto:rollixmedia@gmail.com" className="text-cinematic-orange hover:underline">rollixmedia@gmail.com</a>.</p>
             </section>
-          </div>
+          </article>
         </div>
       </Container>
     </main>

@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import { ScrollMotionBlur } from '@/components/scroll-motion-blur';
 
 export default function MainLayout({
@@ -10,7 +11,10 @@ export default function MainLayout({
     <>
       <Navbar />
       <ScrollMotionBlur>
-        {children}
+        <div id="main-content">
+          {children}
+        </div>
+        <Footer />
       </ScrollMotionBlur>
     </>
   );

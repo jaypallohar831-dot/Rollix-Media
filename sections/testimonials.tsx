@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import { Container } from '@/components/layout';
 import { Quote, Star, User, ChevronLeft, ChevronRight } from 'lucide-react';
 import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
@@ -31,7 +32,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
   const current = testimonials[currentIndex];
 
   return (
-    <section className="relative overflow-hidden bg-background py-12 sm:py-16 lg:py-20">
+    <section aria-label="Client Testimonials" className="relative overflow-hidden bg-background py-12 sm:py-16 lg:py-20">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none bg-background overflow-hidden" />
 
@@ -54,7 +55,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
           </motion.h2>
         </motion.div>
 
-          <div className="relative mx-auto max-w-4xl">
+          <div className="relative mx-auto max-w-4xl" aria-live="polite">
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentIndex}
@@ -64,30 +65,33 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 className="relative rounded-3xl border border-border bg-white shadow-sm p-8 sm:p-16 text-center"
               >
-                <Quote className="absolute top-8 left-8 h-12 w-12 text-cinematic-orange/10" />
+                <Quote className="absolute top-8 left-8 h-12 w-12 text-cinematic-orange/10" aria-hidden="true" />
                 
                 <div className="flex justify-center mb-8">
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1" aria-label={`Rating: ${current.rating} out of 5 stars`}>
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`h-4 w-4 ${i < current.rating ? 'fill-cinematic-orange text-cinematic-orange' : 'text-muted-foreground/30'}`} />
+                      <Star key={i} className={`h-4 w-4 ${i < current.rating ? 'fill-cinematic-orange text-cinematic-orange' : 'text-muted-foreground/30'}`} aria-hidden="true" />
                     ))}
                   </div>
                 </div>
 
-                <p className="text-xl sm:text-2xl font-light leading-relaxed text-foreground italic mb-10">
+                <blockquote className="text-xl sm:text-2xl font-light leading-relaxed text-foreground italic mb-10">
                   &ldquo;{current.content}&rdquo;
-                </p>
+                </blockquote>
 
                 <div className="flex flex-col items-center">
-                  <div className="h-16 w-16 rounded-full overflow-hidden border border-border mb-4 bg-muted">
+                  <div className="relative h-16 w-16 rounded-full overflow-hidden border border-border mb-4 bg-muted">
                     {current.avatar_url ? (
-                      <>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={current.avatar_url} alt={current.name} className="h-full w-full object-cover" />
-                      </>
+                      <Image
+                        src={current.avatar_url}
+                        alt={`Photo of ${current.name}`}
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                      />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-muted-foreground/50">
-                        <User className="h-8 w-8" />
+                        <User className="h-8 w-8" aria-hidden="true" />
                       </div>
                     )}
                   </div>
@@ -103,24 +107,26 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
             <div className="absolute top-1/2 -left-4 sm:-left-12 lg:-left-20 -translate-y-1/2 hidden sm:block">
               <button 
                 onClick={prev}
+                aria-label="Previous testimonial"
                 className="p-4 rounded-full border border-border bg-white text-muted-foreground hover:text-foreground hover:border-cinematic-orange/40 shadow-sm transition-[color,border-color] duration-300"
               >
-                <ChevronLeft className="h-6 w-6" />
+                <ChevronLeft className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
             <div className="absolute top-1/2 -right-4 sm:-right-12 lg:-right-20 -translate-y-1/2 hidden sm:block">
               <button 
                 onClick={next}
+                aria-label="Next testimonial"
                 className="p-4 rounded-full border border-border bg-white text-muted-foreground hover:text-foreground hover:border-cinematic-orange/40 shadow-sm transition-[color,border-color] duration-300"
               >
-                <ChevronRight className="h-6 w-6" />
+                <ChevronRight className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
 
             {/* Mobile Navigation */}
             <div className="flex justify-center gap-4 mt-8 sm:hidden">
-               <button onClick={prev} className="p-3 rounded-full border border-border bg-white shadow-sm text-muted-foreground"><ChevronLeft className="h-5 w-5" /></button>
-               <button onClick={next} className="p-3 rounded-full border border-border bg-white shadow-sm text-muted-foreground"><ChevronRight className="h-5 w-5" /></button>
+               <button onClick={prev} aria-label="Previous testimonial" className="p-3 rounded-full border border-border bg-white shadow-sm text-muted-foreground"><ChevronLeft className="h-5 w-5" aria-hidden="true" /></button>
+               <button onClick={next} aria-label="Next testimonial" className="p-3 rounded-full border border-border bg-white shadow-sm text-muted-foreground"><ChevronRight className="h-5 w-5" aria-hidden="true" /></button>
             </div>
 
             {/* Indicators */}
@@ -129,6 +135,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}
+                  aria-label={`Go to testimonial ${i + 1}`}
                   className={`h-1 rounded-full transition-[width,background-color] duration-500 ${i === currentIndex ? 'w-8 bg-cinematic-orange' : 'w-2 bg-border hover:bg-muted-foreground/50'}`}
                 />
               ))}

@@ -83,13 +83,15 @@ export const FilmCard = memo(function FilmCard({
             <video
               ref={videoRef}
               src={getOptimizedVideoUrl(item.videoUrl, true)}
-              preload="metadata"
+              preload="none"
               muted
               loop
               playsInline
               className="absolute inset-0 z-10 h-full w-full object-cover transition-all duration-700 ease-out group-hover:scale-[1.04] opacity-0 group-hover:opacity-100"
               onError={(e) => console.error("Video failed to load:", item.videoUrl, e)}
-            />
+            >
+              <track kind="captions" srcLang="en" label="No captions available" />
+            </video>
           )}
 
           {/* Hover dim */}

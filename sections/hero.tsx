@@ -20,6 +20,7 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
+      aria-label="Hero — Digital Marketing Agency"
       className="relative flex min-h-screen items-center overflow-hidden bg-background pt-28 pb-16 sm:pt-36 sm:pb-24"
     >
       <div className="absolute inset-0 z-0 bg-background pointer-events-none" />
@@ -95,7 +96,9 @@ export function HeroSection() {
               playsInline
               preload="metadata"
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
+            >
+              <track kind="captions" srcLang="en" label="No captions available" />
+            </video>
             {/* Subtle overlay for depth */}
             <div className="absolute inset-0 bg-black/10 pointer-events-none" />
           </div>

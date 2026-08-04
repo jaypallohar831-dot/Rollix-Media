@@ -7,6 +7,10 @@ import { PORTFOLIO_ITEMS } from '@/lib/portfolio';
 import { CheckCircle2, IndianRupee } from 'lucide-react';
 import { servicesService } from '@/services/services.service';
 import { ToolsShowcase } from '@/components/tools-showcase';
+import { SERVICE_SEO, OG_IMAGE, SOCIAL, getCanonicalUrl } from '@/lib/seo.config';
+import { ServiceSchema, BreadcrumbSchema, FAQSchema } from '@/components/seo/json-ld';
+import { Breadcrumbs } from '@/components/seo/breadcrumbs';
+import { ServicesToContactCTA } from '@/components/seo/internal-links';
 
 interface ServicePageProps {
   params: Promise<{
@@ -26,17 +30,29 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!service) service = SERVICES.find((s) => s.slug === slug) as any;
 
-  const title = service ? `${service.title} in Bhilwara` : 'Service';
-  const description = service?.description || 'Professional digital marketing service by Rollix Media, Bhilwara.';
+  const seoData = SERVICE_SEO[slug];
+  const title = seoData?.title || (service ? `${service.title} Services in Bhilwara | Rollix Media` : 'Service | Rollix Media');
+  const description = seoData?.description || service?.description || 'Professional digital marketing service by Rollix Media, Bhilwara.';
+  const keywords = seoData?.keywords || [service?.title || slug, 'Rollix Media', 'Bhilwara'];
+  const canonicalUrl = getCanonicalUrl(`/services/${slug}`);
 
   return {
     title,
     description,
-    alternates: { canonical: `https://rollixmedia.vercel.app/services/${slug}` },
+    keywords,
+    alternates: { canonical: canonicalUrl },
     openGraph: {
-      title: `${title} | Rollix Media`,
+      title,
       description,
-      url: `https://rollixmedia.vercel.app/services/${slug}`,
+      url: canonicalUrl,
+      images: [{ url: OG_IMAGE.url, width: OG_IMAGE.width, height: OG_IMAGE.height, alt: `${service?.title || slug} — Rollix Media` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [OG_IMAGE.url],
+      creator: SOCIAL.twitterHandle,
     },
   };
 }
@@ -97,15 +113,33 @@ export default async function ServicePage({ params }: ServicePageProps) {
   // Get related portfolio items based on category
   const relatedWork = PORTFOLIO_ITEMS.slice(0, 2);
 
+  const canonicalUrl = getCanonicalUrl(`/services/${resolvedParams.slug}`);
+  const seoData = SERVICE_SEO[resolvedParams.slug];
+
   return (
     <main className="relative min-h-screen pt-28 sm:pt-36 lg:pt-40 bg-background text-foreground">
-      
+      {/* Service JSON-LD */}
+      <ServiceSchema
+        name={service.title}
+        description={seoData?.description || service.description}
+        url={canonicalUrl}
+        priceRange={details.pricing}
+      />
+
       {/* Background Ambience */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 opacity-40" style={{ background: 'radial-gradient(circle at 50% 0%, rgba(199,123,67,0.06) 0%, transparent 60%)' }} />
       </div>
 
       <Container size="wide" className="relative z-10">
+        {/* Breadcrumbs */}
+        <div className="mb-8">
+          <Breadcrumbs items={[
+            { label: 'Services', href: '/services' },
+            { label: service.title, href: `/services/${resolvedParams.slug}` },
+          ]} />
+        </div>
+
         {/* Service Hero */}
         <div className="mb-16 sm:mb-20 lg:mb-24">
           <div className="mb-6 sm:mb-8">
@@ -246,28 +280,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
       <Divider />
 
-      {/* Service CTA */}
-      <Section id="contact" spacing="sm">
-        <Container>
-          <div className="text-center">
-            <span className="mb-6 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-cinematic-orange">
-              <span className="h-[1px] w-6 bg-cinematic-orange/60" />
-              Let&rsquo;s Talk
-            </span>
-            <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2rem,5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.02em] text-stone-900">
-              Ready to elevate your <span className="text-gradient-warm italic font-medium">{service.title.split(' ').pop()}</span>?
-            </h2>
-            <div className="mt-12 flex justify-center">
-              <a 
-                href="/contact"
-                className="inline-flex h-14 items-center justify-center rounded-full border border-stone-300 bg-white px-8 text-[11px] font-bold uppercase tracking-[0.2em] text-stone-900 shadow-sm transition-all duration-300 hover:border-cinematic-orange hover:text-cinematic-orange"
-              >
-                Start a Project
-              </a>
-            </div>
-          </div>
-        </Container>
-      </Section>
+      {/* Internal linking: Services → Contact */}
+      <ServicesToContactCTA />
     </main>
   );
 }

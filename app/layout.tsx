@@ -1,54 +1,102 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { geistSans, geistMono, inter, playfairDisplay } from './fonts';
 import './globals.css';
-import { Navbar } from '@/components/navbar';
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  SITE_LOCALE,
+  BUSINESS,
+  SOCIAL,
+  OG_IMAGE,
+  PRIMARY_KEYWORDS,
+  PAGE_SEO,
+  VERIFICATION,
+} from '@/lib/seo.config';
+import {
+  OrganizationSchema,
+  LocalBusinessSchema,
+  WebSiteSchema,
+} from '@/components/seo/json-ld';
 
+// ── Viewport (separated from metadata in Next.js 16) ────────────────────────
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#C77B43',
+  colorScheme: 'light',
+};
+
+// ── Root Metadata ───────────────────────────────────────────────────────────
 export const metadata: Metadata = {
-  title: 'Rollix Media | Premium Digital Agency',
-  description:
-    'Award-winning digital creative studio specializing in premium web design, SEO, and cinematic production for high-growth brands.',
-  keywords: [
-    'digital agency',
-    'premium web design',
-    'creative studio',
-    'SEO optimization',
-    'cinematic video production',
-    'brand strategy',
-    'Rollix Media',
-  ],
-  authors: [{ name: 'Rollix Media' }],
-  creator: 'Rollix Media',
-  publisher: 'Rollix Media',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: PAGE_SEO.home.title,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  keywords: PRIMARY_KEYWORDS as unknown as string[],
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: 'Digital Marketing',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://rollixmedia.com'),
+  referrer: 'origin-when-cross-origin',
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
-    title: 'Rollix Media | Premium Digital Agency',
-    description: 'Award-winning digital creative studio specializing in premium web design.',
-    url: 'https://rollixmedia.com',
-    siteName: 'Rollix Media',
+    type: 'website',
+    locale: SITE_LOCALE,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: PAGE_SEO.home.title,
+    description: SITE_DESCRIPTION,
     images: [
       {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Rollix Media - Digital Marketing Agency',
+        url: OG_IMAGE.url,
+        width: OG_IMAGE.width,
+        height: OG_IMAGE.height,
+        alt: OG_IMAGE.alt,
+        type: OG_IMAGE.type,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rollix Media | Digital Marketing Agency',
-    description: 'Premium digital marketing agency in Bhilwara, India.',
-    images: ['/og-image.jpg'],
-    creator: '@rollixmedia',
+    title: PAGE_SEO.home.title,
+    description: SITE_DESCRIPTION,
+    images: [OG_IMAGE.url],
+    creator: SOCIAL.twitterHandle,
+    site: SOCIAL.twitterHandle,
   },
   alternates: {
-    canonical: 'https://rollixmedia.vercel.app',
+    canonical: SITE_URL,
+  },
+  verification: {
+    google: VERIFICATION.google,
+    ...(VERIFICATION.bing ? { other: { 'msvalidate.01': [VERIFICATION.bing] } } : {}),
+  },
+  other: {
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+    'apple-mobile-web-app-title': SITE_NAME,
   },
 };
 
@@ -57,61 +105,26 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'Rollix Media',
-    description: 'Premium digital marketing agency in Bhilwara, India. Video editing, social media marketing, web development, SEO, and graphics designing.',
-    url: 'https://rollixmedia.vercel.app',
-    logo: 'https://rollixmedia.vercel.app/og-image.jpg',
-    image: 'https://rollixmedia.vercel.app/og-image.jpg',
-    telephone: '+91-9024675831',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Bhilwara, Rajasthan',
-      addressLocality: 'Bhilwara',
-      addressRegion: 'Rajasthan',
-      postalCode: '311001',
-      addressCountry: 'IN',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: '25.3478',
-      longitude: '74.6313',
-    },
-    areaServed: ['Bhilwara', 'Rajasthan', 'India'],
-    priceRange: '₹₹',
-    openingHours: 'Mo-Sa 09:00-19:00',
-    sameAs: [
-      'https://instagram.com/rollixmedia',
-    ],
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Digital Marketing Services',
-      itemListElement: [
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Video Editing' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Social Media Marketing' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Web Development' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'SEO' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Graphics Designing' } },
-        { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Wedding Shooting' } },
-      ],
-    },
-  };
-
   return (
     <html lang="en" suppressHydrationWarning className="relative antialiased" data-scroll-behavior="smooth">
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        {/* Structured Data: Organization + LocalBusiness + WebSite */}
+        <OrganizationSchema />
+        <LocalBusinessSchema />
+        <WebSiteSchema />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfairDisplay.variable} relative min-h-full font-sans`}
         style={{ position: 'relative' }}
         suppressHydrationWarning
       >
+        {/* Skip to main content — accessibility */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-cinematic-orange focus:px-4 focus:py-2 focus:text-white focus:outline-none"
+        >
+          Skip to main content
+        </a>
         {children}
         <SpeedInsights />
       </body>

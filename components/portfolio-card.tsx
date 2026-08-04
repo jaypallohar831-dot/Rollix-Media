@@ -66,12 +66,14 @@ export const PortfolioCard = memo(function PortfolioCard({
             <video
               ref={videoRef}
               src={getOptimizedVideoUrl(item.videoUrl, true)}
-              preload="metadata"
+              preload="none"
               muted
               loop
               playsInline
               className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out will-change-transform group-hover:scale-105 opacity-0 group-hover:opacity-100"
-            />
+            >
+              <track kind="captions" srcLang="en" label="No captions available" />
+            </video>
           )}
           </div>
 

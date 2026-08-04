@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/seo.config';
 
-const baseUrl = 'https://rollixmedia.vercel.app';
+const baseUrl = SITE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ── Static core pages (priority ordered as per SEO best practice) ──
@@ -28,13 +29,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.6,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/case-studies/vision-classes-bhilwara`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/tools/compress`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.85,
     },
     {
       url: `${baseUrl}/privacy-policy`,
@@ -47,12 +60,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'yearly',
       priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/case-studies/vision-classes-bhilwara`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
     },
   ];
 
@@ -85,7 +92,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const { data: projects } = await supabase
       .from('portfolio_projects')
-      .select('slug, updated_at')
+      .select('slug, updated_at, thumbnail')
       .eq('status', 'published');
 
     const projectPages: MetadataRoute.Sitemap = (projects || []).map((project) => {
@@ -100,6 +107,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(project.updated_at),
         changeFrequency: 'monthly' as const,
         priority: 0.75,
+        ...(project.thumbnail && {
+          images: [project.thumbnail],
+        }),
       };
     });
 

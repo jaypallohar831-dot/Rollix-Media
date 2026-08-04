@@ -433,12 +433,14 @@ function DeliverableVideoThumb({ media, onClick }: { media: Deliverable; onClick
       <video
         ref={videoRef}
         src={media.url}
-        preload="metadata"
+        preload="none"
         muted
         loop
         playsInline
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-      />
+      >
+        <track kind="captions" srcLang="en" label="No captions available" />
+      </video>
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center z-10">
          <Play className="h-10 w-10 text-white drop-shadow-md mb-2 opacity-0 group-hover:opacity-100 transition-opacity" />
          {(media.title || media.url) && (

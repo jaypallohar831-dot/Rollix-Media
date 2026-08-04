@@ -56,10 +56,13 @@ export const Navbar = memo(function Navbar() {
           )}
         >
           {/* Inner container with premium spacing */}
-          <nav className={cn(
-            'mx-auto flex items-center justify-between transition-all duration-500 ease-out',
-            isScrolled ? 'h-[64px] px-6 sm:px-10' : 'h-[72px] px-6 sm:px-10 lg:px-16'
-          )}>
+          <nav
+            aria-label="Main navigation"
+            className={cn(
+              'mx-auto flex items-center justify-between transition-all duration-500 ease-out',
+              isScrolled ? 'h-[64px] px-6 sm:px-10' : 'h-[72px] px-6 sm:px-10 lg:px-16'
+            )}
+          >
           {/* Logo — left */}
           <NavLogo />
 

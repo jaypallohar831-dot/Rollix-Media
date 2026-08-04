@@ -1,17 +1,37 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/layout';
+import { PAGE_SEO, getCanonicalUrl, SOCIAL, OG_IMAGE } from '@/lib/seo.config';
+import { WebPageSchema } from '@/components/seo/json-ld';
+import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: 'Privacy policy for Rollix Media — how we collect, use, and protect your data.',
+  title: PAGE_SEO.privacyPolicy.title,
+  description: PAGE_SEO.privacyPolicy.description,
+  alternates: { canonical: getCanonicalUrl('/privacy-policy') },
   robots: { index: true, follow: false },
+  openGraph: {
+    title: PAGE_SEO.privacyPolicy.title,
+    description: PAGE_SEO.privacyPolicy.description,
+    url: getCanonicalUrl('/privacy-policy'),
+  },
 };
 
 export default function PrivacyPolicyPage() {
   return (
     <main className="relative min-h-screen bg-background pt-36 pb-24">
+      <WebPageSchema
+        name="Privacy Policy"
+        description={PAGE_SEO.privacyPolicy.description}
+        url={getCanonicalUrl('/privacy-policy')}
+        breadcrumb={[
+          { name: 'Home', url: getCanonicalUrl('/') },
+          { name: 'Privacy Policy', url: getCanonicalUrl('/privacy-policy') },
+        ]}
+      />
       <Container>
         <div className="mx-auto max-w-3xl">
+          <Breadcrumbs items={[{ label: 'Privacy Policy', href: '/privacy-policy' }]} className="mb-8" />
+
           <span className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.25em] text-cinematic-orange/80 mb-6">
             <span className="h-[1px] w-6 bg-cinematic-orange/40" />
             Legal
@@ -21,7 +41,7 @@ export default function PrivacyPolicyPage() {
           </h1>
           <p className="text-muted-foreground mb-12">Last updated: May 2025</p>
 
-          <div className="space-y-10 text-foreground/80 leading-relaxed">
+          <article className="space-y-10 text-foreground/80 leading-relaxed">
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">1. Information We Collect</h2>
               <p>When you contact us through our website or book a service, we may collect your name, email address, phone number, and project details. We do not collect payment information directly — payments are handled by secure third-party providers.</p>
@@ -49,15 +69,15 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">6. Your Rights</h2>
-              <p>You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at <a href="mailto:hello@rollixmedia.com" className="text-cinematic-orange hover:underline">hello@rollixmedia.com</a>.</p>
+              <p>You have the right to access, correct, or delete your personal data. To exercise these rights, contact us at <a href="mailto:rollixmedia@gmail.com" className="text-cinematic-orange hover:underline">rollixmedia@gmail.com</a>.</p>
             </section>
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">7. Contact</h2>
               <p>Rollix Media, Bhilwara, Rajasthan, India.<br />
-              For privacy concerns: <a href="mailto:hello@rollixmedia.com" className="text-cinematic-orange hover:underline">hello@rollixmedia.com</a></p>
+              For privacy concerns: <a href="mailto:rollixmedia@gmail.com" className="text-cinematic-orange hover:underline">rollixmedia@gmail.com</a></p>
             </section>
-          </div>
+          </article>
         </div>
       </Container>
     </main>

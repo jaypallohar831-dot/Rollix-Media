@@ -116,7 +116,9 @@ export const VideoPlayer = memo(function VideoPlayer({
           'cursor-pointer',
           objectFit === 'contain' ? 'object-contain' : 'object-cover'
         )}
-      />
+      >
+        <track kind="captions" srcLang="en" label="No captions available" />
+      </video>
 
       {/* Cinematic vignette overlay */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.4)_100%)]" />

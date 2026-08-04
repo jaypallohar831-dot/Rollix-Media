@@ -7,8 +7,10 @@ import {
   PORTFOLIO_ITEMS as fallbackItems,
   type PortfolioItem,
 } from '@/lib/portfolio';
+import { SITE_URL, SOCIAL, OG_IMAGE, getCanonicalUrl } from '@/lib/seo.config';
+import { BreadcrumbSchema } from '@/components/seo/json-ld';
 
-const BASE_URL = 'https://rollixmedia.vercel.app';
+const BASE_URL = SITE_URL;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -132,10 +134,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: seoTitle,
       description: seoDescription,
       images: [thumbnail],
-      creator: '@rollixmedia',
+      creator: SOCIAL.twitterHandle,
     },
     alternates: {
-      canonical: `${BASE_URL}/portfolio/${slug}`,
+      canonical: getCanonicalUrl(`/portfolio/${slug}`),
     },
   };
 }
@@ -240,6 +242,13 @@ export default async function FilmDetailPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: getCanonicalUrl('/') },
+          { name: 'Portfolio', url: getCanonicalUrl('/portfolio') },
+          { name: item.title, url: getCanonicalUrl(`/portfolio/${slug}`) },
+        ]}
       />
       <ProjectDetail item={item} relatedItems={relatedItems} slug={decodedSlug} adjacent={adjacent} />
     </>

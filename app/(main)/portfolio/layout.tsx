@@ -1,14 +1,23 @@
 import type { Metadata } from 'next';
+import { PAGE_SEO, OG_IMAGE, SOCIAL, getCanonicalUrl } from '@/lib/seo.config';
 
 export const metadata: Metadata = {
-  title: 'Portfolio | Cinematic Archives',
-  description:
-    'Explore Rollix Media\'s portfolio — cinematic video edits, social media campaigns, website designs, and creative projects from Bhilwara, India.',
-  alternates: { canonical: 'https://rollixmedia.vercel.app/portfolio' },
+  title: PAGE_SEO.portfolio.title,
+  description: PAGE_SEO.portfolio.description,
+  keywords: PAGE_SEO.portfolio.keywords as unknown as string[],
+  alternates: { canonical: getCanonicalUrl('/portfolio') },
   openGraph: {
-    title: 'Portfolio | Rollix Media',
-    description: 'Watch our best video editing, social media, and web development projects.',
-    url: 'https://rollixmedia.vercel.app/portfolio',
+    title: PAGE_SEO.portfolio.title,
+    description: PAGE_SEO.portfolio.description,
+    url: getCanonicalUrl('/portfolio'),
+    images: [{ url: OG_IMAGE.url, width: OG_IMAGE.width, height: OG_IMAGE.height, alt: OG_IMAGE.alt }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: PAGE_SEO.portfolio.title,
+    description: PAGE_SEO.portfolio.description,
+    images: [OG_IMAGE.url],
+    creator: SOCIAL.twitterHandle,
   },
 };
 
