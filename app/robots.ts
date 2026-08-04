@@ -7,9 +7,19 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/', '/_next/static/', '/_next/image/'],
+        disallow: ['/admin/', '/api/'],
       },
-      // AI Search Bots — explicitly allowed for AI SEO
+      // AI & Search Engine Crawlers — fully allowed for maximum SEO & AI visibility
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: ['/admin/', '/api/'],
+      },
+      {
+        userAgent: 'Bingbot',
+        allow: '/',
+        disallow: ['/admin/', '/api/'],
+      },
       {
         userAgent: 'GPTBot',
         allow: '/',
@@ -25,11 +35,6 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'ClaudeBot',
-        allow: '/',
-        disallow: ['/admin/', '/api/'],
-      },
-      {
-        userAgent: 'Bingbot',
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },

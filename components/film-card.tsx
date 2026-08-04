@@ -72,7 +72,7 @@ export const FilmCard = memo(function FilmCard({
         >
           <Image
             src={item.image}
-            alt={item.title}
+            alt={`${item.title} — ${item.category} project by Rollix Media`}
             fill
             unoptimized={item.image.startsWith('http')}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
