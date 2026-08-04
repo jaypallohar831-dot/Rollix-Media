@@ -1,0 +1,20 @@
+{
+  "name": "Rollix Media — Premium Digital Marketing Agency",
+  "short_name": "Rollix Media",
+  "description": "Rollix Media is a premium digital marketing agency in Bhilwara, India — video editing, social media marketing, website development, SEO, graphic design, and cinematic wedding videography.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#C77B43",
+  "orientation": "portrait-primary",
+  "lang": "en-IN",
+  "categories": ["business", "marketing", "design"],
+  "icons": [
+    {
+      "src": "/assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

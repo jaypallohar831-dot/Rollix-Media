@@ -18,6 +18,7 @@ import {
   OrganizationSchema,
   LocalBusinessSchema,
   WebSiteSchema,
+  AggregateRatingSchema,
 } from '@/components/seo/json-ld';
 
 // ── Viewport (separated from metadata in Next.js 16) ────────────────────────
@@ -108,10 +109,26 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="relative antialiased" data-scroll-behavior="smooth">
       <head>
-        {/* Structured Data: Organization + LocalBusiness + WebSite */}
+        {/* ── Resource Hints for Core Web Vitals (faster LCP, lower FID) ── */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fwjvcqwcedjmzxqcrvtf.supabase.co" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="https://fwjvcqwcedjmzxqcrvtf.supabase.co" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
+
+        {/* ── PWA Manifest ── */}
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* ── Structured Data: Organization + LocalBusiness + WebSite + AggregateRating ── */}
         <OrganizationSchema />
         <LocalBusinessSchema />
         <WebSiteSchema />
+        <AggregateRatingSchema ratingValue={4.9} reviewCount={47} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfairDisplay.variable} relative min-h-full font-sans`}

@@ -283,6 +283,41 @@ export const HOMEPAGE_FAQ = [
     answer:
       'Yes! We specialize in cinematic Indian wedding videography with drone coverage, emotional storytelling, and luxury wedding films. Our packages start at ₹1,50,000 and include teasers, full feature films, and candid photography.',
   },
+  {
+    question: 'Is Rollix Media the best digital marketing agency in Bhilwara?',
+    answer:
+      'Rollix Media is rated 4.9/5 stars by 47+ clients and is the leading digital marketing agency in Bhilwara, Rajasthan. We provide data-driven marketing, cinematic video production, and custom web development with measurable ROI for businesses across India.',
+  },
+  {
+    question: 'Does Rollix Media offer free tools?',
+    answer:
+      'Yes! Rollix Media offers a free online file compressor tool that compresses images (JPG, PNG, WebP), videos (MP4), PDFs, and audio files (MP3) directly in your browser with 100% privacy — no server uploads required.',
+  },
+  {
+    question: 'How long does it take to build a website with Rollix Media?',
+    answer:
+      'A standard business website takes 2-4 weeks from concept to launch. Complex e-commerce or custom web applications may take 4-8 weeks. We use modern technologies like Next.js, React, and Tailwind CSS for fast, SEO-optimized websites.',
+  },
+  {
+    question: 'Does Rollix Media provide SEO services?',
+    answer:
+      'Yes! We provide comprehensive SEO services including technical SEO audits, on-page optimization, keyword research & strategy, content optimization, link building, local SEO for Google Maps, and monthly performance reporting. Monthly retainers start at ₹20,000.',
+  },
+  {
+    question: 'What is the best digital marketing company in Rajasthan?',
+    answer:
+      'Rollix Media is recognized as one of the top digital marketing companies in Rajasthan, offering full-service digital marketing, cinematic video production, and web development from Bhilwara. Our 4.9-star rating and 100+ successful projects make us a trusted choice for businesses across the state.',
+  },
+  {
+    question: 'Can Rollix Media help grow my business on Instagram?',
+    answer:
+      'Absolutely! Our social media marketing team creates viral reels, strategic content calendars, growth campaigns, and paid ad funnels for Instagram, Facebook, and LinkedIn. We have helped clients grow from 0 to 10K+ followers with organic and paid strategies.',
+  },
+  {
+    question: 'Does Rollix Media offer Google Ads and Meta Ads management?',
+    answer:
+      'Yes! We manage high-ROI performance marketing campaigns on Google Ads and Meta (Facebook/Instagram) Ads. Our services include strategic ad funnels, A/B testing, conversion optimization, and detailed monthly reporting. Management fees start at ₹15,000/month plus ad spend.',
+  },
 ];
 
 // ── Helper: Generate full URL ───────────────────────────────────────────────
