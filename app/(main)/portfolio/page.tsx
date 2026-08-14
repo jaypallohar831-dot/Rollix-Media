@@ -404,21 +404,22 @@ export default function PortfolioPage() {
             />
 
             {/* ── GLOBAL CATEGORY FILTER TABS ── */}
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3" suppressHydrationWarning>
               {PORTFOLIO_CATEGORIES.map((cat) => {
                 const count = cat === 'All' ? items.length : items.filter(i => matchCat(i.category, cat)).length;
                 return (
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
+                    suppressHydrationWarning
                     className={`rounded-full border px-4 py-2 text-[10px] font-bold uppercase tracking-[0.18em] transition-all duration-300 sm:text-[11px] flex items-center gap-1.5 ${
                       activeCategory === cat
                         ? 'border-cinematic-orange bg-cinematic-orange/20 text-cinematic-orange shadow-[0_0_15px_rgba(212,118,60,0.3)]'
                         : 'border-border/60 text-foreground/80 hover:border-border hover:text-foreground'
                     }`}
                   >
-                    <span>{cat}</span>
-                    <span className="rounded-full bg-black/10 px-1.5 py-0.2 text-[9px]">
+                    <span suppressHydrationWarning>{cat}</span>
+                    <span className="rounded-full bg-black/10 px-1.5 py-0.2 text-[9px]" suppressHydrationWarning>
                       {count}
                     </span>
                   </button>
