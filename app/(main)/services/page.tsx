@@ -36,7 +36,7 @@ const SERVICES_FAQ = [
   {
     question: 'How much does it cost to hire Rollix Media?',
     answer:
-      'Pricing varies by service. Video editing starts at ₹15,000, web design from ₹50,000, social media management from ₹25,000/month, SEO from ₹20,000/month, and wedding videography packages from ₹1,50,000. Contact us for a customized quote.',
+      'Pricing varies by service. Video editing starts at ₹15,000, web design from ₹15,000, social media management from ₹25,000/month, SEO from ₹20,000/month, and wedding videography packages from ₹1,50,000. Contact us for a customized quote.',
   },
   {
     question: 'Does Rollix Media work with clients outside Bhilwara?',

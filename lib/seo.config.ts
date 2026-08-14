@@ -233,7 +233,7 @@ export const SERVICE_SEO: Record<string, { title: string; description: string; k
   'web-design': {
     title: 'Professional Website Design & Development — Next.js, React | Rollix Media',
     description:
-      'Custom website design and development using Next.js, React, and modern technologies. Fast-loading, SEO-optimized, responsive websites for businesses in India. Starting ₹50,000.',
+      'Custom website design and development using Next.js, React, and modern technologies. Fast-loading, SEO-optimized, responsive websites for businesses in India. Starting ₹15,000.',
     keywords: ['website design', 'web development', 'Next.js developer', 'React website', 'responsive web design India', 'website development Bhilwara'],
   },
   'graphic-design': {
@@ -271,7 +271,7 @@ export const HOMEPAGE_FAQ = [
   {
     question: 'How much do digital marketing services cost?',
     answer:
-      'Our pricing varies by service: Video Editing starts at ₹15,000, Web Design from ₹50,000, Social Media Management from ₹25,000/month, SEO from ₹20,000/month, and Wedding Videography from ₹1,50,000. Contact us for a customized quote.',
+      'Our pricing varies by service: Video Editing starts at ₹15,000, Web Design from ₹15,000, Social Media Management from ₹25,000/month, SEO from ₹20,000/month, and Wedding Videography from ₹1,50,000. Contact us for a customized quote.',
   },
   {
     question: 'How can I contact Rollix Media?',

@@ -198,7 +198,7 @@ export const SERVICE_DETAILS_MAP: Record<string, ServiceDetailContent> = {
       { name: 'Tailwind CSS', color: '#38bdf8', icon: 'SiTailwindcss' },
       { name: 'Vercel', color: '#ffffff', icon: 'SiVercel' }
     ],
-    pricing: 'Projects start at ₹50,000 / $600'
+    pricing: 'Projects start at ₹15,000 / $180'
   },
   'graphic-design': {
     deliverables: [
