@@ -7,9 +7,6 @@ import {
   Loader2,
   AlertCircle,
   Instagram,
-  Twitter,
-  Linkedin,
-  Youtube,
   MessageSquare
 } from 'lucide-react';
 import { servicesService } from '@/services/services.service';

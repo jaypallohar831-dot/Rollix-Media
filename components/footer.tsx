@@ -4,7 +4,7 @@
  */
 import Link from 'next/link';
 import { SITE_NAME, BUSINESS, SOCIAL, SITE_URL } from '@/lib/seo.config';
-import { Instagram, Youtube, Linkedin, Twitter, MessageSquare, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, MessageSquare, Mail, Phone, MapPin } from 'lucide-react';
 
 const NAV_GROUPS = [
   {
