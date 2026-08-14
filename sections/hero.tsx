@@ -79,7 +79,7 @@ export function HeroSection() {
             style={{ animationDelay: '0.52s' }}
           >
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground/50">
-              Est. 2024
+              Est. 2026
             </span>
           </div>
         </div>

@@ -16,7 +16,7 @@ export const SITE_LANGUAGE = 'en';
 export const BUSINESS = {
   name: 'Rollix Media',
   legalName: 'Rollix Media',
-  foundingDate: '2024',
+  foundingDate: '2026',
   description: SITE_DESCRIPTION,
   url: SITE_URL,
   logo: `${SITE_URL}/assets/logo.png`,
@@ -154,7 +154,7 @@ export const PAGE_SEO = {
   about: {
     title: 'About Rollix Media — Our Story, Mission & Team | Digital Marketing Agency',
     description:
-      'Learn about Rollix Media — a premium digital marketing agency founded in 2024 in Bhilwara, Rajasthan. We combine cinematic artistry with data-driven strategy to deliver exponential growth for brands across India.',
+      'Learn about Rollix Media — a premium digital marketing agency founded in 2026 in Bhilwara, Rajasthan. We combine cinematic artistry with data-driven strategy to deliver exponential growth for brands across India.',
     keywords: [
       'about Rollix Media',
       'digital marketing agency Bhilwara',

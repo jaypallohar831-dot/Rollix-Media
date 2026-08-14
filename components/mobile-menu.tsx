@@ -153,7 +153,7 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
             transition={{ delay: 0.4 }}
           >
             <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/40">
-              © 2024
+              © 2026
             </span>
             <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/40">
               Digital Creative Studio
