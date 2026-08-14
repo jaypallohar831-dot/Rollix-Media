@@ -10,14 +10,29 @@ import {
 import { SITE_URL, SOCIAL, OG_IMAGE, getCanonicalUrl } from '@/lib/seo.config';
 import { BreadcrumbSchema } from '@/components/seo/json-ld';
 
+import { cache } from 'react';
+
 const BASE_URL = SITE_URL;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// ── Fetch helper (server-side) ──────────────────────────────────────────────
-async function fetchProject(slug: string) {
+// ── ISR revalidation & static params ─────────────────────────────────────────
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.from('portfolio_projects').select('slug').eq('status', 'published');
+    return (data || []).map(p => ({ slug: p.slug }));
+  } catch {
+    return fallbackItems.map(p => ({ slug: p.id }));
+  }
+}
+
+// ── Fetch helpers (deduped via React cache) ─────────────────────────────────
+const fetchProject = cache(async (slug: string) => {
   try {
     const supabase = await createClient();
     const { data, error } = await supabase
@@ -30,9 +45,9 @@ async function fetchProject(slug: string) {
   } catch {
     return null;
   }
-}
+});
 
-async function fetchRelated(slug: string) {
+const fetchRelated = cache(async (slug: string) => {
   try {
     const supabase = await createClient();
     const { data } = await supabase
@@ -46,9 +61,9 @@ async function fetchRelated(slug: string) {
   } catch {
     return [];
   }
-}
+});
 
-async function fetchAdjacent(slug: string) {
+const fetchAdjacent = cache(async (slug: string) => {
   try {
     const supabase = await createClient();
     const { data } = await supabase
@@ -72,7 +87,7 @@ async function fetchAdjacent(slug: string) {
   } catch {
     return { prev: null, next: null };
   }
-}
+});
 
 // ── Automatic SEO Metadata ──────────────────────────────────────────────────
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
