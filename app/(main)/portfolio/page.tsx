@@ -73,11 +73,11 @@ function HeroCarousel({
           className="relative aspect-[16/9] sm:aspect-[2.4/1] w-full"
         >
           <Image
-            src={item.image}
+            src={item.image && item.image.trim() !== '' ? item.image : '/assets/portfolio/motion.png'}
             alt={item.title}
             fill
             priority
-            unoptimized={item.image.startsWith('http')}
+            unoptimized={(item.image || '').startsWith('http')}
             className="object-cover"
             sizes="100vw"
             quality={80}

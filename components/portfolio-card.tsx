@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useRef } from 'react';
+import { memo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn, getOptimizedVideoUrl } from '@/lib/utils';
@@ -43,6 +43,10 @@ export const PortfolioCard = memo(function PortfolioCard({
     }
   };
 
+  const [imgSrc, setImgSrc] = useState<string>(
+    item.image && item.image.trim() !== '' ? item.image : '/assets/portfolio/motion.png'
+  );
+
   return (
     <Link 
       href={`/portfolio/${item.id}`} 
@@ -54,10 +58,11 @@ export const PortfolioCard = memo(function PortfolioCard({
           {/* Image with CSS-only hover zoom */}
           <div className="absolute inset-0 overflow-hidden bg-muted">
             <Image
-              src={item.image}
+              src={imgSrc}
               alt={`${item.title} — ${item.category} portfolio by Rollix Media`}
               fill
-              unoptimized={item.image.startsWith('http')}
+              unoptimized={imgSrc.startsWith('http')}
+              onError={() => setImgSrc('/assets/portfolio/motion.png')}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
               priority={priority}

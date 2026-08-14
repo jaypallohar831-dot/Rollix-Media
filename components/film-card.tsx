@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useRef } from 'react';
+import { memo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn, getOptimizedVideoUrl } from '@/lib/utils';
@@ -37,6 +37,9 @@ export const FilmCard = memo(function FilmCard({
 }: FilmCardProps) {
   const isVideo = item.mediaType === 'video';
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [imgSrc, setImgSrc] = useState<string>(
+    item.image && item.image.trim() !== '' ? item.image : '/assets/portfolio/motion.png'
+  );
 
   const handleMouseEnter = () => {
     if (isVideo && videoRef.current) {
@@ -71,10 +74,11 @@ export const FilmCard = memo(function FilmCard({
           )}
         >
           <Image
-            src={item.image}
+            src={imgSrc}
             alt={`${item.title} — ${item.category} project by Rollix Media`}
             fill
-            unoptimized={item.image.startsWith('http')}
+            unoptimized={imgSrc.startsWith('http')}
+            onError={() => setImgSrc('/assets/portfolio/motion.png')}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             priority={priority}
