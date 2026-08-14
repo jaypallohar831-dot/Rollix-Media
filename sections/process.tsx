@@ -22,7 +22,7 @@ export function ProcessSection() {
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
-          viewport={{ once: false, margin: '-10%' }}
+          viewport={{ once: true, margin: '-10%' }}
           className="mb-16 sm:mb-24 flex flex-col items-start"
         >
           <motion.div variants={fadeIn} className="mb-4 sm:mb-6">
@@ -43,7 +43,7 @@ export function ProcessSection() {
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
-          viewport={{ once: false, margin: '-10%' }}
+          viewport={{ once: true, margin: '-10%' }}
           className="relative"
         >
           {/* Horizontal Line connecting icons (desktop) */}

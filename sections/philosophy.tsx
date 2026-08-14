@@ -35,7 +35,7 @@ export function PhilosophySection() {
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
-          viewport={{ once: false, margin: '-10%' }}
+          viewport={{ once: true, margin: '-10%' }}
           className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-12"
         >
           {/* Left Column: Title */}

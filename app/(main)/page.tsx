@@ -37,6 +37,9 @@ export const metadata: Metadata = {
   },
 };
 
+// ISR: regenerate homepage every hour (data rarely changes)
+export const revalidate = 3600;
+
 export default async function Home() {
   const { portfolioProjects, services, testimonials } = await getHomepageData();
 
@@ -95,7 +98,7 @@ export default async function Home() {
             <div className="mt-12 flex justify-center">
               <a 
                 href="/contact"
-                className="inline-flex h-14 items-center justify-center rounded-full border border-border bg-white shadow-sm px-8 text-[11px] font-medium uppercase tracking-[0.2em] text-foreground transition-all duration-500 hover:border-cinematic-orange hover:text-cinematic-orange"
+                className="inline-flex h-14 items-center justify-center rounded-full border border-border bg-white shadow-sm px-8 text-[11px] font-medium uppercase tracking-[0.2em] text-foreground transition-[border-color,color] duration-500 hover:border-cinematic-orange hover:text-cinematic-orange"
               >
                 Start Your Project
               </a>

@@ -41,7 +41,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
-          viewport={{ once: false }}
+          viewport={{ once: true }}
           className="text-center mb-16"
         >
           <motion.div variants={fadeIn} className="mb-4">

@@ -37,7 +37,7 @@ export const Navbar = memo(function Navbar() {
     <>
       <motion.header
         className={cn(
-          'fixed left-0 right-0 z-50 flex justify-center transition-all duration-500 ease-out',
+          'fixed left-0 right-0 z-50 flex justify-center transition-[top,padding] duration-500 ease-out',
           isScrolled ? 'top-4 px-4 sm:px-6' : 'top-0 px-0'
         )}
         initial={{ y: -20, opacity: 0 }}
@@ -49,7 +49,7 @@ export const Navbar = memo(function Navbar() {
       >
         <div
           className={cn(
-            'w-full max-w-[1400px] transition-all duration-500 ease-out overflow-hidden',
+            'w-full max-w-[1400px] transition-[border-radius,border-color,background-color,backdrop-filter,box-shadow] duration-500 ease-out overflow-hidden',
             isScrolled
               ? 'rounded-full border border-white/50 bg-white/40 backdrop-blur-2xl backdrop-saturate-200 shadow-[0_8px_32px_rgba(0,0,0,0.1),inset_0_2px_3px_rgba(255,255,255,0.8),inset_0_-1px_2px_rgba(0,0,0,0.05)]'
               : 'rounded-none border-b border-transparent bg-transparent'
@@ -59,7 +59,7 @@ export const Navbar = memo(function Navbar() {
           <nav
             aria-label="Main navigation"
             className={cn(
-              'mx-auto flex items-center justify-between transition-all duration-500 ease-out',
+              'mx-auto flex items-center justify-between transition-[height,padding] duration-500 ease-out',
               isScrolled ? 'h-[64px] px-6 sm:px-10' : 'h-[72px] px-6 sm:px-10 lg:px-16'
             )}
           >

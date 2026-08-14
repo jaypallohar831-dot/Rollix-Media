@@ -27,7 +27,7 @@ const VISUAL_CARDS = [
 
 export function SuccessStoriesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: false, margin: '-15%' });
+  const isInView = useInView(sectionRef, { once: true, margin: '-15%' });
 
   return (
     <section

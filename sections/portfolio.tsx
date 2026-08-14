@@ -36,7 +36,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
             <motion.div
               initial="initial"
               whileInView="animate"
-              viewport={{ once: false, margin: '-10%' }}
+              viewport={{ once: true, margin: '-10%' }}
               variants={staggerContainer}
             >
               <motion.div variants={fadeIn} className="mb-6 sm:mb-8">
@@ -79,7 +79,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: false, margin: '-10%' }}
+              viewport={{ once: true, margin: '-10%' }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="relative"
             >
@@ -139,7 +139,6 @@ function ProjectCard({ project }: { project: PortfolioItem }) {
             src={project.image || '/assets/portfolio/motion.png'}
             alt={project.title}
             fill
-            unoptimized={(project.image || '').startsWith('http')}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { geistSans, geistMono, inter, playfairDisplay } from './fonts';
+import { geistSans, playfairDisplay } from './fonts';
 import './globals.css';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import {
@@ -131,7 +131,7 @@ export default function RootLayout({
         <AggregateRatingSchema ratingValue={4.9} reviewCount={47} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfairDisplay.variable} relative min-h-full font-sans`}
+        className={`${geistSans.variable} ${playfairDisplay.variable} relative min-h-full font-sans`}
         style={{ position: 'relative' }}
         suppressHydrationWarning
       >

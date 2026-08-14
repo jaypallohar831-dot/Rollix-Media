@@ -89,7 +89,7 @@ export function ServicesSection({ initialServices }: ServicesSectionProps = {}) 
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
-          viewport={{ once: false, margin: '-10%' }}
+          viewport={{ once: true, margin: '-10%' }}
           className="mb-16 sm:mb-20 lg:mb-24"
         >
           <motion.div variants={fadeIn} className="mb-5 sm:mb-6">
@@ -199,7 +199,7 @@ export function ServicesSection({ initialServices }: ServicesSectionProps = {}) 
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: false }}
+          viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mt-16 flex items-center justify-center gap-5 sm:mt-20"
         >

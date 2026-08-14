@@ -94,7 +94,7 @@ export function HeroSection() {
               loop
               muted
               playsInline
-              preload="metadata"
+              preload="none"
               className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             >
               <track kind="captions" srcLang="en" label="No captions available" />
