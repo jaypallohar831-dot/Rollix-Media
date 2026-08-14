@@ -6,6 +6,7 @@ import { WebPageSchema, ServiceListSchema, FAQSchema } from '@/components/seo/js
 import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 import { ServicesToPortfolioCTA } from '@/components/seo/internal-links';
 import { SERVICES } from '@/lib/services';
+import { SuccessStoriesSection } from '@/sections/success-stories';
 
 export const metadata: Metadata = {
   title: PAGE_SEO.services.title,
@@ -94,6 +95,11 @@ export default function ServicesOverviewPage() {
       <div className="py-12">
         <ServicesSection />
       </div>
+
+      <Divider />
+
+      {/* Real Results Case Study — Featured Ad Campaign */}
+      <SuccessStoriesSection />
 
       {/* Internal linking: Services → Portfolio */}
       <ServicesToPortfolioCTA />

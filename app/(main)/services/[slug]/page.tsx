@@ -11,6 +11,7 @@ import { SERVICE_SEO, OG_IMAGE, SOCIAL, getCanonicalUrl } from '@/lib/seo.config
 import { ServiceSchema, BreadcrumbSchema, FAQSchema } from '@/components/seo/json-ld';
 import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 import { ServicesToContactCTA } from '@/components/seo/internal-links';
+import { SuccessStoriesSection } from '@/sections/success-stories';
 
 interface ServicePageProps {
   params: Promise<{
@@ -260,6 +261,11 @@ export default async function ServicePage({ params }: ServicePageProps) {
           </div>
         </Container>
       </Section>
+
+      <Divider />
+
+      {/* Real Results Case Study */}
+      <SuccessStoriesSection />
 
       <Divider />
 
