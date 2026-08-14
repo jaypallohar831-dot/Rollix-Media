@@ -73,7 +73,41 @@ export const PORTFOLIO_GROUPS = [
 
 /* ─── PORTFOLIO DATA ─── */
 
-export const PORTFOLIO_ITEMS: PortfolioItem[] = [];
+export const VISION_CLASSES_PROJECT: PortfolioItem = {
+  id: 'vision-classes-bhilwara',
+  title: 'Vision Classes Bhilwara',
+  category: 'Ad Campaigns',
+  tagline: '129K+ Views & 125:1 ROI Instagram Ad Campaign',
+  description: 'Rollix Media executed a targeted Instagram ad campaign for Vision Classes Bhilwara, generating 129K+ views, 19.8K engagement, 67.9K reach, and 40-60 qualified leads with a 125:1 ROI in 30 days.',
+  year: '2024',
+  image: '/assets/portfolio/motion.png',
+  mediaType: 'image',
+  tags: ['Ad Campaigns', 'Instagram Ads', 'Meta Ads', 'Lead Generation', '125:1 ROI'],
+  featured: true,
+  group: 'featured',
+  location: 'Bhilwara, Rajasthan',
+  client: 'Vision Classes Bhilwara',
+  liveUrl: '/case-studies/vision-classes-bhilwara',
+  strategy: {
+    objective: 'Generate qualified student leads for coaching admissions in Bhilwara while maximizing ad ROI.',
+    approach: [
+      'Engineered testimonial-based video creatives focused on student success',
+      'Implemented hyper-local radius targeting across Bhilwara district',
+      'Optimized WhatsApp direct-lead funnel for instant inquiry response',
+      'Scaled profitable ad sets with a ₹6,000 ad budget'
+    ],
+    tools: ['Meta Ads Manager', 'Instagram Video Ads', 'Premiere Pro', 'WhatsApp API'],
+    results: [
+      '129,273 Total Video Views',
+      '19,889 Total Engagement',
+      '67,979 Unique Local Reach',
+      '40-60 Qualified Student Leads',
+      '125:1 Return on Ad Spend (ROI)'
+    ]
+  }
+};
+
+export const PORTFOLIO_ITEMS: PortfolioItem[] = [VISION_CLASSES_PROJECT];
 
 /* ─── HELPERS ─── */
 

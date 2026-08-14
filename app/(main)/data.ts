@@ -77,6 +77,12 @@ export async function getHomepageData(): Promise<HomepageData> {
       }));
   }
 
+  const hasVisionClasses = portfolioProjects.some(p => p.id === 'vision-classes-bhilwara');
+  if (!hasVisionClasses) {
+    const { VISION_CLASSES_PROJECT } = await import('@/lib/portfolio');
+    portfolioProjects.unshift(VISION_CLASSES_PROJECT);
+  }
+
   // --- Map services ---
   let services: ServiceItem[] = fallbackServices;
   if (servicesResult.status === 'fulfilled' && servicesResult.value.data?.length) {

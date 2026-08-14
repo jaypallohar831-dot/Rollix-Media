@@ -10,6 +10,7 @@ import { StrategyModal } from '@/components/strategy-modal';
 import {
   PORTFOLIO_CATEGORIES,
   PORTFOLIO_ITEMS,
+  VISION_CLASSES_PROJECT,
   type PortfolioCategory,
   type PortfolioItem,
 } from '@/lib/portfolio';
@@ -315,13 +316,17 @@ export default function PortfolioPage() {
             strategy: (item as any).strategy || undefined,
             deliverables: (item as any).deliverables || [],
           }));
+          const hasVisionClasses = mapped.some(i => i.id === 'vision-classes-bhilwara');
+          if (!hasVisionClasses) {
+            mapped.push(VISION_CLASSES_PROJECT);
+          }
           setItems(mapped);
         } else {
-          setItems(PORTFOLIO_ITEMS);
+          setItems([VISION_CLASSES_PROJECT, ...PORTFOLIO_ITEMS]);
         }
       } catch (err) {
         console.error('Failed to load portfolio:', err);
-        setItems(PORTFOLIO_ITEMS);
+        setItems([VISION_CLASSES_PROJECT, ...PORTFOLIO_ITEMS]);
       } finally {
         setLoading(false);
       }
