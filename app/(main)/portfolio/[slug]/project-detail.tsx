@@ -430,14 +430,21 @@ function DeliverableVideoThumb({ media, onClick }: { media: Deliverable; onClick
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
+      {media.resultImage && (
+        <img
+          src={media.resultImage}
+          alt={media.title || 'Deliverable'}
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+      )}
       <video
         ref={videoRef}
         src={media.url}
-        preload="none"
+        preload="metadata"
         muted
         loop
         playsInline
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${media.resultImage ? 'opacity-0 group-hover:opacity-100 transition-opacity' : ''}`}
       >
         <track kind="captions" srcLang="en" label="No captions available" />
       </video>

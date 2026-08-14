@@ -134,28 +134,26 @@ function ProjectCard({ project }: { project: PortfolioItem }) {
       onMouseLeave={handleMouseLeave}
     >
       <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-muted">
-        {!isVideo && (
-          <Image
-            src={project.image || '/assets/portfolio/motion.png'}
-            alt={project.title}
-            fill
-            unoptimized={(project.image || '').startsWith('http')}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        )}
+        <Image
+          src={project.image || '/assets/portfolio/motion.png'}
+          alt={project.title}
+          fill
+          unoptimized={(project.image || '').startsWith('http')}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-105"
+        />
         {isVideo && project.videoUrl && (
           <video
             ref={videoRef}
             src={project.videoUrl}
-            preload="metadata"
+            preload="none"
             muted
             loop
             playsInline
-            className="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            className="absolute inset-0 z-10 h-full w-full object-cover transition-all duration-700 ease-out opacity-0 group-hover:opacity-100 group-hover:scale-105"
           />
         )}
-        <div className="absolute inset-0 z-20 bg-black/5 transition-colors duration-500 group-hover:bg-transparent" />
+        <div className="absolute inset-0 z-20 bg-black/5 transition-colors duration-500 group-hover:bg-transparent pointer-events-none" />
       </div>
       <div>
         <h4 className="font-heading text-lg font-medium text-foreground mb-1 group-hover:text-cinematic-orange transition-colors">
