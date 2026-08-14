@@ -86,6 +86,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                         src={current.avatar_url}
                         alt={`Photo of ${current.name}`}
                         fill
+                        unoptimized
                         sizes="64px"
                         className="object-cover"
                       />
