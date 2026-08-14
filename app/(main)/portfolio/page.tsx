@@ -329,14 +329,24 @@ export default function PortfolioPage() {
     loadData();
   }, []);
 
+  const matchCat = (itemCategory: string, filterCat: string) => {
+    if (filterCat === 'All') return true;
+    const ic = itemCategory.toLowerCase().trim();
+    const fc = filterCat.toLowerCase().trim();
+    if (ic === fc) return true;
+    if (fc === 'web designing' && (ic.includes('web') || ic.includes('website'))) return true;
+    if (fc === 'wedding videography' && (ic.includes('wedding') || ic.includes('shooting'))) return true;
+    if (fc === 'social media' && ic.includes('social')) return true;
+    if (fc === 'video editing' && ic.includes('video') && !ic.includes('wedding')) return true;
+    if (fc === 'seo & growth' && (ic.includes('seo') || ic.includes('growth'))) return true;
+    if (fc === 'ad campaigns' && (ic.includes('ad') || ic.includes('campaign') || ic.includes('meta'))) return true;
+    return false;
+  };
+
   const filteredItems = useMemo(
     () => {
       if (activeCategory === 'All') return items;
-      return items.filter(
-        item => item.category.toLowerCase().trim() === activeCategory.toLowerCase().trim() ||
-                (activeCategory === 'Web Development' && item.category === 'Web Development') ||
-                (activeCategory === 'Ad Campaigns' && item.category === 'Ad Campaigns')
-      );
+      return items.filter(item => matchCat(item.category, activeCategory));
     },
     [activeCategory, items]
   );
@@ -391,7 +401,7 @@ export default function PortfolioPage() {
             {/* ── GLOBAL CATEGORY FILTER TABS ── */}
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
               {PORTFOLIO_CATEGORIES.map((cat) => {
-                const count = cat === 'All' ? items.length : items.filter(i => i.category.toLowerCase().trim() === cat.toLowerCase().trim()).length;
+                const count = cat === 'All' ? items.length : items.filter(i => matchCat(i.category, cat)).length;
                 return (
                   <button
                     key={cat}
@@ -443,7 +453,7 @@ export default function PortfolioPage() {
 
                     <div>
                       {PORTFOLIO_CATEGORIES.filter(c => c !== 'All').map(category => {
-                        const catItems = items.filter(item => item.category.toLowerCase().trim() === category.toLowerCase().trim());
+                        const catItems = items.filter(item => matchCat(item.category, category));
                         if (catItems.length === 0) return null;
                         return (
                           <FilmRow

@@ -53,12 +53,12 @@ export type PortfolioItem = {
 
 export const PORTFOLIO_CATEGORIES = [
   'All',
-  'Web Development',
-  'Video Editing',
   'Social Media',
-  'Graphics Designing',
-  'Ad Campaigns',
+  'Video Editing',
+  'Web Designing',
   'SEO & Growth',
+  'Ad Campaigns',
+  'Wedding Videography',
 ] as const;
 
 export type PortfolioCategory = (typeof PORTFOLIO_CATEGORIES)[number];
