@@ -41,9 +41,6 @@ const NAV_GROUPS = [
 
 const SOCIAL_ITEMS = [
   { name: 'Instagram', icon: Instagram, href: SOCIAL.instagram, label: 'Follow Rollix Media on Instagram' },
-  { name: 'YouTube', icon: Youtube, href: SOCIAL.youtube, label: 'Subscribe to Rollix Media on YouTube' },
-  { name: 'LinkedIn', icon: Linkedin, href: SOCIAL.linkedin, label: 'Connect with Rollix Media on LinkedIn' },
-  { name: 'X (Twitter)', icon: Twitter, href: SOCIAL.twitter, label: 'Follow Rollix Media on X' },
   { name: 'WhatsApp', icon: MessageSquare, href: SOCIAL.whatsapp, label: 'Chat with Rollix Media on WhatsApp' },
 ];
 
