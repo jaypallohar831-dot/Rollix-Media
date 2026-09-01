@@ -164,6 +164,12 @@ export function Footer() {
             &copy; {currentYear} {SITE_NAME}. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground">
+            Founded by{' '}
+            <span className="text-foreground font-medium">Rishabh Singh</span>
+            {' '}&amp;{' '}
+            <span className="text-foreground font-medium">Jaypal</span>
+          </p>
+          <p className="text-xs text-muted-foreground">
             Designed &amp; Developed by{' '}
             <Link href="/" className="text-cinematic-orange hover:underline">
               {SITE_NAME}

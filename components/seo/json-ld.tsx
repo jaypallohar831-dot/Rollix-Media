@@ -49,6 +49,11 @@ export function OrganizationSchema() {
       ...BUSINESS.address,
     },
     sameAs: SOCIAL_LINKS,
+    founder: BUSINESS.founders.map((f) => ({
+      '@type': 'Person',
+      name: f.name,
+      jobTitle: f.role,
+    })),
     contactPoint: [
       {
         '@type': 'ContactPoint',

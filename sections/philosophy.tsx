@@ -53,6 +53,24 @@ export function PhilosophySection() {
               Performance meets <br className="hidden lg:block" />
               high-end <span className="text-cinematic-orange italic font-normal">artistry.</span>
             </motion.h2>
+
+            {/* Co-Founders */}
+            <motion.div variants={fadeUp} className="mt-10 sm:mt-14 flex flex-col gap-5">
+              {[
+                { name: 'Rishabh Singh', role: 'Co-Founder' },
+                { name: 'Jaypal', role: 'Co-Founder' },
+              ].map((founder) => (
+                <div key={founder.name} className="flex items-center gap-4">
+                  <div className="h-10 w-10 rounded-full bg-cinematic-orange/10 border border-cinematic-orange/20 flex items-center justify-center text-cinematic-orange font-heading text-sm font-medium">
+                    {founder.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground leading-tight">{founder.name}</p>
+                    <p className="text-[11px] text-muted-foreground tracking-wide">{founder.role}</p>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
           </div>
 
           {/* Right Column: 3 Pillars */}

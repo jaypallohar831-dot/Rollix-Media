@@ -28,6 +28,10 @@ export const BUSINESS = {
   priceRange: '₹₹',
   currenciesAccepted: 'INR',
   paymentAccepted: 'Cash, UPI, Bank Transfer',
+  founders: [
+    { name: 'Rishabh Singh', role: 'Co-Founder' },
+    { name: 'Jaypal', role: 'Co-Founder' },
+  ],
   address: {
     streetAddress: 'Bhilwara',
     addressLocality: 'Bhilwara',
@@ -154,7 +158,7 @@ export const PAGE_SEO = {
   about: {
     title: 'About Rollix Media — Our Story, Mission & Team | Digital Marketing Agency',
     description:
-      'Learn about Rollix Media — a premium digital marketing agency founded in 2026 in Bhilwara, Rajasthan. We combine cinematic artistry with data-driven strategy to deliver exponential growth for brands across India.',
+      'Learn about Rollix Media — a premium digital marketing agency co-founded by Rishabh Singh and Jaypal in 2026 in Bhilwara, Rajasthan. We combine cinematic artistry with data-driven strategy to deliver exponential growth for brands across India.',
     keywords: [
       'about Rollix Media',
       'digital marketing agency Bhilwara',
