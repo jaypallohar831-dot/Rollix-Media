@@ -7,7 +7,7 @@ import { ArrowRight, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { PortfolioItem } from '@/lib/portfolio';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface PortfolioSectionProps {
   projects: PortfolioItem[];
@@ -113,18 +113,25 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
 function ProjectCard({ project }: { project: PortfolioItem }) {
   const isVideo = project.mediaType === 'video' && !!project.videoUrl;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = () => {
-    if (isVideo && videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
+    setHovered(true);
   };
 
   const handleMouseLeave = () => {
+    setHovered(false);
     if (isVideo && videoRef.current) {
       videoRef.current.pause();
     }
   };
+
+  // Auto-play video once the element mounts after hover
+  useEffect(() => {
+    if (hovered && isVideo && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [hovered, isVideo]);
 
   return (
     <Link 
@@ -142,7 +149,7 @@ function ProjectCard({ project }: { project: PortfolioItem }) {
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        {isVideo && project.videoUrl && (
+        {isVideo && hovered && project.videoUrl && (
           <video
             ref={videoRef}
             src={project.videoUrl}

@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/server';
 import type { PortfolioItem } from '@/lib/portfolio';
 import type { ServiceItem } from '@/lib/services';
 import { SERVICES as fallbackServices } from '@/lib/services';
-import type { PortfolioProject } from '@/services/portfolio.service';
+import type { PortfolioProject, PortfolioProjectDetail } from '@/services/portfolio.service';
 import {
   Film, Video, Scissors, TrendingUp, Sparkles,
   Share2, Megaphone, Monitor, Zap
@@ -61,8 +61,7 @@ export async function getHomepageData(): Promise<HomepageData> {
   let portfolioProjects: PortfolioItem[] = [];
   if (portfolioResult.status === 'fulfilled' && portfolioResult.value.data) {
     portfolioProjects = portfolioResult.value.data
-      .filter((item: PortfolioProject) => item.featured === true)
-      .map((item: PortfolioProject) => ({
+      .map((item: PortfolioProjectDetail) => ({
         id: item.slug,
         title: item.title,
         category: item.categories?.title || 'Uncategorized',
@@ -72,6 +71,7 @@ export async function getHomepageData(): Promise<HomepageData> {
         image: item.thumbnail || '/assets/portfolio/wedding.png',
         mediaType: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? 'video' as const : 'image' as const,
         videoUrl: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? item.video_url : undefined,
+        deliverables: item.deliverables || [],
         tags: item.tags || [],
         featured: item.featured,
       }));

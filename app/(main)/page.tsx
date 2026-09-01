@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { HeroSection } from '@/sections/hero';
 import { Section, Container, Divider } from '@/components/layout';
 import { HomepageLoader } from '@/components/homepage-loader';
 import { getHomepageData } from './data';
 import dynamic from 'next/dynamic';
 import { PAGE_SEO, SITE_URL, OG_IMAGE, SOCIAL, HOMEPAGE_FAQ, getCanonicalUrl } from '@/lib/seo.config';
 import { WebPageSchema, FAQSchema } from '@/components/seo/json-ld';
+import { HeroSection } from '@/sections/hero';
 
 // Below-fold sections: lazy-loaded to reduce initial JS bundle (not visible at LCP)
 const PhilosophySection = dynamic(() => import('@/sections/philosophy').then(m => ({ default: m.PhilosophySection })));
@@ -55,7 +55,7 @@ export default async function Home() {
       />
       <FAQSchema faqs={HOMEPAGE_FAQ} />
 
-      <HeroSection />
+      <HeroSection portfolioProjects={portfolioProjects} />
 
       {/* Brand Philosophy — emotional manifesto */}
       <PhilosophySection />

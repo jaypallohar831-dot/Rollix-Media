@@ -96,11 +96,32 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+
+  /* Lenis smooth scrolling rules */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
   }
 
   /* Premium selection color */
@@ -114,16 +135,20 @@
     scrollbar-width: thin;
     scrollbar-color: #E5E5E5 transparent;
   }
+
   .scrollbar-thin::-webkit-scrollbar {
     height: 4px;
   }
+
   .scrollbar-thin::-webkit-scrollbar-track {
     background: transparent;
   }
+
   .scrollbar-thin::-webkit-scrollbar-thumb {
     background: #E5E5E5;
     border-radius: 4px;
   }
+
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
     background: #CCCCCC;
   }
@@ -158,7 +183,8 @@
   background-color: var(--admin-bg);
 }
 
-.admin-layout, .admin-layout * {
+.admin-layout,
+.admin-layout * {
   --tw-text-opacity: 1;
 }
 

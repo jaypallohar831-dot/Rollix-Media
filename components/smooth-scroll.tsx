@@ -1,19 +1,36 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { useEffect, ReactNode } from 'react';
+import Lenis from 'lenis';
 
-/**
- * SmoothScroll — Previously using Lenis smooth scroll library.
- *
- * Performance fix: Lenis intercepts every scroll event, applies
- * its own lerp calculations, and programmatically sets scrollTop
- * on every requestAnimationFrame. This conflicts with framer-motion's
- * scroll tracking and adds constant main-thread work.
- *
- * Replaced with native CSS scroll-behavior: smooth which is
- * handled entirely by the browser's compositor thread.
- * The parent <html> element already has data-scroll-behavior="smooth".
- */
-export function SmoothScroll({ children }: { children: ReactNode }) {
+interface SmoothScrollProps {
+  children: ReactNode;
+}
+
+export function SmoothScroll({ children }: SmoothScrollProps) {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    const rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
+
   return <>{children}</>;
 }

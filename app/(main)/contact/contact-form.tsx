@@ -69,7 +69,7 @@ export function ContactForm() {
 
   const socialLinks = [
     { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/rollixmedia', color: 'hover:text-pink-500' },
-    { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/919024675831', color: 'hover:text-green-500' },
+    { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/919351775546', color: 'hover:text-green-500' },
   ];
 
   return (
@@ -271,8 +271,8 @@ export function ContactForm() {
                   </h2>
                   <p className="text-xl leading-relaxed text-muted-foreground font-light underline-offset-4 decoration-cinematic-orange/30">
                     <a href="mailto:rollixmedia@gmail.com" className="hover:text-foreground transition-colors">rollixmedia@gmail.com</a><br />
-                    <a href="tel:+919024675831" className="hover:text-foreground transition-colors">+91 9024675831</a><br />
-                    <a href="tel:+919351775546" className="hover:text-foreground transition-colors">+91 93517 75546</a>
+                    <a href="tel:+919351775546" className="hover:text-foreground transition-colors">+91 9351775546</a><br />
+                    <a href="tel:+919024675831" className="hover:text-foreground transition-colors">+91 9024675831</a>
                   </p>
                 </div>
 

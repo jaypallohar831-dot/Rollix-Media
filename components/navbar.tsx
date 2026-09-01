@@ -63,55 +63,55 @@ export const Navbar = memo(function Navbar() {
               isScrolled ? 'h-[64px] px-6 sm:px-10' : 'h-[72px] px-6 sm:px-10 lg:px-16'
             )}
           >
-          {/* Logo — left */}
-          <NavLogo />
+            {/* Logo — left */}
+            <NavLogo />
 
-          {/* Desktop navigation — center */}
-          <div className="hidden items-center gap-8 lg:flex">
-            {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.sectionId}
-                href={item.href}
-                label={item.label}
-                isActive={
-                  item.href === '/'
-                    ? pathname === '/'
-                    : pathname?.startsWith(item.href)
-                }
-              />
-            ))}
-          </div>
+            {/* Desktop navigation — center */}
+            <div className="hidden items-center gap-8 lg:flex">
+              {NAV_ITEMS.map((item) => (
+                <NavLink
+                  key={item.sectionId}
+                  href={item.href}
+                  label={item.label}
+                  isActive={
+                    item.href === '/'
+                      ? pathname === '/'
+                      : pathname?.startsWith(item.href)
+                  }
+                />
+              ))}
+            </div>
 
-          {/* Right side — CTA + hamburger */}
-          <div className="flex items-center gap-4">
-            {/* Desktop CTA */}
-            <MotionLink
-              href="/contact"
-              className={cn(
-                'hidden items-center justify-center rounded-full px-6 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-[border-color,color,background-color] duration-500 lg:inline-flex cursor-pointer',
-                isScrolled
-                  ? 'border border-cinematic-orange text-cinematic-orange hover:bg-cinematic-orange hover:text-white'
-                  : 'border border-border text-foreground hover:border-cinematic-orange hover:text-cinematic-orange'
-              )}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ duration: 0.3 }}
-            >
-              Start a Project
-            </MotionLink>
+            {/* Right side — CTA + hamburger */}
+            <div className="flex items-center gap-4">
+              {/* Desktop CTA */}
+              <MotionLink
+                href="/contact"
+                className={cn(
+                  'hidden items-center justify-center rounded-full px-6 py-2.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-[border-color,color,background-color] duration-500 lg:inline-flex cursor-pointer',
+                  isScrolled
+                    ? 'border border-cinematic-orange text-cinematic-orange hover:bg-cinematic-orange hover:text-white'
+                    : 'border border-border text-foreground hover:border-cinematic-orange hover:text-cinematic-orange'
+                )}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ duration: 0.3 }}
+              >
+                Start a Project
+              </MotionLink>
 
-            {/* Mobile hamburger */}
-            <motion.button
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-[border-color] duration-300 hover:border-cinematic-orange lg:hidden cursor-pointer"
-              onClick={toggleMobile}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Open navigation menu"
-            >
-              <Menu className="h-4 w-4" />
-            </motion.button>
-          </div>
-        </nav>
+              {/* Mobile hamburger */}
+              <motion.button
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-[border-color] duration-300 hover:border-cinematic-orange lg:hidden cursor-pointer"
+                onClick={toggleMobile}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Open navigation menu"
+              >
+                <Menu className="h-4 w-4" />
+              </motion.button>
+            </div>
+          </nav>
         </div>
       </motion.header>
 
