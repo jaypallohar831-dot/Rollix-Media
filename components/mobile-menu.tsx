@@ -146,18 +146,45 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
 
           {/* Footer info */}
           <motion.div
-            className="relative z-10 flex items-center justify-between border-t border-border px-6 py-6 sm:px-10"
+            className="relative z-10 flex flex-col gap-3 border-t border-border px-6 py-6 sm:px-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/40">
-              © 2026
-            </span>
-            <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/40">
-              Digital Creative Studio
-            </span>
+            {/* Founder + Phone */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="h-7 w-7 rounded-full bg-cinematic-orange/10 border border-cinematic-orange/20 flex items-center justify-center text-cinematic-orange text-[10px] font-bold">
+                  R
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold text-foreground leading-tight">Rishabh Singh</p>
+                  <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground/60">Co-Founder</p>
+                </div>
+              </div>
+              <a
+                href="tel:+919351775546"
+                className="text-[11px] font-medium text-cinematic-orange hover:underline tracking-wide"
+              >
+                +91 93517 75546
+              </a>
+            </div>
+
+            {/* Copyright */}
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground/40">
+                © 2026
+              </span>
+              <a
+                href="https://wa.me/919351775546"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[10px] uppercase tracking-[0.2em] text-green-500/70 hover:text-green-500 transition-colors"
+              >
+                WhatsApp →
+              </a>
+            </div>
           </motion.div>
         </motion.div>
       )}
