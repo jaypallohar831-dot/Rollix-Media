@@ -1,0 +1,38 @@
+# Rollix Media
+
+> Premium Digital Marketing Agency in Bhilwara, Rajasthan, India
+
+## About
+Rollix Media is a premium digital marketing agency co-founded by Rishabh Singh and Jaypal in 2026 in Bhilwara, Rajasthan, India. We blend cinematic artistry with data-driven strategy to deliver exponential growth for brands across India. Rated 4.9/5 stars by 47+ clients.
+
+## Services
+- **Cinematic Wedding Videography** — Drone coverage, emotional storytelling, luxury wedding films starting ₹1,50,000
+- **Professional Videography** — Commercials, brand films, event coverage
+- **Video Editing** — Color grading, motion graphics, VFX, sound design starting ₹15,000
+- **Social Media Marketing** — Instagram, Facebook, LinkedIn content creation & growth strategy from ₹25,000/month
+- **Web Design & Development** — Custom Next.js, React websites, fast-loading & SEO-optimized from ₹15,000
+- **Graphic Design** — Brand identity, logos, social media creatives, packaging from ₹10,000
+- **SEO Optimization** — Technical audits, keyword strategy, link building from ₹20,000/month
+- **Performance Marketing** — Meta Ads, Google Ads, PPC campaigns from ₹15,000/month
+
+## Free Tools
+- **Online File Compressor** — Compress images (JPG, PNG, WebP), PDFs, videos (MP4), and audio (MP3) for free, 100% client-side with zero server uploads: https://rollixmedia.vercel.app/tools/compress
+
+## Contact
+- Phone: +91-9024675831, +91-9351775546
+- Email: rollixmedia@gmail.com
+- WhatsApp: https://wa.me/919024675831
+- Address: Bhilwara, Rajasthan, India — 311001
+- Hours: Monday–Saturday, 9 AM – 7 PM IST
+
+## Social Media
+- Instagram: https://www.instagram.com/rollixmedia
+- YouTube: https://youtube.com/@rollixmedia
+- Twitter: https://twitter.com/rollixmedia
+- LinkedIn: https://linkedin.com/company/rollix-media
+
+## Case Studies
+- **Vision Classes Bhilwara** — ₹6,000 Instagram ad campaign achieving 129K+ views, 67K+ reach, 40-60 leads, 20:1 to 125:1 ROI
+
+## Website
+https://rollixmedia.vercel.app

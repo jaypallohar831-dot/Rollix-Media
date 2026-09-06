@@ -103,7 +103,7 @@ export const ServiceCard = memo(function ServiceCard({
         {tools && tools.length > 0 && (
           <div className="mt-6 flex flex-wrap items-center gap-3">
             {tools.map((tool, idx) => {
-              const ToolIcon = toolIconMap[tool.icon] || Wrench;
+              const ToolIcon = (toolIconMap[tool.icon] || Wrench) as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
               return (
                 <div 
                   key={idx}

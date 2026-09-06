@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 import type { MetadataRoute } from 'next';
-import { SITE_URL } from '@/lib/seo.config';
+import { SITE_URL, OG_IMAGE } from '@/lib/seo.config';
 
 const baseUrl = SITE_URL;
+const ogImage = OG_IMAGE.url;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ── Static core pages (priority ordered as per SEO best practice) ──
@@ -12,24 +13,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,
+      images: [ogImage],
     },
     {
       url: `${baseUrl}/services`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.9,
+      images: [ogImage],
     },
     {
       url: `${baseUrl}/portfolio`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
+      images: [ogImage],
     },
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
+      images: [ogImage],
     },
     {
       url: `${baseUrl}/contact`,
@@ -42,6 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,
+      images: [ogImage],
     },
     {
       url: `${baseUrl}/tools/compress`,

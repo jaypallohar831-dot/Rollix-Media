@@ -20,7 +20,7 @@ export function ToolsShowcase({ tools }: ToolsShowcaseProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mt-12">
       {tools.map((tool, idx) => {
-        const Icon = toolIconMap[tool.icon] || Wrench;
+        const Icon = (toolIconMap[tool.icon] || Wrench) as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
         
         return (
           <motion.div

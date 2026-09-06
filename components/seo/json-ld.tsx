@@ -64,6 +64,20 @@ export function OrganizationSchema() {
         areaServed: 'IN',
       },
     ],
+    knowsAbout: [
+      'Digital Marketing',
+      'Search Engine Optimization',
+      'Social Media Marketing',
+      'Web Development',
+      'Video Editing',
+      'Graphic Design',
+      'Wedding Videography',
+      'Performance Marketing',
+      'Meta Ads',
+      'Google Ads',
+    ],
+    knowsLanguage: ['en', 'hi'],
+    slogan: 'Premium Digital Marketing Agency',
   };
   return <JsonLd data={data} />;
 }
@@ -93,6 +107,9 @@ export function LocalBusinessSchema() {
       latitude: BUSINESS.geo.latitude,
       longitude: BUSINESS.geo.longitude,
     },
+    hasMap: `https://www.google.com/maps?q=${BUSINESS.geo.latitude},${BUSINESS.geo.longitude}`,
+    knowsLanguage: ['en', 'hi'],
+    slogan: 'Premium Digital Marketing Agency',
     areaServed: BUSINESS.areaServed.map((a) => ({
       '@type': a.type,
       name: a.name,
@@ -416,6 +433,52 @@ export function ArticleSchema({
     publisher: {
       '@id': `${SITE_URL}/#organization`,
     },
+  };
+  return <JsonLd data={data} />;
+}
+
+// ── SoftwareApplication Schema (for free tools) ─────────────────────────────
+export function SoftwareApplicationSchema({
+  name,
+  description,
+  url,
+  applicationCategory = 'UtilitiesApplication',
+  operatingSystem = 'Any',
+  offers,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  applicationCategory?: string;
+  operatingSystem?: string;
+  offers?: { price: string; priceCurrency: string };
+}) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name,
+    description,
+    url,
+    applicationCategory,
+    operatingSystem,
+    offers: offers || {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'INR',
+    },
+    publisher: {
+      '@id': `${SITE_URL}/#organization`,
+    },
+    featureList: [
+      'Image Compression (JPG, PNG, WebP)',
+      'PDF Compression',
+      'Video Compression (MP4)',
+      'Audio Compression (MP3)',
+      '100% Client-Side Processing',
+      'Zero Server Uploads',
+      'Batch File Processing',
+    ],
+    screenshot: OG_IMAGE.url,
   };
   return <JsonLd data={data} />;
 }

@@ -42,6 +42,7 @@ export const metadata: Metadata = {
   authors: [{ name: SITE_NAME, url: SITE_URL }],
   creator: SITE_NAME,
   publisher: SITE_NAME,
+  applicationName: SITE_NAME,
   category: 'Digital Marketing',
   formatDetection: {
     email: false,

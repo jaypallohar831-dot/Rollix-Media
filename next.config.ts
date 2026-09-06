@@ -100,6 +100,26 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Cache manifest.json for PWA
+      {
+        source: '/manifest.json',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, s-maxage=86400',
+          },
+        ],
+      },
+      // Prevent API routes from being indexed by search engines
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, nofollow',
+          },
+        ],
+      },
     ];
   },
 

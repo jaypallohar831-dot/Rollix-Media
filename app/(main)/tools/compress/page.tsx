@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
-import { PAGE_SEO, SITE_URL, SITE_NAME } from '@/lib/seo.config';
+import { PAGE_SEO, SITE_URL, SITE_NAME, getCanonicalUrl } from '@/lib/seo.config';
 import { CompressorWorkspace } from '@/components/tools/compressor-workspace';
 import { CompressorFAQ } from '@/components/tools/compressor-faq';
 import { FILE_COMPRESSOR_FAQS } from '@/lib/compression/faq-data';
+import { SoftwareApplicationSchema } from '@/components/seo/json-ld';
 import Link from 'next/link';
 import { ShieldCheck, Zap, Layers, Sparkles, ArrowRight, CheckCircle2 } from 'lucide-react';
 
@@ -23,24 +24,6 @@ export const metadata: Metadata = {
 };
 
 export default function CompressToolPage() {
-  // WebApplication JSON-LD Schema
-  const webAppSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: 'Rollix Media Free Online File Compressor',
-    url: `${SITE_URL}/tools/compress`,
-    applicationCategory: 'MultimediaApplication',
-    operatingSystem: 'All',
-    browserRequirements: 'Requires JavaScript and HTML5 Canvas',
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'INR',
-    },
-    description:
-      'Free online file compressor for JPG, PNG, WebP images, PDF documents, MP4 videos, MP3 audio, and ZIP archives. 100% browser client-side privacy.',
-  };
-
   // FAQ Page Schema
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -58,9 +41,11 @@ export default function CompressToolPage() {
   return (
     <main className="relative pt-28 pb-20 sm:pt-36 sm:pb-28">
       {/* Inject Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+      <SoftwareApplicationSchema
+        name="Rollix Media Free Online File Compressor"
+        description="Free online file compressor for JPG, PNG, WebP images, PDF documents, MP4 videos, MP3 audio, and ZIP archives. 100% browser client-side privacy."
+        url={getCanonicalUrl('/tools/compress')}
+        applicationCategory="MultimediaApplication"
       />
       <script
         type="application/ld+json"

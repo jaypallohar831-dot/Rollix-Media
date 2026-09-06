@@ -35,6 +35,12 @@ export const metadata: Metadata = {
     images: [OG_IMAGE.url],
     creator: SOCIAL.twitterHandle,
   },
+  other: {
+    'geo.region': 'IN-RJ',
+    'geo.placename': 'Bhilwara, Rajasthan',
+    'geo.position': '25.3478;74.6313',
+    'ICBM': '25.3478, 74.6313',
+  },
 };
 
 // ISR: regenerate homepage every hour (data rarely changes)

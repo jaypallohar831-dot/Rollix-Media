@@ -92,6 +92,7 @@ export const OG_IMAGE = {
 
 // ── Primary Keywords ────────────────────────────────────────────────────────
 export const PRIMARY_KEYWORDS = [
+  // English core
   'digital marketing agency',
   'digital marketing agency in Bhilwara',
   'SEO agency',
@@ -107,6 +108,18 @@ export const PRIMARY_KEYWORDS = [
   'digital growth',
   'performance marketing',
   'Rollix Media',
+  // Long-tail keywords
+  'best digital marketing agency near me',
+  'affordable website design in Rajasthan',
+  'digital marketing company in Rajasthan 2026',
+  'social media marketing agency Bhilwara',
+  'video editing company near me',
+  'top SEO company Bhilwara Rajasthan',
+  // Hindi-English mix (how Indians search)
+  'digital marketing agency Bhilwara Rajasthan',
+  'website banane ki company',
+  'video editing services India',
+  'social media marketing Rajasthan',
 ] as const;
 
 // ── Per-Page SEO Config ─────────────────────────────────────────────────────
@@ -204,6 +217,19 @@ export const PAGE_SEO = {
       'batch file compressor',
       'privacy file compressor',
       'Rollix Media free tools',
+    ],
+  },
+  caseStudies: {
+    title: 'Case Studies — Real Digital Marketing Results & ROI Proof | Rollix Media',
+    description:
+      'Explore real digital marketing case studies by Rollix Media. See how we delivered 125:1 ROI, 129K+ views, and measurable growth for businesses in Bhilwara, Rajasthan through Instagram Ads, SEO, and social media campaigns.',
+    keywords: [
+      'digital marketing case study',
+      'Instagram ad campaign results',
+      'ROI case study India',
+      'Rollix Media results',
+      'social media marketing success story',
+      'ad campaign Bhilwara',
     ],
   },
 } as const;

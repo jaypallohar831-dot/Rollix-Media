@@ -2,8 +2,16 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { CinematicButton } from '@/components/cinematic-button';
 import type { PortfolioItem } from '@/lib/portfolio';
+import { StaticGradientFallback } from '@/components/HeroBackground3D';
+
+// Lazy-load 3D background — client only, never blocks FCP/LCP
+const HeroBackground3D = dynamic(
+  () => import('@/components/HeroBackground3D'),
+  { ssr: false, loading: () => <StaticGradientFallback /> }
+);
 
 /* ── Types ── */
 interface MarqueeCard {
@@ -126,6 +134,9 @@ export function HeroSection({ portfolioProjects = [] }: HeroSectionProps) {
       suppressHydrationWarning
     >
       <div className="absolute inset-0 z-0 bg-background pointer-events-none" />
+
+      {/* 3D ambient background — lazy loaded, client only, z-[1] behind content */}
+      <HeroBackground3D />
 
       <motion.div
         style={{ y: headlineY }}

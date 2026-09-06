@@ -9,19 +9,31 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },
-      // AI & Search Engine Crawlers — fully allowed for maximum SEO & AI visibility
+      // Google Crawlers — fully allowed for maximum SEO visibility
       {
         userAgent: 'Googlebot',
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },
       {
+        userAgent: 'Googlebot-Image',
+        allow: '/',
+        disallow: ['/admin/', '/api/'],
+      },
+      // Bing Crawler
+      {
         userAgent: 'Bingbot',
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },
+      // AI & LLM Crawlers — allowed for AI search visibility (Perplexity, ChatGPT, etc.)
       {
         userAgent: 'GPTBot',
+        allow: '/',
+        disallow: ['/admin/', '/api/'],
+      },
+      {
+        userAgent: 'ChatGPT-User',
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },
@@ -32,6 +44,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: 'PerplexityBot',
         allow: '/',
+        disallow: ['/admin/', '/api/'],
       },
       {
         userAgent: 'ClaudeBot',
@@ -40,6 +53,23 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: 'Applebot',
+        allow: '/',
+        disallow: ['/admin/', '/api/'],
+      },
+      // Amazon & TikTok AI crawlers
+      {
+        userAgent: 'Amazonbot',
+        allow: '/',
+        disallow: ['/admin/', '/api/'],
+      },
+      {
+        userAgent: 'Bytespider',
+        allow: '/',
+        disallow: ['/admin/', '/api/'],
+      },
+      // Yandex
+      {
+        userAgent: 'YandexBot',
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },
