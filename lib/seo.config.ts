@@ -22,9 +22,9 @@ export const BUSINESS = {
   logo: `${SITE_URL}/assets/logo.png`,
   image: `${SITE_URL}/og-image.jpg`,
   email: 'rollixmedia@gmail.com',
-  phone: '+91-9351775546',
+  phone: '+91-9024675831',
   phoneAlt: '+91-9024675831',
-  whatsapp: 'https://wa.me/919351775546',
+  whatsapp: 'https://wa.me/919024675831',
   priceRange: '₹₹',
   currenciesAccepted: 'INR',
   paymentAccepted: 'Cash, UPI, Bank Transfer',
@@ -64,7 +64,7 @@ export const SOCIAL = {
   youtube: 'https://youtube.com/@rollixmedia',
   twitter: 'https://twitter.com/rollixmedia',
   linkedin: 'https://linkedin.com/company/rollix-media',
-  whatsapp: 'https://wa.me/919351775546',
+  whatsapp: 'https://wa.me/919024675831',
   twitterHandle: '@rollixmedia',
 } as const;
 
@@ -170,7 +170,7 @@ export const PAGE_SEO = {
   contact: {
     title: 'Contact Rollix Media — Get a Free Quote for Digital Marketing Services',
     description:
-      'Get in touch with Rollix Media for a free consultation. We provide video editing, social media marketing, website development, SEO, and graphic design services in Bhilwara, Rajasthan, India. Call +91-9351775546.',
+      'Get in touch with Rollix Media for a free consultation. We provide video editing, social media marketing, website development, SEO, and graphic design services in Bhilwara, Rajasthan, India. Call +91-9024675831.',
     keywords: [
       'contact Rollix Media',
       'digital marketing quote',
@@ -280,7 +280,7 @@ export const HOMEPAGE_FAQ = [
   {
     question: 'How can I contact Rollix Media?',
     answer:
-      'You can reach us via phone at +91-9351775546, email at rollixmedia@gmail.com, WhatsApp, or through the contact form on our website. Our office hours are Monday–Saturday, 9 AM to 7 PM IST.',
+      'You can reach us via phone at +91-9024675831, email at rollixmedia@gmail.com, WhatsApp, or through the contact form on our website. Our office hours are Monday–Saturday, 9 AM to 7 PM IST.',
   },
   {
     question: 'Does Rollix Media offer wedding videography?',

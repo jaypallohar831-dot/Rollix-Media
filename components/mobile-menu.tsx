@@ -164,7 +164,7 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
                 </div>
               </div>
               <a
-                href="tel:+919351775546"
+                href="tel:+919024675831"
                 className="text-[11px] font-medium text-cinematic-orange hover:underline tracking-wide"
               >
                 +91 93517 75546
@@ -177,7 +177,7 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
                 © 2026
               </span>
               <a
-                href="https://wa.me/919351775546"
+                href="https://wa.me/919024675831"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[10px] uppercase tracking-[0.2em] text-green-500/70 hover:text-green-500 transition-colors"
