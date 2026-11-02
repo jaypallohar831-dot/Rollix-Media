@@ -19,6 +19,7 @@ import {
   Video
 } from 'lucide-react';
 import { uploadToSupabaseStorage } from '@/lib/supabase-upload';
+import { UPLOAD_CONFIG } from '@/lib/upload-config';
 
 type Category = Database['public']['Tables']['categories']['Row'];
 
@@ -128,6 +129,9 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Reset input value so selecting the same file again triggers onChange
+    e.target.value = '';
+
     setUploading(type);
 
     try {
@@ -135,7 +139,9 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
       const ext = file.name.split('.').pop();
       const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file);
+      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file, {
+        mediaType: type === 'video' ? 'video' : 'image',
+      });
 
       if (type === 'thumbnail') {
         setFormData(prev => ({ ...prev, thumbnail: publicUrl }));
@@ -146,7 +152,7 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
       }
     } catch (err) {
       console.error('Upload failed:', err);
-      alert('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
+      alert(err instanceof Error ? err.message : 'Upload failed: Unknown error');
     } finally {
       setUploading(null);
     }
@@ -241,14 +247,14 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
                     const title = e.target.value;
                     const cat = categories.find(c => c.id === formData.category_id)?.title || 'Digital Marketing';
                     const loc = formData.location || 'Bhilwara, Rajasthan';
-                    const autoSeoTitle = title ? `${title} — Rollix Media Portfolio` : '';
+                    const autoSeoTitle = title ? `${title} — Ampledia Portfolio` : '';
                     const autoSeoDesc = title
-                      ? `Watch "${title}" by Rollix Media — a premium ${cat} project in ${loc}. Professional video editing & digital marketing agency in Bhilwara, India.`
+                      ? `Watch "${title}" by Ampledia — a premium ${cat} project in ${loc}. Professional video editing & digital marketing agency in Bhilwara, India.`
                       : '';
                     setFormData(prev => ({
                       ...prev,
                       title,
-                      seo_title: prev.seo_title === `${prev.title} — Rollix Media Portfolio` || !prev.seo_title ? autoSeoTitle : prev.seo_title,
+                      seo_title: prev.seo_title === `${prev.title} — Ampledia Portfolio` || prev.seo_title === `${prev.title} — Rollix Media Portfolio` || !prev.seo_title ? autoSeoTitle : prev.seo_title,
                       seo_description: !prev.seo_description ? autoSeoDesc : prev.seo_description,
                     }));
                   }}
@@ -384,8 +390,8 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
                 <span>🔍</span> Google Preview
               </h2>
               <div className="space-y-1">
-                <p className="text-[11px] text-blue-600 truncate">{`rollixmedia.vercel.app/portfolio/${slug}`}</p>
-                <p className="text-sm font-semibold text-stone-900 leading-tight line-clamp-1">{formData.seo_title || `${formData.title} — Rollix Media Portfolio`}</p>
+                <p className="text-[11px] text-blue-600 truncate">{`ampledia.in/portfolio/${slug}`}</p>
+                <p className="text-sm font-semibold text-stone-900 leading-tight line-clamp-1">{formData.seo_title || `${formData.title} — Ampledia Portfolio`}</p>
                 <p className="text-[11px] text-stone-600 leading-relaxed line-clamp-2">{formData.seo_description}</p>
               </div>
             </section>
@@ -450,8 +456,11 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
                       <Upload className="h-4 w-4 text-cinematic-orange" />
                     )}
                     <span>{uploading === 'thumbnail' ? 'Uploading Image...' : 'Choose Image File'}</span>
-                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept="image/*" />
+                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept={UPLOAD_CONFIG.image.allowedMimeTypes.join(',')} />
                   </label>
+                  <p className="text-[10px] text-stone-500 ml-1">
+                    JPEG, PNG, WebP • Max {UPLOAD_CONFIG.image.maxSizeLabel}
+                  </p>
                 </div>
 
                 <div className="relative flex py-1 items-center">
@@ -484,8 +493,11 @@ export default function EditPortfolioPage({ params }: { params: Promise<{ slug: 
                       <Video className="h-4 w-4 text-cinematic-orange" />
                     )}
                     <span>{uploading === 'video' ? 'Uploading Video...' : 'Upload Video File'}</span>
-                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept="video/*" />
+                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept={UPLOAD_CONFIG.video.allowedMimeTypes.join(',')} />
                   </label>
+                  <p className="text-[10px] text-stone-500 ml-1">
+                    MP4, WebM, MOV • Max {UPLOAD_CONFIG.video.maxSizeLabel} • Max {UPLOAD_CONFIG.video.maxDurationLabel}
+                  </p>
                 </div>
 
                 <div className="space-y-2">

@@ -43,19 +43,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/case-studies/vision-classes-bhilwara`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-      images: [ogImage],
-    },
-    {
-      url: `${baseUrl}/tools/compress`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.85,
-    },
-    {
       url: `${baseUrl}/privacy-policy`,
       lastModified: new Date(),
       changeFrequency: 'yearly',
@@ -91,25 +78,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // because sitemap.xml is called by Google's bot which has no cookies.
   // Using the cookie-based client causes a 500 error, making Google unable to fetch the sitemap.
   try {
+    const { supabaseCircuitBreaker, withTimeout } = await import('@/lib/supabase-error-handler');
+    if (supabaseCircuitBreaker.shouldThrottle()) {
+      return [...staticPages, ...servicePages];
+    }
+
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
 
-    const { data: projects } = await supabase
+    const query = supabase
       .from('portfolio_projects')
       .select('slug, updated_at, thumbnail')
       .eq('status', 'published');
 
+    const result = await withTimeout<{ data: any[] | null; error: any }>(
+      Promise.resolve(query),
+      2500,
+      { data: null, error: new Error('Timeout') }
+    );
+    const projects = result.data;
+
     const projectPages: MetadataRoute.Sitemap = (projects || []).map((project) => {
-      // Sanitize slug — remove any special chars (e.g. encoded colons %3A) that break sitemap validation
-      const cleanSlug = project.slug
-        .toLowerCase()
-        .replace(/[^a-z0-9\-]/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '');
       return {
-        url: `${baseUrl}/portfolio/${cleanSlug}`,
+        url: `${baseUrl}/portfolio/${project.slug}`,
         lastModified: new Date(project.updated_at),
         changeFrequency: 'monthly' as const,
         priority: 0.75,
@@ -119,9 +112,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     });
 
+    const hasVision = (projects || []).some(p => p.slug === 'vision-classes-bhilwara');
+    if (!hasVision) {
+      projectPages.push({
+        url: `${baseUrl}/portfolio/vision-classes-bhilwara`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.85,
+      });
+    }
+
     return [...staticPages, ...servicePages, ...projectPages];
   } catch {
-    // Fallback: return static pages only if Supabase is unavailable
-    return [...staticPages, ...servicePages];
+    // Fallback: return static pages + verified case study if Supabase is unavailable
+    return [
+      ...staticPages,
+      ...servicePages,
+      {
+        url: `${baseUrl}/portfolio/vision-classes-bhilwara`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.85,
+      },
+    ];
   }
 }

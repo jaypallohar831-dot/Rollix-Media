@@ -47,7 +47,7 @@ export function AdminSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: ()
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/assets/logo.png" alt="Logo" className="h-7 w-7 object-contain" />
         <span className="font-heading text-[11px] uppercase tracking-[.25em] font-bold" style={{ color: 'var(--admin-text)' }}>
-          Rollix <span style={{ color: 'var(--admin-accent)' }}>Studio</span>
+          Ampledia <span style={{ color: 'var(--admin-accent)' }}>Studio</span>
         </span>
       </div>
 

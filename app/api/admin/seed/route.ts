@@ -4,6 +4,14 @@ import { PORTFOLIO_ITEMS } from '@/lib/portfolio';
 import { AdminAuthError, requireAdmin } from '@/lib/admin-auth';
 
 export async function POST() {
+  // Production protection guard
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json(
+      { success: false, error: 'Database seeding endpoint is disabled in production environments.' },
+      { status: 403 }
+    );
+  }
+
   try {
     await requireAdmin();
 

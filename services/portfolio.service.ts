@@ -40,29 +40,90 @@ export interface PortfolioProjectDetail extends PortfolioProject {
   deliverables?: Deliverable[];
 }
 
-export const portfolioService = {
-  async getProjects(): Promise<PortfolioProject[]> {
-    const { data, error } = await supabaseClient
-      .from('portfolio_projects')
-      .select('*, categories(title, slug)')
-      .eq('status', 'published')
-      .order('created_at', { ascending: false });
+import {
+  supabaseCircuitBreaker,
+  isSupabaseQuotaError,
+  SupabaseServiceUnavailableError,
+} from '@/lib/supabase-error-handler';
 
-    if (error) throw error;
-    return data as PortfolioProject[];
+let cachedProjects: { data: PortfolioProject[]; timestamp: number } | null = null;
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+export const portfolioService = {
+  clearCache(resetCircuitBreaker = false) {
+    cachedProjects = null;
+    if (resetCircuitBreaker) {
+      supabaseCircuitBreaker.reset();
+    }
+  },
+
+  async getProjects(forceFresh = false): Promise<PortfolioProject[]> {
+    if (!forceFresh && cachedProjects && (Date.now() - cachedProjects.timestamp < CACHE_TTL_MS)) {
+      return cachedProjects.data;
+    }
+
+    if (!forceFresh && supabaseCircuitBreaker.shouldThrottle()) {
+      throw new SupabaseServiceUnavailableError(
+        'Service is temporarily throttled due to quota restrictions',
+        true
+      );
+    }
+
+    try {
+      const { data, error } = await supabaseClient
+        .from('portfolio_projects')
+        .select('*, categories(title, slug)')
+        .eq('status', 'published')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        supabaseCircuitBreaker.recordFailure(error, 'portfolioService.getProjects');
+        throw new SupabaseServiceUnavailableError(error.message, isSupabaseQuotaError(error));
+      }
+
+      supabaseCircuitBreaker.recordSuccess();
+      cachedProjects = { data: data as PortfolioProject[], timestamp: Date.now() };
+      return data as PortfolioProject[];
+    } catch (err) {
+      if (err instanceof SupabaseServiceUnavailableError) throw err;
+      supabaseCircuitBreaker.recordFailure(err, 'portfolioService.getProjects');
+      throw new SupabaseServiceUnavailableError(
+        err instanceof Error ? err.message : 'Failed to fetch projects',
+        isSupabaseQuotaError(err)
+      );
+    }
   },
 
   async getProjectBySlug(slug: string): Promise<PortfolioProjectDetail | null> {
-    const { data, error } = await supabaseClient
-      .from('portfolio_projects')
-      .select('*, categories(title, slug)')
-      .eq('slug', slug)
-      .single();
-
-    if (error) {
-      if (error.code === 'PGRST116') return null;
-      throw error;
+    if (supabaseCircuitBreaker.shouldThrottle()) {
+      throw new SupabaseServiceUnavailableError(
+        'Service is temporarily throttled due to quota restrictions',
+        true
+      );
     }
-    return data as PortfolioProjectDetail;
+
+    try {
+      const { data, error } = await supabaseClient
+        .from('portfolio_projects')
+        .select('*, categories(title, slug)')
+        .eq('slug', slug)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') return null;
+        supabaseCircuitBreaker.recordFailure(error, `portfolioService.getProjectBySlug(${slug})`);
+        throw new SupabaseServiceUnavailableError(error.message, isSupabaseQuotaError(error));
+      }
+
+      supabaseCircuitBreaker.recordSuccess();
+      return data as PortfolioProjectDetail;
+    } catch (err) {
+      if (err instanceof SupabaseServiceUnavailableError) throw err;
+      supabaseCircuitBreaker.recordFailure(err, `portfolioService.getProjectBySlug(${slug})`);
+      throw new SupabaseServiceUnavailableError(
+        err instanceof Error ? err.message : 'Failed to fetch project',
+        isSupabaseQuotaError(err)
+      );
+    }
   },
 };

@@ -19,16 +19,8 @@ interface ServiceCardProps {
   /** Whether this is the featured (large) card */
   featured?: boolean;
   tools?: { name: string; color: string; icon: string }[];
+  pricingStarting?: string;
 }
-
-/*
- * Performance changes vs. original:
- * 1. Replaced `transition-all` (was on 4 elements) with specific properties.
- *    transition-all causes the browser to check every animatable CSS property.
- * 2. Memoized to prevent re-renders when parent stagger container updates.
- * 3. Simplified hover glow — single border-color change instead of
- *    radial-gradient opacity + top-edge gradient opacity + base transition.
- */
 
 export const ServiceCard = memo(function ServiceCard({
   index,
@@ -39,49 +31,60 @@ export const ServiceCard = memo(function ServiceCard({
   className,
   featured = false,
   tools,
+  pricingStarting,
 }: ServiceCardProps) {
   return (
     <div
       className={cn(
-        'group relative flex cursor-pointer overflow-hidden rounded-2xl border transition-[border-color,background-color,transform] duration-500',
-        // Base solid surface
-        'border-border bg-white shadow-sm',
-        // Hover state — pure CSS 3D tilt
-        'hover:border-cinematic-orange/40 hover:shadow-md hover:-translate-y-1',
+        'group relative flex cursor-pointer overflow-hidden rounded-2xl border transition-[border-color,background-color,transform,box-shadow] duration-300',
+        // Ampledia Dark Canvas & Surface
+        'border-[#7C3AED]/20 bg-[#1A0F33] shadow-md shadow-[#0A0614]',
+        // Hover state
+        'hover:border-[#A855F7]/60 hover:shadow-xl hover:shadow-[#7C3AED]/20 hover:-translate-y-1',
         // Layout
         featured
           ? 'flex-col justify-between p-8 sm:p-10 lg:p-12'
-          : 'flex-col justify-between p-6 sm:p-8',
+          : 'flex-col justify-between p-6 sm:p-7',
         className
       )}
     >
-      <Link href={`/services/${slug}`} className="absolute inset-0 z-20">
-        <span className="sr-only">View {title}</span>
+      <Link
+        href={`/services/${slug}`}
+        className="absolute inset-0 z-20 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:ring-offset-2 focus:ring-offset-[#0A0614] rounded-2xl"
+      >
+        <span className="sr-only">Explore {title}</span>
       </Link>
 
       {/* Content */}
       <div className="relative z-10 pointer-events-none">
         {/* Header: index + icon */}
-        <div className="mb-6 flex items-start justify-between sm:mb-8">
-          <span className="text-[11px] font-medium tracking-[0.2em] text-cinematic-orange/80 transition-colors duration-500 group-hover:text-cinematic-orange">
+        <div className="mb-5 flex items-start justify-between sm:mb-6">
+          <span className="font-mono text-xs font-semibold tracking-widest text-[#A855F7]">
             {index}
           </span>
-          <Icon
+          <div
             className={cn(
-              'text-muted-foreground transition-colors duration-500 group-hover:text-cinematic-orange',
-              featured ? 'h-8 w-8 sm:h-10 sm:w-10' : 'h-6 w-6 sm:h-7 sm:w-7'
+              'flex items-center justify-center rounded-xl bg-[#241445] text-[#C4B5FD] transition-colors duration-300 group-hover:bg-[#7C3AED] group-hover:text-white',
+              featured ? 'h-12 w-12' : 'h-10 w-10'
             )}
-            strokeWidth={1}
-          />
+          >
+            <Icon
+              className={cn(
+                'transition-transform duration-300 group-hover:scale-110',
+                featured ? 'h-6 w-6' : 'h-5 w-5'
+              )}
+              strokeWidth={1.75}
+            />
+          </div>
         </div>
 
         {/* Title */}
         <h3
           className={cn(
-            'font-heading font-light tracking-[-0.01em] text-foreground transition-colors duration-500',
+            'font-heading font-bold tracking-tight text-[#F5F0FF] transition-colors duration-300 group-hover:text-[#F5F0FF]',
             featured
-              ? 'text-2xl sm:text-3xl lg:text-[2.25rem]'
-              : 'text-xl sm:text-2xl'
+              ? 'text-2xl sm:text-3xl lg:text-4xl'
+              : 'text-lg sm:text-xl'
           )}
         >
           {title}
@@ -90,28 +93,36 @@ export const ServiceCard = memo(function ServiceCard({
         {/* Description */}
         <p
           className={cn(
-            'mt-3 leading-relaxed text-muted-foreground transition-colors duration-500 group-hover:text-foreground sm:mt-4',
+            'mt-2.5 leading-relaxed text-[#B7A9D6] transition-colors duration-300 group-hover:text-[#DDD6FE]',
             featured
-              ? 'max-w-[380px] text-[15px] sm:text-base'
-              : 'text-[13px] sm:text-[14px]'
+              ? 'max-w-xl text-sm sm:text-base'
+              : 'text-xs sm:text-sm'
           )}
         >
           {description}
         </p>
 
+        {/* Pricing indicator */}
+        {pricingStarting && (
+          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#7C3AED]/25 bg-[#241445]/60 px-3 py-1 text-[11px] font-medium text-[#C4B5FD]">
+            <span className="h-1 w-1 rounded-full bg-[#A855F7]" />
+            <span>{pricingStarting}</span>
+          </div>
+        )}
+
         {/* Mini Tools Icons */}
         {tools && tools.length > 0 && (
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-5 flex flex-wrap items-center gap-2">
             {tools.map((tool, idx) => {
               const ToolIcon = (toolIconMap[tool.icon] || Wrench) as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
               return (
                 <div 
                   key={idx}
-                  className="group/tool relative flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-white transition-transform duration-300 hover:scale-110 shadow-sm"
+                  className="group/tool relative flex h-7 w-7 items-center justify-center rounded-lg border border-[#7C3AED]/20 bg-[#241445]/80 transition-transform duration-200 hover:scale-110 shadow-sm"
                   title={tool.name}
                 >
                   <ToolIcon 
-                    className="relative z-10 h-4 w-4 transition-colors duration-300" 
+                    className="relative z-10 h-3.5 w-3.5 transition-colors duration-200" 
                     style={{ color: tool.color }}
                   />
                 </div>
@@ -121,10 +132,11 @@ export const ServiceCard = memo(function ServiceCard({
         )}
       </div>
 
-      <div className="relative z-10 mt-8 flex items-center justify-between sm:mt-10 pointer-events-none">
-        <div className="h-[1px] flex-1 bg-border transition-colors duration-500" />
-        <div className="ml-4 flex h-8 w-8 items-center justify-center rounded-full border border-border transition-[border-color,background-color] duration-500 group-hover:border-cinematic-orange group-hover:bg-cinematic-orange/10 sm:h-9 sm:w-9">
-          <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground transition-[color,transform] duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-cinematic-orange sm:h-4 sm:w-4" />
+      {/* Footer bar */}
+      <div className="relative z-10 mt-6 flex items-center justify-between sm:mt-8 pointer-events-none">
+        <div className="h-[1px] flex-1 bg-[#7C3AED]/20 transition-colors duration-300 group-hover:bg-[#7C3AED]/40" />
+        <div className="ml-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#241445]/50 text-[#C4B5FD] transition-all duration-300 group-hover:border-[#A855F7] group-hover:bg-[#7C3AED] group-hover:text-white sm:h-9 sm:w-9">
+          <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
       </div>
     </div>

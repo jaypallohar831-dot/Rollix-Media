@@ -31,6 +31,9 @@ export async function generateStaticParams() {
   }
 }
 
+import { isSupabaseQuotaError } from '@/lib/supabase-error-handler';
+import { ServiceUnavailableState } from '@/components/ui/service-unavailable-state';
+
 // ── Fetch helpers (deduped via React cache) ─────────────────────────────────
 const fetchProject = cache(async (slug: string) => {
   try {
@@ -40,9 +43,17 @@ const fetchProject = cache(async (slug: string) => {
       .select('*, categories(title, slug)')
       .eq('slug', slug)
       .single();
-    if (error || !data) return null;
+    if (error) {
+      if (isSupabaseQuotaError(error)) {
+        return { isQuotaRestricted: true } as const;
+      }
+      return null;
+    }
     return data;
-  } catch {
+  } catch (err) {
+    if (isSupabaseQuotaError(err)) {
+      return { isQuotaRestricted: true } as const;
+    }
     return null;
   }
 });
@@ -95,10 +106,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const decodedSlug = decodeURIComponent(slug);
   const project = await fetchProject(decodedSlug);
 
-  if (!project) {
+  if (!project || 'isQuotaRestricted' in project) {
     return {
-      title: 'Project Not Found',
-      description: 'The requested project could not be found.',
+      title: 'Project Showcase | Ampledia',
+      description: 'Explore premium video production and digital growth case studies by Ampledia.',
     };
   }
 
@@ -107,10 +118,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   // Auto-generate SEO title and description if not manually set
   const seoTitle = project.seo_title ||
-    `${project.title} — Rollix Media Portfolio`;
+    `${project.title} — Ampledia Portfolio`;
 
   const seoDescription = project.seo_description ||
-    `Watch "${project.title}" by Rollix Media — a premium ${category} project${project.location ? ` in ${location}` : ''}. Professional video editing & digital marketing agency in Bhilwara, India.`;
+    `Watch "${project.title}" by Ampledia — a premium ${category} project${project.location ? ` in ${location}` : ''}. Professional video editing & digital marketing agency in Bhilwara, India.`;
 
   const thumbnail = project.thumbnail ||
     `${BASE_URL}/og-image.jpg`;
@@ -121,13 +132,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     keywords: [
       project.title,
       category,
-      'Rollix Media',
+      'Ampledia',
       'digital marketing Bhilwara',
       'video editing Rajasthan',
       ...(project.tags || []),
       location,
     ],
-    authors: [{ name: 'Rollix Media', url: BASE_URL }],
+    authors: [{ name: 'Ampledia', url: BASE_URL }],
     openGraph: {
       type: 'video.other',
       url: `${BASE_URL}/portfolio/${slug}`,
@@ -141,7 +152,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           alt: project.title,
         },
       ],
-      siteName: 'Rollix Media',
+      siteName: 'Ampledia',
       locale: 'en_IN',
     },
     twitter: {
@@ -167,8 +178,21 @@ export default async function FilmDetailPage({ params }: PageProps) {
     fetchRelated(decodedSlug),
   ]);
 
+  if (projectData && 'isQuotaRestricted' in projectData) {
+    if (decodedSlug !== 'vision-classes-bhilwara') {
+      return (
+        <main className="relative min-h-[70vh] flex items-center justify-center pt-24 pb-20">
+          <ServiceUnavailableState
+            title="Project Details Temporarily Unavailable"
+            message="This showcase is currently undergoing scheduled bandwidth maintenance. The project details and video showcase will return automatically shortly."
+          />
+        </main>
+      );
+    }
+  }
+
   // Map DB data → PortfolioItem shape
-  const item: PortfolioItem | null = projectData
+  const item: PortfolioItem | null = (projectData && !('isQuotaRestricted' in projectData))
     ? {
         id: projectData.slug,
         title: projectData.title,
@@ -177,7 +201,7 @@ export default async function FilmDetailPage({ params }: PageProps) {
         description: projectData.description,
         year: new Date(projectData.created_at).getFullYear().toString(),
         month: projectData.month,
-        image: projectData.thumbnail || getFallbackItem(decodedSlug)?.image || '/assets/portfolio/wedding.png',
+        image: projectData.thumbnail || getFallbackItem(decodedSlug)?.image || '/assets/portfolio/wedding.webp',
         mediaType: (projectData.video_url ? 'video' : 'image') as 'video' | 'image',
         videoUrl: projectData.video_url || undefined,
         tags: projectData.tags || [],
@@ -188,19 +212,18 @@ export default async function FilmDetailPage({ params }: PageProps) {
         crew: projectData.crew || [],
         strategy: projectData.strategy,
         deliverables: projectData.deliverables || [],
-        gallery: (projectData.gallery_images || []).map((img: string) => ({
+        gallery: (projectData.gallery_images || []).map((img: string, idx: number) => ({
           type: 'image' as const,
           src: img,
-          alt: '',
+          alt: `${projectData.title} — Gallery image ${idx + 1}`,
         })),
       }
-    : getFallbackItem(decodedSlug) || null;
+    : (decodedSlug === 'vision-classes-bhilwara' ? getFallbackItem(decodedSlug) || null : null);
 
   if (!item) notFound();
 
   const relatedItems: PortfolioItem[] = relatedRaw.length > 0
     ? relatedRaw
-        .sort(() => 0.5 - Math.random())
         .slice(0, 3)
         .map((p) => ({
           id: p.slug,
@@ -208,7 +231,7 @@ export default async function FilmDetailPage({ params }: PageProps) {
           category: (p.categories as { title: string } | { title: string }[] | null | undefined) ? (Array.isArray(p.categories) ? (p.categories as { title: string }[])[0]?.title : (p.categories as { title: string })?.title) || 'Uncategorized' : 'Uncategorized',
           tagline: p.seo_title || p.title,
           description: '',
-          image: p.thumbnail || '/assets/portfolio/wedding.png',
+          image: p.thumbnail || '/assets/portfolio/wedding.webp',
           year: new Date(p.created_at).getFullYear().toString(),
           mediaType: (p.video_url && p.video_url !== '/assets/loader-bg.mp4' ? 'video' : 'image') as 'video' | 'image',
           videoUrl: (p.video_url && p.video_url !== '/assets/loader-bg.mp4') ? p.video_url : undefined,
@@ -220,7 +243,7 @@ export default async function FilmDetailPage({ params }: PageProps) {
   const category = projectData?.categories?.title || 'Video Production';
   const seoDescription =
     projectData?.seo_description ||
-    `Watch "${item.title}" by Rollix Media — a premium ${category} project. Professional digital marketing agency in Bhilwara, India.`;
+    `Watch "${item.title}" by Ampledia — a premium ${category} project. Professional digital marketing agency in Bhilwara, India.`;
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -237,13 +260,13 @@ export default async function FilmDetailPage({ params }: PageProps) {
     },
     creator: {
       '@type': 'Organization',
-      name: 'Rollix Media',
+      name: 'Ampledia',
       url: BASE_URL,
       logo: `${BASE_URL}/assets/logo.png`,
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Rollix Media',
+      name: 'Ampledia',
       url: BASE_URL,
     },
     url: `${BASE_URL}/portfolio/${slug}`,

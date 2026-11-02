@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { Plus, Trash2, Video, ImageIcon, File, Loader2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { uploadToSupabaseStorage } from '@/lib/supabase-upload';
+import { UPLOAD_CONFIG } from '@/lib/upload-config';
 
 export type Deliverable = {
   id: string;
@@ -44,25 +46,21 @@ export function DeliverablesBuilder({ deliverables, onChange }: DeliverablesBuil
     const file = e.target.files?.[0];
     if (!file) return;
 
+    e.target.value = '';
     setUploading(true);
+
     try {
       const folder = 'deliverables';
       const ext = file.name.split('.').pop();
       const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-      const { data, error } = await supabase.storage
-        .from('media')
-        .upload(filename, file, { cacheControl: '3600', upsert: false });
-
-      if (error) throw error;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('media')
-        .getPublicUrl(data.path);
-
       let type: 'video' | 'image' | 'document' = 'document';
       if (file.type.startsWith('video/')) type = 'video';
       else if (file.type.startsWith('image/')) type = 'image';
+
+      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file, {
+        mediaType: type === 'video' ? 'video' : type === 'image' ? 'image' : 'auto',
+      });
 
       onChange(
         deliverables.map((d) =>
@@ -70,7 +68,7 @@ export function DeliverablesBuilder({ deliverables, onChange }: DeliverablesBuil
         )
       );
     } catch (error: any) {
-      alert('Upload failed: ' + error.message);
+      alert(error.message || 'Upload failed: Unknown error');
     } finally {
       setUploading(false);
     }
@@ -80,21 +78,17 @@ export function DeliverablesBuilder({ deliverables, onChange }: DeliverablesBuil
     const file = e.target.files?.[0];
     if (!file) return;
 
+    e.target.value = '';
     setUploading(true);
+
     try {
       const folder = 'deliverables/results';
       const ext = file.name.split('.').pop();
       const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-      const { data, error } = await supabase.storage
-        .from('media')
-        .upload(filename, file, { cacheControl: '3600', upsert: false });
-
-      if (error) throw error;
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('media')
-        .getPublicUrl(data.path);
+      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file, {
+        mediaType: 'image',
+      });
 
       onChange(
         deliverables.map((d) =>
@@ -102,7 +96,7 @@ export function DeliverablesBuilder({ deliverables, onChange }: DeliverablesBuil
         )
       );
     } catch (error: any) {
-      alert('Upload failed: ' + error.message);
+      alert(error.message || 'Upload failed: Unknown error');
     } finally {
       setUploading(false);
     }
@@ -173,7 +167,7 @@ export function DeliverablesBuilder({ deliverables, onChange }: DeliverablesBuil
                   <label className="flex h-20 w-full flex-col items-center justify-center gap-1 cursor-pointer rounded-lg border border-dashed border-stone-300 hover:border-cinematic-orange hover:bg-cinematic-orange/5 transition-colors">
                     {uploading ? <Loader2 className="h-4 w-4 animate-spin text-cinematic-orange" /> : <Plus className="h-4 w-4 text-stone-400" />}
                     <span className="text-[10px] font-bold uppercase text-stone-500">Upload File</span>
-                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, item.id)} />
+                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, item.id)} accept="video/mp4,video/webm,video/quicktime,image/*" />
                   </label>
                 )}
               </div>

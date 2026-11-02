@@ -1,9 +1,9 @@
-# Rollix Media
+# Ampledia
 
-> Premium Digital Marketing Agency in Bhilwara, Rajasthan, India
+> Digital | Creative | Growth — Premier Digital Agency in Bhilwara, Rajasthan, India (formerly Rollix Media)
 
 ## About
-Rollix Media is a premium digital marketing agency co-founded by Rishabh Singh and Jaypal in 2026 in Bhilwara, Rajasthan, India. We blend cinematic artistry with data-driven strategy to deliver exponential growth for brands across India. Rated 4.9/5 stars by 47+ clients.
+Ampledia is a premier digital agency co-founded by Rishabh Singh and Jaypal in Bhilwara, Rajasthan, India. We combine strategic performance marketing, creative video production, and custom web development to drive exponential business growth. Rated 4.9/5 stars by 47+ clients.
 
 ## Services
 - **Cinematic Wedding Videography** — Drone coverage, emotional storytelling, luxury wedding films starting ₹1,50,000
@@ -15,24 +15,21 @@ Rollix Media is a premium digital marketing agency co-founded by Rishabh Singh a
 - **SEO Optimization** — Technical audits, keyword strategy, link building from ₹20,000/month
 - **Performance Marketing** — Meta Ads, Google Ads, PPC campaigns from ₹15,000/month
 
-## Free Tools
-- **Online File Compressor** — Compress images (JPG, PNG, WebP), PDFs, videos (MP4), and audio (MP3) for free, 100% client-side with zero server uploads: https://rollixmedia.vercel.app/tools/compress
-
 ## Contact
-- Phone: +91-9024675831, +91-9351775546
+- Phone: +91-9024675831
 - Email: rollixmedia@gmail.com
 - WhatsApp: https://wa.me/919024675831
 - Address: Bhilwara, Rajasthan, India — 311001
 - Hours: Monday–Saturday, 9 AM – 7 PM IST
 
 ## Social Media
-- Instagram: https://www.instagram.com/rollixmedia
-- YouTube: https://youtube.com/@rollixmedia
-- Twitter: https://twitter.com/rollixmedia
-- LinkedIn: https://linkedin.com/company/rollix-media
+- Instagram: https://www.instagram.com/ampledia
+- YouTube: https://youtube.com/@ampledia
+- Twitter: https://twitter.com/ampledia
+- LinkedIn: https://linkedin.com/company/ampledia
 
 ## Case Studies
-- **Vision Classes Bhilwara** — ₹6,000 Instagram ad campaign achieving 129K+ views, 67K+ reach, 40-60 leads, 20:1 to 125:1 ROI
+- **Vision Classes Bhilwara** — Hyper-local Instagram ad campaign generating 129K+ views, 67K+ reach, and 40-60 qualified student admissions leads.
 
 ## Website
-https://rollixmedia.vercel.app
+https://ampledia.in

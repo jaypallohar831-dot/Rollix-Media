@@ -1,11 +1,16 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Container } from '@/components/layout';
 import { Quote, Star, User, ChevronLeft, ChevronRight } from 'lucide-react';
-import { staggerContainer, fadeUp, fadeIn } from '@/animations/variants';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { isReducedMotion } from '@/lib/motion';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface Testimonial {
   id: string;
@@ -23,126 +28,237 @@ interface TestimonialsSectionProps {
 
 export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  // Strictly obey rule: only real ones from DB, no fake lorem ipsum
+  const hasTestimonials = testimonials && testimonials.length > 0;
+
+  useEffect(() => {
+    if (!hasTestimonials || typeof window === 'undefined' || !sectionRef.current) return;
+
+    if (isReducedMotion()) return;
+
+    const ctx = gsap.context(() => {
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current.children,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            stagger: 0.12,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: 'top 85%',
+              once: true,
+            },
+          }
+        );
+      }
+
+      if (cardRef.current) {
+        gsap.fromTo(
+          cardRef.current,
+          { opacity: 0, scale: 0.96, y: 25 },
+          {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: cardRef.current,
+              start: 'top 85%',
+              once: true,
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [hasTestimonials]);
+
+  if (!hasTestimonials) {
+    return null;
+  }
 
   const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
-  if (testimonials.length === 0) return null;
-
   const current = testimonials[currentIndex];
 
   return (
-    <section aria-label="Client Testimonials" className="relative overflow-hidden bg-background py-12 sm:py-16 lg:py-20">
-      {/* Background elements */}
-      <div className="absolute inset-0 pointer-events-none bg-background overflow-hidden" />
+    <section
+      ref={sectionRef}
+      id="testimonials"
+      aria-label="Client Testimonials & Reviews"
+      className="relative overflow-hidden bg-[#0A0614] py-16 sm:py-24 lg:py-28"
+    >
+      {/* Background ambient glow */}
+      <div
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[400px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7C3AED]/10 blur-[140px]"
+        aria-hidden="true"
+      />
 
-      <Container>
-        <motion.div
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <motion.div variants={fadeIn} className="mb-4">
-            <span className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-cinematic-orange">
-              <span className="h-[1px] w-8 bg-cinematic-orange" />
-              Client Voices
+      {/* Top hairline divider */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#7C3AED]/25 to-transparent" />
+
+      <Container size="wide" className="relative z-10">
+        {/* Section Header */}
+        <div ref={headerRef} className="mx-auto mb-14 max-w-3xl text-center sm:mb-18">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
+            Verified Client Feedback
+          </div>
+
+          <h2 className="font-heading text-3xl font-bold tracking-tight text-[#F5F0FF] sm:text-4xl lg:text-5xl">
+            Words from Our{' '}
+            <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
+              Growth Partners.
             </span>
-          </motion.div>
-          <motion.h2 variants={fadeUp} className="font-heading text-4xl sm:text-5xl font-light text-foreground">
-            Words from the <span className="text-cinematic-orange italic">Heart</span>
-          </motion.h2>
-        </motion.div>
+          </h2>
 
-          <div className="relative mx-auto max-w-4xl" aria-live="polite">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 1.05 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="relative rounded-3xl border border-border bg-white shadow-sm p-8 sm:p-16 text-center"
+          <p className="mt-4 text-base text-[#B7A9D6] sm:text-lg">
+            Direct feedback from founders, institutions, and brand leaders scaling with Ampledia.
+          </p>
+        </div>
+
+        {/* Testimonial Showcase Card */}
+        <div className="relative mx-auto max-w-3xl" aria-live="polite">
+          <div
+            ref={cardRef}
+            className="relative overflow-hidden rounded-3xl border border-[#7C3AED]/25 bg-[#1A0F33] p-8 text-center shadow-xl shadow-[#7C3AED]/10 sm:p-14"
+          >
+            {/* Background watermark quote icon */}
+            <Quote
+              className="pointer-events-none absolute top-6 left-6 h-16 w-16 text-[#7C3AED]/10"
+              aria-hidden="true"
+            />
+
+            {/* Star Rating */}
+            <div className="mb-6 flex justify-center">
+              <div
+                className="flex items-center gap-1.5 rounded-full border border-[#7C3AED]/20 bg-[#241445]/60 px-3.5 py-1"
+                aria-label={`Rating: ${current.rating} out of 5 stars`}
               >
-                <Quote className="absolute top-8 left-8 h-12 w-12 text-cinematic-orange/10" aria-hidden="true" />
-                
-                <div className="flex justify-center mb-8">
-                  <div className="flex items-center gap-1" aria-label={`Rating: ${current.rating} out of 5 stars`}>
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`h-4 w-4 ${i < current.rating ? 'fill-cinematic-orange text-cinematic-orange' : 'text-muted-foreground/30'}`} aria-hidden="true" />
-                    ))}
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`h-4 w-4 ${
+                      i < current.rating
+                        ? 'fill-[#F59E0B] text-[#F59E0B]'
+                        : 'text-[#B7A9D6]/30'
+                    }`}
+                    aria-hidden="true"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Testimonial Content */}
+            <blockquote className="font-heading text-lg font-normal leading-relaxed text-[#F5F0FF] italic sm:text-2xl sm:leading-relaxed">
+              &ldquo;{current.content}&rdquo;
+            </blockquote>
+
+            {/* Author Details */}
+            <div className="mt-8 flex flex-col items-center">
+              <div className="relative mb-3 h-14 w-14 overflow-hidden rounded-full border-2 border-[#7C3AED]/40 bg-[#241445]">
+                {current.avatar_url ? (
+                  <Image
+                    src={current.avatar_url}
+                    alt={`Photo of ${current.name}`}
+                    fill
+                    unoptimized
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-[#C4B5FD]">
+                    <User className="h-6 w-6" aria-hidden="true" />
                   </div>
-                </div>
+                )}
+              </div>
 
-                <blockquote className="text-xl sm:text-2xl font-light leading-relaxed text-foreground italic mb-10">
-                  &ldquo;{current.content}&rdquo;
-                </blockquote>
+              <h4 className="font-heading text-base font-bold text-[#F5F0FF] sm:text-lg">
+                {current.name}
+              </h4>
 
-                <div className="flex flex-col items-center">
-                  <div className="relative h-16 w-16 rounded-full overflow-hidden border border-border mb-4 bg-muted">
-                    {current.avatar_url ? (
-                      <Image
-                        src={current.avatar_url}
-                        alt={`Photo of ${current.name}`}
-                        fill
-                        unoptimized
-                        sizes="64px"
-                        className="object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-muted-foreground/50">
-                        <User className="h-8 w-8" aria-hidden="true" />
-                      </div>
-                    )}
-                  </div>
-                  <h4 className="text-lg font-medium text-foreground">{current.name}</h4>
-                  <p className="text-sm text-muted-foreground font-light">
-                    {current.role} {current.company ? `· ${current.company}` : ''}
-                  </p>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+              <p className="mt-0.5 text-xs text-[#B7A9D6] sm:text-sm">
+                {current.role}
+                {current.company ? ` • ${current.company}` : ''}
+              </p>
+            </div>
 
-            {/* Navigation */}
-            <div className="absolute top-1/2 -left-4 sm:-left-12 lg:-left-20 -translate-y-1/2 hidden sm:block">
-              <button 
+            {/* Desktop Prev / Next Buttons */}
+            {testimonials.length > 1 && (
+              <>
+                <button
+                  onClick={prev}
+                  aria-label="Previous testimonial"
+                  className="absolute left-4 top-1/2 hidden -translate-y-1/2 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#241445]/80 p-3 text-[#C4B5FD] backdrop-blur-sm transition-all duration-300 hover:border-[#A855F7] hover:bg-[#7C3AED] hover:text-white sm:flex"
+                >
+                  <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+                </button>
+
+                <button
+                  onClick={next}
+                  aria-label="Next testimonial"
+                  className="absolute right-4 top-1/2 hidden -translate-y-1/2 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#241445]/80 p-3 text-[#C4B5FD] backdrop-blur-sm transition-all duration-300 hover:border-[#A855F7] hover:bg-[#7C3AED] hover:text-white sm:flex"
+                >
+                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* Mobile Navigation Controls */}
+          {testimonials.length > 1 && (
+            <div className="mt-6 flex items-center justify-center gap-4 sm:hidden">
+              <button
                 onClick={prev}
                 aria-label="Previous testimonial"
-                className="p-4 rounded-full border border-border bg-white text-muted-foreground hover:text-foreground hover:border-cinematic-orange/40 shadow-sm transition-[color,border-color] duration-300"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#241445] text-[#C4B5FD]"
               >
-                <ChevronLeft className="h-6 w-6" aria-hidden="true" />
+                <ChevronLeft className="h-5 w-5" aria-hidden="true" />
               </button>
-            </div>
-            <div className="absolute top-1/2 -right-4 sm:-right-12 lg:-right-20 -translate-y-1/2 hidden sm:block">
-              <button 
+
+              <button
                 onClick={next}
                 aria-label="Next testimonial"
-                className="p-4 rounded-full border border-border bg-white text-muted-foreground hover:text-foreground hover:border-cinematic-orange/40 shadow-sm transition-[color,border-color] duration-300"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#241445] text-[#C4B5FD]"
               >
-                <ChevronRight className="h-6 w-6" aria-hidden="true" />
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
+          )}
 
-            {/* Mobile Navigation */}
-            <div className="flex justify-center gap-4 mt-8 sm:hidden">
-               <button onClick={prev} aria-label="Previous testimonial" className="p-3 rounded-full border border-border bg-white shadow-sm text-muted-foreground"><ChevronLeft className="h-5 w-5" aria-hidden="true" /></button>
-               <button onClick={next} aria-label="Next testimonial" className="p-3 rounded-full border border-border bg-white shadow-sm text-muted-foreground"><ChevronRight className="h-5 w-5" aria-hidden="true" /></button>
-            </div>
-
-            {/* Indicators */}
-            <div className="flex justify-center gap-2 mt-10">
+          {/* Pagination Indicators */}
+          {testimonials.length > 1 && (
+            <div className="mt-8 flex justify-center gap-2">
               {testimonials.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}
-                  aria-label={`Go to testimonial ${i + 1}`}
-                  className={`h-1 rounded-full transition-[width,background-color] duration-500 ${i === currentIndex ? 'w-8 bg-cinematic-orange' : 'w-2 bg-border hover:bg-muted-foreground/50'}`}
+                  aria-label={`Go to review ${i + 1}`}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === currentIndex
+                      ? 'w-7 bg-[#A855F7]'
+                      : 'w-2 bg-[#7C3AED]/30 hover:bg-[#7C3AED]/60'
+                  }`}
                 />
               ))}
             </div>
-          </div>
+          )}
+        </div>
       </Container>
+
+      {/* Bottom hairline divider */}
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#7C3AED]/20 to-transparent" />
     </section>
   );
 }

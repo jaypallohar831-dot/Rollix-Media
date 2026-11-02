@@ -2,33 +2,32 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 import { SITE_NAME } from '@/lib/navigation';
 
 export function NavLogo() {
   return (
-    <motion.a
-      href="#hero"
-      className="group relative flex items-center gap-1"
-      initial={{ opacity: 0, x: -20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    <Link
+      href="/"
+      className="group relative flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-[#A855F7] rounded-lg"
+      aria-label={`${SITE_NAME} — Home`}
     >
       {/* Accent mark */}
-      <span className="relative flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center -ml-2 -mr-4 translate-y-1">
+      <span className="relative flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center -ml-2 -mr-3">
         <Image
           src="/assets/logo.png"
-          alt="Logo"
+          alt={`${SITE_NAME} Logo`}
           fill
           priority
-          sizes="(max-width: 768px) 64px, 80px"
-          className="object-contain scale-[1.5]"
+          sizes="(max-width: 768px) 56px, 64px"
+          className="object-contain scale-125"
         />
       </span>
 
       {/* Logo text */}
-      <span className="text-[15px] font-medium uppercase tracking-[0.35em] text-foreground transition-colors duration-500">
+      <span className="font-heading text-[15px] font-bold uppercase tracking-[0.3em] text-[#F5F0FF] transition-colors duration-300 group-hover:text-[#DDD6FE]">
         {SITE_NAME}
       </span>
-    </motion.a>
+    </Link>
   );
 }

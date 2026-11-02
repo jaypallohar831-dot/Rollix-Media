@@ -31,7 +31,7 @@ export default function AboutPage() {
   return (
     <main className="relative min-h-screen pt-20">
       <WebPageSchema
-        name="About Rollix Media"
+        name="About Ampledia"
         description={PAGE_SEO.about.description}
         url={getCanonicalUrl('/about')}
         type="AboutPage"

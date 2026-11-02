@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
           <h1 className="font-heading text-4xl sm:text-5xl font-light text-foreground mb-4">
             Privacy <span className="text-gradient-warm italic">Policy</span>
           </h1>
-          <p className="text-muted-foreground mb-12">Last updated: May 2025</p>
+          <p className="text-muted-foreground mb-12">Last updated: October 2026</p>
 
           <article className="space-y-10 text-foreground/80 leading-relaxed">
             <section>
@@ -49,7 +49,7 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">2. How We Use Your Information</h2>
-              <p>We use the information you provide to respond to your enquiries, deliver our services, and occasionally send relevant updates about Rollix Media. We never sell your data to third parties.</p>
+              <p>We use the information you provide to respond to your enquiries, deliver our services, and occasionally send relevant updates about Ampledia. We never sell your data to third parties.</p>
             </section>
 
             <section>
@@ -74,7 +74,7 @@ export default function PrivacyPolicyPage() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">7. Contact</h2>
-              <p>Rollix Media, Bhilwara, Rajasthan, India.<br />
+              <p>Ampledia, Bhilwara, Rajasthan, India.<br />
               For privacy concerns: <a href="mailto:rollixmedia@gmail.com" className="text-cinematic-orange hover:underline">rollixmedia@gmail.com</a></p>
             </section>
           </article>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { geistSans, playfairDisplay } from './fonts';
+import { sora, inter } from './fonts';
 import './globals.css';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import {
@@ -7,7 +7,6 @@ import {
   SITE_NAME,
   SITE_DESCRIPTION,
   SITE_LOCALE,
-  BUSINESS,
   SOCIAL,
   OG_IMAGE,
   PRIMARY_KEYWORDS,
@@ -20,13 +19,15 @@ import {
   WebSiteSchema,
   AggregateRatingSchema,
 } from '@/components/seo/json-ld';
+import { MetaPixel } from '@/components/analytics/meta-pixel';
+import { GoogleAnalytics } from '@/components/analytics/google-analytics';
 
 // ── Viewport (separated from metadata in Next.js 16) ────────────────────────
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#C77B43',
+  themeColor: '#7C3AED',
   colorScheme: 'light',
 };
 
@@ -88,9 +89,10 @@ export const metadata: Metadata = {
     creator: SOCIAL.twitterHandle,
     site: SOCIAL.twitterHandle,
   },
-  alternates: {
-    canonical: SITE_URL,
-  },
+  // Note: Each page sets its own canonical via alternates.canonical.
+  // No root-level canonical is set here to prevent accidental homepage
+  // canonical leaking to pages that forget to override.
+
   verification: {
     google: VERIFICATION.google,
     ...(VERIFICATION.bing ? { other: { 'msvalidate.01': [VERIFICATION.bing] } } : {}),
@@ -113,11 +115,13 @@ export default function RootLayout({
         {/* ── Resource Hints for Core Web Vitals (faster LCP, lower FID) ── */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fwjvcqwcedjmzxqcrvtf.supabase.co" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@300;400;600;700;800&display=swap"
+        />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="dns-prefetch" href="https://fwjvcqwcedjmzxqcrvtf.supabase.co" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://vitals.vercel-insights.com" />
@@ -132,7 +136,7 @@ export default function RootLayout({
         <AggregateRatingSchema ratingValue={4.9} reviewCount={47} />
       </head>
       <body
-        className={`${geistSans.variable} ${playfairDisplay.variable} relative min-h-full font-sans`}
+        className={`${inter.variable} ${sora.variable} relative min-h-full font-sans`}
         style={{ position: 'relative' }}
         suppressHydrationWarning
       >
@@ -145,6 +149,8 @@ export default function RootLayout({
         </a>
         {children}
         <SpeedInsights />
+        <MetaPixel />
+        <GoogleAnalytics />
       </body>
     </html>
   );

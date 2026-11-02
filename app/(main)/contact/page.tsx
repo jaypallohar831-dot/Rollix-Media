@@ -28,7 +28,7 @@ export default function ContactPage() {
   return (
     <main className="relative min-h-screen pt-32 sm:pt-40 lg:pt-48">
       <WebPageSchema
-        name="Contact Rollix Media"
+        name="Contact Ampledia"
         description={PAGE_SEO.contact.description}
         url={getCanonicalUrl('/contact')}
         type="ContactPage"

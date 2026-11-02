@@ -15,18 +15,22 @@ export default function AdminLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="admin-layout flex min-h-screen relative z-10 bg-[#fafafa] text-stone-900">
+    <div className="admin-layout flex min-h-screen relative z-10 bg-[var(--admin-bg)] text-[var(--admin-text)]">
       {!isLoginPage && (
         <>
           {/* Mobile top bar */}
-          <header className="md:hidden flex items-center justify-between px-5 py-4 sticky top-0 z-40 bg-white border-b border-stone-200">
+          <header className="md:hidden flex items-center justify-between px-5 py-4 sticky top-0 z-40 bg-[var(--admin-sidebar)] border-b border-[var(--admin-border)]">
             <div className="flex items-center gap-3">
-              <span className="font-heading text-[11px] uppercase tracking-[.25em] font-bold text-stone-900">
-                Rollix <span className="text-cinematic-orange">Studio</span>
+              <span className="font-heading text-[11px] uppercase tracking-[.25em] font-bold text-[var(--admin-text)]">
+                Ampledia <span className="text-[var(--admin-accent)]">Studio</span>
               </span>
             </div>
-            <button onClick={() => setSidebarOpen(!sidebarOpen)}>
-              {sidebarOpen ? <X className="h-5 w-5 text-stone-700" /> : <Menu className="h-5 w-5 text-stone-700" />}
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} aria-label="Toggle menu">
+              {sidebarOpen ? (
+                <X className="h-5 w-5 text-[var(--admin-text-secondary)]" />
+              ) : (
+                <Menu className="h-5 w-5 text-[var(--admin-text-secondary)]" />
+              )}
             </button>
           </header>
 
@@ -34,8 +38,8 @@ export default function AdminLayout({
         </>
       )}
 
-      {/* Main content - must have relative z-10 to sit above BokehBackground */}
-      <main className={`flex-1 overflow-auto min-w-0 bg-[#fafafa] relative z-10 ${isLoginPage ? '' : 'md:ml-[260px]'}`}>
+      {/* Main content container */}
+      <main className={`flex-1 overflow-auto min-w-0 bg-[var(--admin-bg)] relative z-10 ${isLoginPage ? '' : 'md:ml-[260px]'}`}>
         <div className="p-4 sm:p-6 lg:p-8 h-full w-full">
           {children}
         </div>
@@ -44,7 +48,7 @@ export default function AdminLayout({
       {/* Mobile overlay */}
       {!isLoginPage && sidebarOpen && (
         <div
-          className="fixed inset-0 z-30 md:hidden bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-30 md:hidden bg-black/60 backdrop-blur-sm"
           onClick={() => setSidebarOpen(false)}
         />
       )}

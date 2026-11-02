@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState, useRef } from 'react';
+import { useMemo, useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -409,18 +409,31 @@ export function ProjectDetail({ item, relatedItems, slug, adjacent }: Props) {
 
 function DeliverableVideoThumb({ media, onClick }: { media: Deliverable; onClick: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [hovered, setHovered] = useState(false);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = () => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setHovered(true);
+    }, 150);
   };
 
   const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setHovered(false);
     if (videoRef.current) {
       videoRef.current.pause();
     }
   };
+
+  useEffect(() => {
+    if (hovered && videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, [hovered]);
 
   return (
     <div 
@@ -430,25 +443,27 @@ function DeliverableVideoThumb({ media, onClick }: { media: Deliverable; onClick
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {media.resultImage && (
+      {(media.resultImage || !hovered) && (
         <img
-          src={media.resultImage}
+          src={media.resultImage || '/assets/portfolio/motion.webp'}
           alt={media.title || 'Deliverable'}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
       )}
-      <video
-        ref={videoRef}
-        src={media.url}
-        preload="metadata"
-        muted
-        loop
-        playsInline
-        className={`absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${media.resultImage ? 'opacity-0 group-hover:opacity-100 transition-opacity' : ''}`}
-      >
-        <track kind="captions" srcLang="en" label="No captions available" />
-      </video>
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center z-10">
+      {hovered && (
+        <video
+          ref={videoRef}
+          src={media.url}
+          preload="none"
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        >
+          <track kind="captions" srcLang="en" label="No captions available" />
+        </video>
+      )}
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center z-10 pointer-events-none">
          <Play className="h-10 w-10 text-white drop-shadow-md mb-2 opacity-0 group-hover:opacity-100 transition-opacity" />
          {(media.title || media.url) && (
            <span className="bg-cinematic-orange text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity">View Details</span>

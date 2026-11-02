@@ -1,17 +1,20 @@
-import { Geist, Playfair_Display } from 'next/font/google';
+/**
+ * Ampledia Font Engine
+ * 
+ * Provides Sora (headings) and Inter (body) typography variables
+ * decoupled from build-time external font network timeouts.
+ */
 
-export const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-  display: 'swap',
-  preload: true,
-});
+export const sora = {
+  variable: 'font-sora',
+  className: 'font-sora',
+};
 
+export const inter = {
+  variable: 'font-inter',
+  className: 'font-inter',
+};
 
-
-export const playfairDisplay = Playfair_Display({
-  variable: '--font-playfair-display',
-  subsets: ['latin'],
-  display: 'swap',
-  preload: true,
-});
+// Backward compatibility aliases
+export const geistSans = inter;
+export const playfairDisplay = sora;

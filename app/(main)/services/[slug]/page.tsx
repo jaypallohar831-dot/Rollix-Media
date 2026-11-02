@@ -32,9 +32,9 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   if (!service) service = SERVICES.find((s) => s.slug === slug) as any;
 
   const seoData = SERVICE_SEO[slug];
-  const title = seoData?.title || (service ? `${service.title} Services in Bhilwara | Rollix Media` : 'Service | Rollix Media');
-  const description = seoData?.description || service?.description || 'Professional digital marketing service by Rollix Media, Bhilwara.';
-  const keywords = seoData?.keywords || [service?.title || slug, 'Rollix Media', 'Bhilwara'];
+  const title = seoData?.title || (service ? `${service.title} Services in Bhilwara | Ampledia` : 'Service | Ampledia');
+  const description = seoData?.description || service?.description || 'Professional digital marketing service by Ampledia, Bhilwara.';
+  const keywords = seoData?.keywords || [service?.title || slug, 'Ampledia', 'Bhilwara'];
   const canonicalUrl = getCanonicalUrl(`/services/${slug}`);
 
   return {
@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
       title,
       description,
       url: canonicalUrl,
-      images: [{ url: OG_IMAGE.url, width: OG_IMAGE.width, height: OG_IMAGE.height, alt: `${service?.title || slug} — Rollix Media` }],
+      images: [{ url: OG_IMAGE.url, width: OG_IMAGE.width, height: OG_IMAGE.height, alt: `${service?.title || slug} — Ampledia` }],
     },
     twitter: {
       card: 'summary_large_image',

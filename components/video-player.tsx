@@ -32,10 +32,12 @@ export const VideoPlayer = memo(function VideoPlayer({
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [isMuted, setIsMuted] = useState(true);
   const [showOverlay, setShowOverlay] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [progress, setProgress] = useState(0);
   const hideTimeout = useRef<ReturnType<typeof setTimeout>>(null);
 
   const togglePlay = useCallback(() => {
+    if (hasError) return;
     const video = videoRef.current;
     if (!video) return;
 
@@ -46,7 +48,7 @@ export const VideoPlayer = memo(function VideoPlayer({
       video.pause();
       setIsPlaying(false);
     }
-  }, []);
+  }, [hasError]);
 
   const toggleMute = useCallback(() => {
     const video = videoRef.current;
@@ -105,12 +107,17 @@ export const VideoPlayer = memo(function VideoPlayer({
         ref={videoRef}
         src={getOptimizedVideoUrl(playableSrc, true)}
         poster={poster}
+        preload={autoPlay ? 'auto' : 'none'}
         muted={isMuted}
         autoPlay={autoPlay}
         loop
         playsInline
         onTimeUpdate={handleTimeUpdate}
         onClick={togglePlay}
+        onError={() => {
+          setHasError(true);
+          setIsPlaying(false);
+        }}
         className={cn(
           aspect === 'aspect-auto' && !className?.includes('absolute') ? 'w-full h-auto' : 'absolute inset-0 h-full w-full',
           'cursor-pointer',
@@ -123,7 +130,19 @@ export const VideoPlayer = memo(function VideoPlayer({
       {/* Cinematic vignette overlay */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.4)_100%)]" />
 
-      {showControls && (
+      {/* Error state overlay */}
+      {hasError && (
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/75 p-6 text-center backdrop-blur-xs">
+          <p className="text-xs font-semibold uppercase tracking-wider text-cinematic-orange">
+            Stream Temporarily Unavailable
+          </p>
+          <p className="mt-1.5 text-xs text-white/70 max-w-xs">
+            Media playback is momentarily paused for bandwidth maintenance.
+          </p>
+        </div>
+      )}
+
+      {showControls && !hasError && (
         <AnimatePresence>
           {(showOverlay || !isPlaying) && (
             <motion.div

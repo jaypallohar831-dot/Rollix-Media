@@ -8,8 +8,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { SITE_URL } from '@/lib/seo.config';
 
-// IndexNow key — also needs to be placed as a static file at /public/<key>.txt
-const INDEXNOW_KEY = 'rollixmedia2024indexnow';
+// IndexNow key — hosted statically at /public/<key>.txt
+const INDEXNOW_KEY = process.env.INDEXNOW_KEY || 'ampledia2026indexnow';
 
 const ALL_STATIC_URLS = [
   '/',
@@ -24,9 +24,8 @@ const ALL_STATIC_URLS = [
   '/services/seo-dominance',
   '/services/digital-marketing',
   '/portfolio',
+  '/portfolio/vision-classes-bhilwara',
   '/contact',
-  '/tools/compress',
-  '/case-studies/vision-classes-bhilwara',
   '/privacy-policy',
   '/terms',
 ];

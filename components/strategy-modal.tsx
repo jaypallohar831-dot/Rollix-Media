@@ -189,7 +189,7 @@ export function StrategyModal({ project, isOpen, onClose }: StrategyModalProps) 
                 <ExternalLink className="h-3.5 w-3.5" />
               </Link>
             ) : (
-              <span className="text-xs text-muted-foreground">Crafted by Rollix Media</span>
+              <span className="text-xs text-muted-foreground">Crafted by Ampledia</span>
             )}
 
             <div className="flex items-center gap-2">

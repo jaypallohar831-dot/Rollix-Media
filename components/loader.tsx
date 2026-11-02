@@ -61,7 +61,7 @@ export function Loader({ onComplete }: { onComplete?: () => void }) {
             animation: 'loaderFadeOut 0.4s ease-in-out 0.8s forwards',
           }}
         >
-          {/* ROLLIX text */}
+          {/* AMPLEDIA text */}
           <div className="overflow-hidden pb-1">
             <div
               className="font-heading text-[clamp(4rem,12vw,10rem)] font-light leading-[1] tracking-[-0.02em] text-white origin-bottom-left"
@@ -69,7 +69,7 @@ export function Loader({ onComplete }: { onComplete?: () => void }) {
                 animation: 'loaderTextReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
               }}
             >
-              ROLLIX
+              AMPLEDIA
             </div>
           </div>
 

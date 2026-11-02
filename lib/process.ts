@@ -4,47 +4,53 @@ export interface ProcessStep {
   title: string;
   subtitle: string;
   description: string;
+  pillar: 'Strategy' | 'Creativity' | 'Growth';
 }
 
 export const PROCESS_STEPS: ProcessStep[] = [
   {
     id: 'discovery',
     number: '01',
-    title: 'Strategic Discovery',
-    subtitle: 'Audit & Insight',
+    title: 'Discovery & Audit',
+    subtitle: 'Market & Economics',
     description:
-      'We deep-dive into your business model, identifying market bottlenecks and high-value opportunities to position your brand for undisputed leadership.',
+      'We analyze your business unit economics, audience behavior, competitor positioning, and existing conversion bottlenecks to find high-leverage growth opportunities.',
+    pillar: 'Strategy',
   },
   {
     id: 'architecture',
     number: '02',
-    title: 'Creative Architecture',
-    subtitle: 'Design & Strategy',
+    title: 'Creative Blueprint',
+    subtitle: 'Offer & Funnel Design',
     description:
-      'Designing a high-conversion digital ecosystem. From premium web design to social narrative architecture, we build the foundation for your scale.',
+      'Mapping out high-converting video hooks, storyboard scripts, and direct WhatsApp / landing page inquiry funnels engineered to convert attention into qualified inquiries.',
+    pillar: 'Strategy',
   },
   {
     id: 'production',
     number: '03',
-    title: 'High-End Production',
-    subtitle: 'Cinematic Creation',
+    title: 'Cinema Production',
+    subtitle: 'Filming & Motion Edit',
     description:
-      'This is where our cinematic heritage meets marketing strategy. We craft visual assets with surgical precision, ensuring every frame drives authority.',
+      'Executing multi-camera 4K shoots with cinema glass and creating dynamic, high-retention reel edits with sound design, kinetic typography, and premium color grading.',
+    pillar: 'Creativity',
   },
   {
     id: 'engineering',
     number: '04',
-    title: 'Growth Engineering',
-    subtitle: 'SEO & Optimization',
+    title: 'Campaign Launch',
+    subtitle: 'Meta Ads & Distribution',
     description:
-      'Deploying technical SEO and data-driven marketing funnels. We optimize your digital presence to dominate search results and maximize conversion ROI.',
+      'Deploying targeted Meta and Google ad sets with tight geographic radius targeting. We test creative hooks live and optimize daily for lowest cost per qualified lead.',
+    pillar: 'Growth',
   },
   {
     id: 'dominance',
     number: '05',
-    title: 'Market Dominance',
-    subtitle: 'Scale & Leadership',
+    title: 'Scale & Compound',
+    subtitle: 'Predictable Revenue',
     description:
-      'The final phase: full-scale market dominance. We deliver a permanent, high-performance digital presence that scales your business to new heights.',
+      'Scaling winning creatives, expanding ad spend profitably, and building an enduring organic brand footprint that compounds your market authority month over month.',
+    pillar: 'Growth',
   },
 ];

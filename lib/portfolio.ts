@@ -77,19 +77,19 @@ export const VISION_CLASSES_PROJECT: PortfolioItem = {
   id: 'vision-classes-bhilwara',
   title: 'Vision Classes Bhilwara',
   category: 'Ad Campaigns',
-  tagline: '129K+ Views & 125:1 ROI Instagram Ad Campaign',
-  description: 'Rollix Media executed a targeted Instagram ad campaign for Vision Classes Bhilwara, generating 129K+ views, 19.8K engagement, 67.9K reach, and 40-60 qualified leads with a 125:1 ROI in 30 days.',
+  tagline: '129K+ Views & High-Conversion Instagram Ad Campaign',
+  description: 'Ampledia executed a targeted Instagram ad campaign for Vision Classes Bhilwara, generating 129K+ views, 19.8K engagement, 67.9K reach, and 40-60 qualified student leads at ~₹100-150/lead in 30 days.',
   year: '2024',
-  image: '/assets/portfolio/motion.png',
+  image: '/assets/portfolio/motion.webp',
   mediaType: 'image',
-  tags: ['Ad Campaigns', 'Instagram Ads', 'Meta Ads', 'Lead Generation', '125:1 ROI'],
+  tags: ['Ad Campaigns', 'Instagram Ads', 'Meta Ads', 'Lead Generation', 'Local Growth'],
   featured: true,
   group: 'featured',
   location: 'Bhilwara, Rajasthan',
   client: 'Vision Classes Bhilwara',
-  liveUrl: '/case-studies/vision-classes-bhilwara',
+  liveUrl: '/portfolio/vision-classes-bhilwara',
   strategy: {
-    objective: 'Generate qualified student leads for coaching admissions in Bhilwara while maximizing ad ROI.',
+    objective: 'Generate qualified student leads for coaching admissions in Bhilwara while maximizing local reach and lowering acquisition costs.',
     approach: [
       'Engineered testimonial-based video creatives focused on student success',
       'Implemented hyper-local radius targeting across Bhilwara district',
@@ -102,7 +102,7 @@ export const VISION_CLASSES_PROJECT: PortfolioItem = {
       '19,889 Total Engagement',
       '67,979 Unique Local Reach',
       '40-60 Qualified Student Leads',
-      '125:1 Return on Ad Spend (ROI)'
+      '~₹100–150 Cost Per Qualified Lead'
     ]
   }
 };

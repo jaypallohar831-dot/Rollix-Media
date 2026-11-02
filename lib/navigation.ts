@@ -1,3 +1,5 @@
+import { BRAND_NAME } from './brand';
+
 export interface NavItem {
   label: string;
   href: string;
@@ -12,4 +14,4 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Contact', href: '/contact', sectionId: 'contact' },
 ];
 
-export const SITE_NAME = 'Rollix Media';
+export const SITE_NAME = BRAND_NAME;

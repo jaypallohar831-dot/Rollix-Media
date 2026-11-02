@@ -27,6 +27,8 @@ const securityHeaders = [
   },
 ];
 
+const NEW_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://ampledia.in').replace(/\/$/, '');
+
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["10.196.1.136", "10.196.4.136", "localhost", "10.47.81.136", "192.168.29.77"],
 
@@ -43,15 +45,27 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 768, 1024, 1280, 1536],
-    imageSizes: [16, 32, 48, 64, 128, 256, 384],
+    deviceSizes: [640, 750, 768, 828, 1024, 1080, 1200, 1280, 1536, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     qualities: [25, 50, 70, 75, 80, 90, 100],
     minimumCacheTTL: 60 * 60 * 24, // 24 hours
   },
 
-  // Turbopack-compatible experimental perf flags
+  // Explicitly disable production browser source maps (SEO/security/bundle size)
+  productionBrowserSourceMaps: false,
+
+  // Strip console in production to prevent console noise
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
+  },
+
+  // Turbopack-compatible performance optimizations and bundle size reduction
   experimental: {
     optimizeCss: true,
+    optimizePackageImports: [
+      'gsap',
+      'lucide-react',
+    ],
   },
 
   // Security headers for SEO trust signals + static asset caching
@@ -60,16 +74,6 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: securityHeaders,
-      },
-      // Immutable cache for static assets (fonts, images, CSS, JS bundles)
-      {
-        source: '/_next/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
       },
       // Cache images for 30 days
       {
@@ -123,12 +127,41 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Redirect trailing slashes to canonical URLs (SEO duplicate prevention)
+  // Redirect trailing slashes & legacy host domains to authoritative URLs
   async redirects() {
     return [
+      // 1. Permanent (301) domain redirect from legacy host to new Ampledia URL
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'rollixmedia.vercel.app',
+          },
+        ],
+        destination: `${NEW_URL}/:path*`,
+        permanent: true,
+      },
       {
         source: '/:path+/',
         destination: '/:path+',
+        permanent: true,
+      },
+      // Consolidate duplicate case study URL into the authoritative portfolio project
+      {
+        source: '/case-studies/vision-classes-bhilwara',
+        destination: '/portfolio/vision-classes-bhilwara',
+        permanent: true,
+      },
+      {
+        source: '/case-studies/:slug*',
+        destination: '/portfolio/:slug*',
+        permanent: true,
+      },
+      // Safely redirect decommissioned tool pages back to homepage
+      {
+        source: '/tools/:path*',
+        destination: '/',
         permanent: true,
       },
     ];

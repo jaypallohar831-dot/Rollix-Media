@@ -3,6 +3,7 @@ import { Plus, Pencil, ExternalLink, Star, Film, ImageIcon } from 'lucide-react'
 import { requireAdminOrRedirect } from '@/lib/admin-auth';
 import { ProjectStatusToggle } from '@/components/admin/project-status-toggle';
 import { DeleteProjectButton } from '@/components/admin/delete-project-button';
+import { isSupabaseQuotaError } from '@/lib/supabase-error-handler';
 
 export const dynamic = 'force-dynamic';
 
@@ -37,8 +38,20 @@ export default async function AdminPortfolioPage() {
       </div>
 
       {error && (
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-sm text-red-700">
-          <strong>Error:</strong> {error.message}
+        <div className={`rounded-2xl border p-6 text-sm ${isSupabaseQuotaError(error) ? 'border-amber-200 bg-amber-50 text-amber-900' : 'border-red-200 bg-red-50 text-red-700'}`}>
+          {isSupabaseQuotaError(error) ? (
+            <div>
+              <strong className="font-semibold block text-base mb-1 text-amber-950">Supabase Project Quota Restriction Detected</strong>
+              <p className="text-amber-800 leading-relaxed">
+                Your Supabase project is currently restricted due to exceeding the cached egress quota (<code className="font-mono text-xs bg-amber-100 px-1.5 py-0.5 rounded">exceed_cached_egress_quota</code>).
+                Database and Storage operations are currently paused by Supabase until the monthly cycle resets or egress is upgraded in your Supabase dashboard.
+              </p>
+            </div>
+          ) : (
+            <div>
+              <strong>Error:</strong> {error.message}
+            </div>
+          )}
         </div>
       )}
 

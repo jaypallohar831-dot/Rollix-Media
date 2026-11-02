@@ -2,6 +2,7 @@
 
 import { useEffect, ReactNode } from 'react';
 import Lenis from 'lenis';
+import { connectLenisToScrollTrigger } from '@/lib/motion';
 
 interface SmoothScrollProps {
   children: ReactNode;
@@ -19,15 +20,11 @@ export function SmoothScroll({ children }: SmoothScrollProps) {
       touchMultiplier: 1.5,
     });
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    const rafId = requestAnimationFrame(raf);
+    // Synchronize Lenis with GSAP ScrollTrigger
+    const disconnectScrollTrigger = connectLenisToScrollTrigger(lenis);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      disconnectScrollTrigger?.();
       lenis.destroy();
     };
   }, []);

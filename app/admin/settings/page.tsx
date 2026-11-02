@@ -66,7 +66,7 @@ export default function AdminSettingsPage() {
                   <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-600 ml-1">Studio Name</label>
                   <input 
                     type="text" 
-                    defaultValue="Rollix Media"
+                    defaultValue="Ampledia"
                     className="w-full rounded-xl border border-stone-300 bg-white px-4 py-3.5 text-stone-900 outline-none transition-all focus:border-cinematic-orange shadow-xs"
                   />
                 </div>

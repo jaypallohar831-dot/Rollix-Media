@@ -112,21 +112,13 @@ export default function VideoThumbnailPicker({
 
       // Upload to Supabase Storage
       const { createClient } = await import('@/lib/supabase/client');
+      const { uploadToSupabaseStorage } = await import('@/lib/supabase-upload');
       const supabase = createClient();
       
       const filename = `portfolio/thumb_${Date.now()}_${Math.random().toString(36).substring(7)}.jpg`;
+      const file = new File([blob], 'thumbnail.jpg', { type: 'image/jpeg' });
 
-      const { data, error } = await supabase.storage
-        .from('media')
-        .upload(filename, blob, { cacheControl: '3600', upsert: false, contentType: 'image/jpeg' });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('media')
-        .getPublicUrl(data.path);
+      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file, { mediaType: 'image' });
 
       setCapturedPreview(publicUrl);
       onThumbnailCaptured(publicUrl);

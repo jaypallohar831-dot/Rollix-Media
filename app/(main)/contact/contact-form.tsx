@@ -12,6 +12,7 @@ import {
 import { servicesService } from '@/services/services.service';
 import type { Service } from '@/services/services.service';
 import { cn } from '@/lib/utils';
+import { BRAND } from '@/lib/brand';
 
 export function ContactForm() {
   const [services, setServices] = useState<Service[]>([]);
@@ -68,8 +69,8 @@ export function ContactForm() {
   };
 
   const socialLinks = [
-    { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/rollixmedia', color: 'hover:text-pink-500' },
-    { name: 'WhatsApp', icon: MessageSquare, href: 'https://wa.me/919024675831', color: 'hover:text-green-500' },
+    { name: 'Instagram', icon: Instagram, href: BRAND.social.instagram, color: 'hover:text-pink-500' },
+    { name: 'WhatsApp', icon: MessageSquare, href: BRAND.whatsapp, color: 'hover:text-green-500' },
   ];
 
   return (
@@ -298,7 +299,7 @@ export function ContactForm() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`Follow Rollix Media on ${social.name}`}
+                      aria-label={`Follow ${BRAND.name} on ${social.name}`}
                       className={cn(
                         "group flex items-center gap-4 text-xl font-light text-muted-foreground transition-all duration-500",
                         social.color

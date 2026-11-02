@@ -18,6 +18,9 @@ import {
   Plus,
   Video
 } from 'lucide-react';
+import { uploadToSupabaseStorage } from '@/lib/supabase-upload';
+import { UPLOAD_CONFIG } from '@/lib/upload-config';
+import { BRAND } from '@/lib/brand';
 
 type Category = Database['public']['Tables']['categories']['Row'];
 
@@ -107,6 +110,9 @@ export default function NewPortfolioPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Reset input value so selecting the same file again triggers onChange
+    e.target.value = '';
+
     setUploading(type);
     
     try {
@@ -114,17 +120,9 @@ export default function NewPortfolioPage() {
       const ext = file.name.split('.').pop();
       const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-      const { data, error } = await supabase.storage
-        .from('media')
-        .upload(filename, file, { cacheControl: '3600', upsert: false });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-
-      const { data: { publicUrl } } = supabase.storage
-        .from('media')
-        .getPublicUrl(data.path);
+      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file, {
+        mediaType: type === 'video' ? 'video' : 'image',
+      });
 
       if (type === 'thumbnail') {
         setFormData(prev => ({ ...prev, thumbnail: publicUrl }));
@@ -135,7 +133,7 @@ export default function NewPortfolioPage() {
       }
     } catch (err) {
       console.error('Upload failed:', err);
-      alert('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
+      alert(err instanceof Error ? err.message : 'Upload failed: Unknown error');
     } finally {
       setUploading(null);
     }
@@ -238,9 +236,9 @@ export default function NewPortfolioPage() {
                     const slug = title.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
                     const cat = categories.find(c => c.id === formData.category_id)?.title || 'Digital Marketing';
                     const loc = formData.location || 'Bhilwara, Rajasthan';
-                    const autoSeoTitle = title ? `${title} — Rollix Media Portfolio` : '';
+                    const autoSeoTitle = title ? `${title} — ${BRAND.name} Portfolio` : '';
                     const autoSeoDesc = title
-                      ? `Watch "${title}" by Rollix Media — a premium ${cat} project in ${loc}. Professional video editing & digital marketing agency in Bhilwara, India.`
+                      ? `Watch "${title}" by ${BRAND.name} — a premium ${cat} project in ${loc}. Professional video editing & digital marketing agency in Bhilwara, India.`
                       : '';
                     setFormData(prev => ({
                       ...prev,
@@ -405,7 +403,7 @@ export default function NewPortfolioPage() {
                 <span>🔍</span> Google Preview (Auto-Generated)
               </h2>
               <div className="space-y-1">
-                <p className="text-[11px] text-blue-600 truncate">{`rollixmedia.vercel.app/portfolio/${formData.slug}`}</p>
+                <p className="text-[11px] text-blue-600 truncate">{`${BRAND.siteUrl.replace(/^https?:\/\//, '')}/portfolio/${formData.slug}`}</p>
                 <p className="text-sm font-semibold text-stone-900 leading-tight line-clamp-1">{formData.seo_title}</p>
                 <p className="text-[11px] text-stone-600 leading-relaxed line-clamp-2">{formData.seo_description}</p>
               </div>
@@ -472,8 +470,11 @@ export default function NewPortfolioPage() {
                       <Upload className="h-4 w-4 text-cinematic-orange" />
                     )}
                     <span>{uploading === 'thumbnail' ? 'Uploading Image...' : 'Choose Image File'}</span>
-                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept="image/*" />
+                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'thumbnail')} accept={UPLOAD_CONFIG.image.allowedMimeTypes.join(',')} />
                   </label>
+                  <p className="text-[10px] text-stone-500 ml-1">
+                    JPEG, PNG, WebP • Max {UPLOAD_CONFIG.image.maxSizeLabel}
+                  </p>
                 </div>
 
                 <div className="relative flex py-1 items-center">
@@ -506,8 +507,11 @@ export default function NewPortfolioPage() {
                       <Video className="h-4 w-4 text-cinematic-orange" />
                     )}
                     <span>{uploading === 'video' ? 'Uploading Video...' : 'Upload Video File'}</span>
-                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept="video/*" />
+                    <input type="file" className="hidden" onChange={(e) => handleFileUpload(e, 'video')} accept={UPLOAD_CONFIG.video.allowedMimeTypes.join(',')} />
                   </label>
+                  <p className="text-[10px] text-stone-500 ml-1">
+                    MP4, WebM, MOV • Max {UPLOAD_CONFIG.video.maxSizeLabel} • Max {UPLOAD_CONFIG.video.maxDurationLabel}
+                  </p>
                 </div>
 
                 <div className="space-y-2">

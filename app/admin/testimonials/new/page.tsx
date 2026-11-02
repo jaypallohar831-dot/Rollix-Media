@@ -41,12 +41,13 @@ export default function NewTestimonialPage() {
       const ext = file.name.split('.').pop();
       const filename = `${folder}/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file);
+      const publicUrl = await uploadToSupabaseStorage(supabase, filename, file, { mediaType: 'image' });
       setFormData(prev => ({ ...prev, avatar_url: publicUrl }));
     } catch (err) {
       console.error('Upload failed:', err);
       alert('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
     } finally {
+      e.target.value = '';
       setUploading(false);
     }
   };

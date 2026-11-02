@@ -31,20 +31,30 @@ export const PortfolioCard = memo(function PortfolioCard({
   const isVideo = item.mediaType === 'video';
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const [isHovered, setIsHovered] = useState(false);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const handleMouseEnter = () => {
-    if (isVideo && videoRef.current) {
-      videoRef.current.play().catch(() => {});
+    if (isVideo && item.videoUrl) {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setIsHovered(true);
+      }, 200);
     }
   };
 
   const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    setIsHovered(false);
     if (isVideo && videoRef.current) {
       videoRef.current.pause();
     }
   };
 
   const [imgSrc, setImgSrc] = useState<string>(
-    item.image && item.image.trim() !== '' ? item.image : '/assets/portfolio/motion.png'
+    item.image && item.image.trim() !== '' ? item.image : '/assets/portfolio/motion.webp'
   );
 
   return (
@@ -59,23 +69,24 @@ export const PortfolioCard = memo(function PortfolioCard({
           <div className="absolute inset-0 overflow-hidden bg-muted">
             <Image
               src={imgSrc}
-              alt={`${item.title} — ${item.category} portfolio by Rollix Media`}
+              alt={`${item.title} — ${item.category} portfolio by Ampledia`}
               fill
               unoptimized={imgSrc.startsWith('http')}
-              onError={() => setImgSrc('/assets/portfolio/motion.png')}
+              onError={() => setImgSrc('/assets/portfolio/motion.webp')}
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover transition-transform duration-700 ease-out will-change-transform group-hover:scale-105"
               priority={priority}
             />
-          {isVideo && item.videoUrl && (
+          {isVideo && isHovered && item.videoUrl && (
             <video
               ref={videoRef}
               src={getOptimizedVideoUrl(item.videoUrl, true)}
+              autoPlay
               preload="none"
               muted
               loop
               playsInline
-              className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out will-change-transform group-hover:scale-105 opacity-0 group-hover:opacity-100"
+              className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out will-change-transform group-hover:scale-105 opacity-100"
             >
               <track kind="captions" srcLang="en" label="No captions available" />
             </video>

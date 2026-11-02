@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '@/components/layout';
+import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 import { FilmCard } from '@/components/film-card';
 import { StrategyModal } from '@/components/strategy-modal';
 import {
@@ -73,7 +74,7 @@ function HeroCarousel({
           className="relative aspect-[16/9] sm:aspect-[2.4/1] w-full"
         >
           <Image
-            src={item.image && item.image.trim() !== '' ? item.image : '/assets/portfolio/motion.png'}
+            src={item.image && item.image.trim() !== '' ? item.image : '/assets/portfolio/motion.webp'}
             alt={item.title}
             fill
             priority
@@ -287,52 +288,71 @@ function AllFilmsGrid({
 /* ─────────────────────────────────────────
    PORTFOLIO PAGE — Main export
    ───────────────────────────────────────── */
+import { ServiceUnavailableState } from '@/components/ui/service-unavailable-state';
+import { getSafeErrorMessage } from '@/lib/supabase-error-handler';
+
 export default function PortfolioPage() {
   const [activeCategory, setActiveCategory] = useState<PortfolioCategory>('All');
   const [items, setItems] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isUnavailable, setIsUnavailable] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [strategyProject, setStrategyProject] = useState<PortfolioItem | null>(null);
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const data = await portfolioService.getProjects();
-        if (data && data.length > 0) {
-          const mapped: PortfolioItem[] = data.map((item: PortfolioProject) => ({
-            id: item.slug,
-            title: item.title,
-            category: item.categories?.title || 'Uncategorized',
-            tagline: item.seo_title || item.title,
-            description: item.description,
-            year: new Date(item.created_at).getFullYear().toString(),
-            image: item.thumbnail || '/assets/portfolio/wedding.png',
-            mediaType: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? 'video' : 'image',
-            videoUrl: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? item.video_url : undefined,
-            tags: item.tags || [],
-            featured: item.featured,
-            group: item.featured ? 'featured' : 'trending',
-            location: item.location || 'India',
-            liveUrl: (item as any).live_url || undefined,
-            strategy: (item as any).strategy || undefined,
-            deliverables: (item as any).deliverables || [],
-          }));
-          const hasVisionClasses = mapped.some(i => i.id === 'vision-classes-bhilwara');
-          if (!hasVisionClasses) {
-            mapped.push(VISION_CLASSES_PROJECT);
-          }
-          setItems(mapped);
-        } else {
-          setItems([VISION_CLASSES_PROJECT, ...PORTFOLIO_ITEMS]);
+  const loadData = useCallback(async (forceFresh = false) => {
+    setLoading(true);
+    try {
+      const data = await portfolioService.getProjects(forceFresh);
+      if (data && data.length > 0) {
+        const mapped: PortfolioItem[] = data.map((item: PortfolioProject) => ({
+          id: item.slug,
+          title: item.title,
+          category: item.categories?.title || 'Uncategorized',
+          tagline: item.seo_title || item.title,
+          description: item.description,
+          year: new Date(item.created_at).getFullYear().toString(),
+          image: item.thumbnail || '/assets/portfolio/wedding.webp',
+          mediaType: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? 'video' : 'image',
+          videoUrl: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? item.video_url : undefined,
+          tags: item.tags || [],
+          featured: item.featured,
+          group: item.featured ? 'featured' : 'trending',
+          location: item.location || 'India',
+          liveUrl: (item as any).live_url || undefined,
+          strategy: (item as any).strategy || undefined,
+          deliverables: (item as any).deliverables || [],
+        }));
+        const hasVisionClasses = mapped.some(i => i.id === 'vision-classes-bhilwara');
+        if (!hasVisionClasses) {
+          mapped.push(VISION_CLASSES_PROJECT);
         }
-      } catch (err) {
-        console.error('Failed to load portfolio:', err);
-        setItems([VISION_CLASSES_PROJECT, ...PORTFOLIO_ITEMS]);
-      } finally {
-        setLoading(false);
+        const uniqueItems = Array.from(new Map(mapped.map(i => [i.id, i])).values());
+        setItems(uniqueItems);
+        setIsUnavailable(false);
+        setErrorMessage(null);
+      } else {
+        // No items returned from DB
+        setItems([]);
+        setIsUnavailable(false);
       }
+    } catch (err) {
+      console.warn('Portfolio service unavailable:', err);
+      // Do NOT populate fake records. Set unavailable state and clear fake data.
+      setIsUnavailable(true);
+      setErrorMessage(getSafeErrorMessage(err));
+    } finally {
+      setLoading(false);
     }
-    loadData();
   }, []);
+
+  useEffect(() => {
+    loadData(false);
+  }, [loadData]);
+
+  const handleManualRetry = useCallback(async () => {
+    portfolioService.clearCache(true);
+    await loadData(true);
+  }, [loadData]);
 
   const matchCat = (itemCategory: string, filterCat: string) => {
     if (filterCat === 'All') return true;
@@ -379,6 +399,8 @@ export default function PortfolioPage() {
 
       <div className="relative z-10 pt-24 sm:pt-28">
         <Container size="wide">
+          <Breadcrumbs items={[{ label: 'Portfolio', href: '/portfolio' }]} className="mb-6" />
+
           {/* ── PAGE TITLE ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -405,7 +427,10 @@ export default function PortfolioPage() {
 
             {/* ── GLOBAL CATEGORY FILTER TABS ── */}
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3" suppressHydrationWarning>
-              {PORTFOLIO_CATEGORIES.map((cat) => {
+              {PORTFOLIO_CATEGORIES.filter((cat) => {
+                if (cat === 'All') return true;
+                return items.some((i) => matchCat(i.category, cat));
+              }).map((cat) => {
                 const count = cat === 'All' ? items.length : items.filter(i => matchCat(i.category, cat)).length;
                 return (
                   <button
@@ -432,6 +457,11 @@ export default function PortfolioPage() {
             <div className="flex h-96 items-center justify-center">
               <Loader2 className="h-10 w-10 animate-spin text-cinematic-orange/50" />
             </div>
+          ) : isUnavailable && items.length === 0 ? (
+            <ServiceUnavailableState
+              message={errorMessage || undefined}
+              onRetry={handleManualRetry}
+            />
           ) : (
             <>
               {activeCategory === 'All' ? (

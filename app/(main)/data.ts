@@ -37,25 +37,67 @@ export interface HomepageData {
   testimonials: Testimonial[];
 }
 
-export async function getHomepageData(): Promise<HomepageData> {
-  const supabase = await createClient();
+import { supabaseCircuitBreaker, withTimeout, isSupabaseQuotaError } from '@/lib/supabase-error-handler';
 
-  const [portfolioResult, servicesResult, testimonialsResult] =
-    await Promise.allSettled([
-      supabase
-        .from('portfolio_projects')
-        .select('*, categories(title, slug)')
-        .eq('status', 'published')
-        .order('created_at', { ascending: false }),
-      supabase
-        .from('services')
-        .select('*')
-        .order('created_at', { ascending: true }),
-      supabase
-        .from('testimonials')
-        .select('*')
-        .order('created_at', { ascending: false }),
+export async function getHomepageData(): Promise<HomepageData> {
+  const { VISION_CLASSES_PROJECT } = await import('@/lib/portfolio');
+
+  if (supabaseCircuitBreaker.shouldThrottle()) {
+    return {
+      portfolioProjects: [VISION_CLASSES_PROJECT],
+      services: fallbackServices,
+      testimonials: [],
+    };
+  }
+
+  let portfolioResult: any = { status: 'rejected' };
+  let servicesResult: any = { status: 'rejected' };
+  let testimonialsResult: any = { status: 'rejected' };
+
+  try {
+    const supabase = await createClient();
+
+    const fetchPortfolio = () => supabase
+      .from('portfolio_projects')
+      .select('*, categories(title, slug)')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false });
+
+    const fetchServices = () => supabase
+      .from('services')
+      .select('*')
+      .order('created_at', { ascending: true });
+
+    const fetchTestimonials = () => supabase
+      .from('testimonials')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    const results = await Promise.allSettled([
+      withTimeout<any>(Promise.resolve(fetchPortfolio()), 2500, { data: null, error: new Error('Timeout') }),
+      withTimeout<any>(Promise.resolve(fetchServices()), 2500, { data: null, error: new Error('Timeout') }),
+      withTimeout<any>(Promise.resolve(fetchTestimonials()), 2500, { data: null, error: new Error('Timeout') }),
     ]);
+
+    portfolioResult = results[0];
+    servicesResult = results[1];
+    testimonialsResult = results[2];
+
+    const hasErrors = results.some(
+      r => r.status === 'rejected' || (r.status === 'fulfilled' && (r.value as any)?.error)
+    );
+    if (hasErrors) {
+      const err = results.find(r => r.status === 'rejected' || (r.status === 'fulfilled' && (r.value as any)?.error));
+      const actualError = err?.status === 'rejected' ? err.reason : (err?.value as any)?.error;
+      if (isSupabaseQuotaError(actualError)) {
+        supabaseCircuitBreaker.recordFailure(actualError, 'getHomepageData');
+      }
+    }
+  } catch (err) {
+    if (isSupabaseQuotaError(err)) {
+      supabaseCircuitBreaker.recordFailure(err, 'getHomepageData');
+    }
+  }
 
   // --- Map portfolio ---
   let portfolioProjects: PortfolioItem[] = [];
@@ -68,7 +110,7 @@ export async function getHomepageData(): Promise<HomepageData> {
         tagline: item.seo_title || item.title,
         description: item.description,
         year: new Date(item.created_at).getFullYear().toString(),
-        image: item.thumbnail || '/assets/portfolio/wedding.png',
+        image: item.thumbnail || '/assets/portfolio/wedding.webp',
         mediaType: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? 'video' as const : 'image' as const,
         videoUrl: (item.video_url && item.video_url !== '/assets/loader-bg.mp4') ? item.video_url : undefined,
         deliverables: item.deliverables || [],

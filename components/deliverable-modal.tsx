@@ -43,7 +43,7 @@ export function DeliverableModal({ deliverable, isOpen, onClose }: DeliverableMo
           exit={{ opacity: 0, scale: 0.96, y: 20 }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="relative w-full overflow-hidden rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] bg-white max-w-6xl"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
         >
           {/* Close Button - Outside the media area for clarity */}
           <button

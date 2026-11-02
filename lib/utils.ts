@@ -20,7 +20,7 @@ export function getOptimizedVideoUrl(url?: string, preview = true) {
  */
 export function getOptimizedImageUrl(url?: string) {
   if (!url) {
-    return '/assets/portfolio/wedding.png';
+    return '/assets/portfolio/wedding.webp';
   }
   return url;
 }

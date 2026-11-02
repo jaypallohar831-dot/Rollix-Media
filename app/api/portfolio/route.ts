@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { AdminAuthError, requireAdmin } from '@/lib/admin-auth';
+import { SITE_URL } from '@/lib/seo.config';
 
 export async function GET(request: Request) {
   try {
@@ -110,7 +111,7 @@ export async function POST(request: Request) {
     }
 
     // Ping Google to re-crawl sitemap so the new project is indexed faster (fire-and-forget)
-    fetch('https://www.google.com/ping?sitemap=https://rollixmedia.vercel.app/sitemap.xml').catch(() => {});
+    fetch(`https://www.google.com/ping?sitemap=${encodeURIComponent(`${SITE_URL}/sitemap.xml`)}`).catch(() => {});
 
     return NextResponse.json({ success: true, data }, { status: 201 });
   } catch (error) {

@@ -32,6 +32,7 @@ export function OrganizationSchema() {
     '@id': `${SITE_URL}/#organization`,
     name: BUSINESS.name,
     legalName: BUSINESS.legalName,
+    alternateName: 'Rollix Media',
     url: SITE_URL,
     logo: {
       '@type': 'ImageObject',
@@ -89,6 +90,7 @@ export function LocalBusinessSchema() {
     '@type': ['LocalBusiness', 'ProfessionalService'],
     '@id': `${SITE_URL}/#localbusiness`,
     name: BUSINESS.name,
+    alternateName: 'Rollix Media',
     description: BUSINESS.description,
     url: SITE_URL,
     logo: BUSINESS.logo,
@@ -384,7 +386,7 @@ export function ServiceListSchema({
   const data = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Digital Marketing Services by Rollix Media',
+    name: `Digital Marketing Services by ${BUSINESS.name}`,
     itemListElement: services.map((service, i) => ({
       '@type': 'ListItem',
       position: i + 1,

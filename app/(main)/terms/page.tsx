@@ -39,12 +39,12 @@ export default function TermsPage() {
           <h1 className="font-heading text-4xl sm:text-5xl font-light text-foreground mb-4">
             Terms of <span className="text-gradient-warm italic">Service</span>
           </h1>
-          <p className="text-muted-foreground mb-12">Last updated: May 2025</p>
+          <p className="text-muted-foreground mb-12">Last updated: October 2026</p>
 
           <article className="space-y-10 text-foreground/80 leading-relaxed">
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">1. Services</h2>
-              <p>Rollix Media provides digital marketing services including video editing, social media management, web development, SEO, and graphic design. All services are delivered as agreed upon in individual project contracts or proposals.</p>
+              <p>Ampledia provides digital marketing services including video editing, social media management, web development, SEO, and graphic design. All services are delivered as agreed upon in individual project contracts or proposals.</p>
             </section>
 
             <section>
@@ -59,7 +59,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">4. Intellectual Property</h2>
-              <p>Upon receipt of final payment, the client owns the delivered final assets. Rollix Media retains the right to showcase the work in our portfolio and marketing materials unless a separate confidentiality agreement is in place.</p>
+              <p>Upon receipt of final payment, the client owns the delivered final assets. Ampledia retains the right to showcase the work in our portfolio and marketing materials unless a separate confidentiality agreement is in place.</p>
             </section>
 
             <section>
@@ -69,7 +69,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-xl font-semibold text-foreground mb-3">6. Limitation of Liability</h2>
-              <p>Rollix Media is not liable for any indirect, incidental, or consequential damages arising from the use of our services. Our total liability shall not exceed the amount paid for the specific service.</p>
+              <p>Ampledia is not liable for any indirect, incidental, or consequential damages arising from the use of our services. Our total liability shall not exceed the amount paid for the specific service.</p>
             </section>
 
             <section>

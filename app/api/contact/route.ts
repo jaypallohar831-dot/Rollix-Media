@@ -154,12 +154,19 @@ export async function POST(request: Request) {
       ]);
 
 
+    let dbInsertSuccess = false;
+    let dbErrorMessage: string | null = null;
+
     if (error) {
-      console.error('Supabase error inserting contact lead:', error.message);
-      return NextResponse.json(
-        { error: `Database Error: ${error.message}` },
-        { status: 500 }
-      );
+      const { isSupabaseQuotaError } = await import('@/lib/supabase-error-handler');
+      if (isSupabaseQuotaError(error)) {
+        console.warn('[Contact API] Supabase DB is restricted due to quota. Proceeding with email delivery fallback.');
+      } else {
+        console.error('[Contact API] Supabase error inserting contact lead:', error.message);
+      }
+      dbErrorMessage = error.message;
+    } else {
+      dbInsertSuccess = true;
     }
 
     let emailSent = false;
@@ -207,38 +214,47 @@ export async function POST(request: Request) {
         const dashboardUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/admin/messages`;
 
         const info = await transporter.sendMail({
-          from: `"Rollix Media Lead" <${smtpUser}>`,
+          from: `"Ampledia Lead" <${smtpUser}>`,
           replyTo: email,
           to: adminEmail,
-          subject: `New Lead: ${service_interest || 'General Inquiry'} from ${name}`,
+          subject: `[Ampledia Lead] ${service_interest || 'Inquiry'} from ${name}`,
           html: `
-            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaec; border-radius: 10px;">
-              <h2 style="color: #333;">New Inquiry Received</h2>
-              <p style="color: #555;">You have received a new message from your website's contact form.</p>
-              <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 28px; border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 16px; background-color: #ffffff;">
+              <div style="border-bottom: 2px solid #7C3AED; padding-bottom: 16px; margin-bottom: 20px;">
+                <h2 style="color: #1A0F33; margin: 0; font-size: 20px; font-weight: 700;">Ampledia — New Client Inquiry</h2>
+                <p style="color: #6B7280; margin: 4px 0 0; font-size: 13px;">Received via Ampledia contact portal</p>
+              </div>
+
+              <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
                 <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #eee; width: 120px;"><strong>Name:</strong></td>
-                  <td style="padding: 10px; border-bottom: 1px solid #eee;">${safeName}</td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; width: 130px; color: #6B7280; font-size: 13px;"><strong>Client Name:</strong></td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #111827; font-size: 14px; font-weight: 600;">${safeName}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>Email:</strong></td>
-                  <td style="padding: 10px; border-bottom: 1px solid #eee;"><a href="mailto:${safeEmail}">${safeEmail}</a></td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #6B7280; font-size: 13px;"><strong>Email:</strong></td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #7C3AED; font-size: 14px;"><a href="mailto:${safeEmail}" style="color: #7C3AED; text-decoration: none;">${safeEmail}</a></td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td>
-                  <td style="padding: 10px; border-bottom: 1px solid #eee;">${safePhone}</td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #6B7280; font-size: 13px;"><strong>Phone:</strong></td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #111827; font-size: 14px;">${safePhone}</td>
                 </tr>
                 <tr>
-                  <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>Service:</strong></td>
-                  <td style="padding: 10px; border-bottom: 1px solid #eee;">${safeService}</td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #6B7280; font-size: 13px;"><strong>Service Interest:</strong></td>
+                  <td style="padding: 10px 0; border-bottom: 1px solid #F3F4F6; color: #7C3AED; font-size: 14px; font-weight: 600;">${safeService}</td>
                 </tr>
               </table>
-              <div style="margin-top: 20px; padding: 15px; background-color: #f9f9fa; border-radius: 8px;">
-                <h4 style="margin-top: 0; color: #444;">Message:</h4>
-                <p style="color: #333; line-height: 1.6; white-space: pre-wrap;">${safeMessage}</p>
+
+              <div style="margin-top: 24px; padding: 16px; background-color: #F9FAFB; border-left: 3px solid #7C3AED; border-radius: 8px;">
+                <h4 style="margin: 0 0 8px; color: #374151; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em;">Message Brief:</h4>
+                <p style="color: #1F2937; line-height: 1.6; margin: 0; font-size: 14px; white-space: pre-wrap;">${safeMessage}</p>
               </div>
-              <div style="margin-top: 30px; text-align: center;">
-                <a href="${dashboardUrl}" style="background-color: #D4763C; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">View in Dashboard</a>
+
+              <div style="margin-top: 32px; text-align: center;">
+                <a href="${dashboardUrl}" style="display: inline-block; background-color: #7C3AED; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 9999px; font-size: 13px; font-weight: 600; letter-spacing: 0.05em;">View Lead in Studio Dashboard</a>
+              </div>
+
+              <div style="margin-top: 32px; border-top: 1px solid #E5E7EB; padding-top: 16px; text-align: center; color: #9CA3AF; font-size: 11px;">
+                Ampledia (formerly Rollix Media) • Bhilwara, Rajasthan 311001 • <a href="https://ampledia.in" style="color: #7C3AED; text-decoration: none;">ampledia.in</a>
               </div>
             </div>
           `,
@@ -256,7 +272,14 @@ export async function POST(request: Request) {
       emailError = 'Email not configured';
     }
 
-    return NextResponse.json({ success: true, emailSent, emailError });
+    if (!dbInsertSuccess && !emailSent) {
+      return NextResponse.json(
+        { error: 'Unable to process your inquiry at this moment due to scheduled system maintenance. Please reach out to us directly via email or phone.' },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json({ success: true, emailSent });
   } catch (error) {
     console.error('Contact Form Error:', error);
     return NextResponse.json(

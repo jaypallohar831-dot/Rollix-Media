@@ -17,73 +17,91 @@ export interface ServiceItem {
   description: string;
   icon: LucideIcon;
   featured?: boolean;
+  pricingStarting?: string;
+  category?: 'core' | 'growth' | 'specialized';
 }
 
 export const SERVICES: ServiceItem[] = [
   {
     index: '01',
-    slug: 'wedding-shooting',
-    title: 'Wedding Shooting',
+    slug: 'videography',
+    title: 'Video Production',
     description:
-      'Cinematic Indian wedding visuals. Emotional storytelling wrapped in warm luxury tones. We capture the unseen moments that last a lifetime.',
-    icon: Sparkles,
+      'Cinema-grade commercial shoots, brand films, and high-retention product videos that capture attention and build authority.',
+    icon: Video,
     featured: true,
+    pricingStarting: 'Starting from ₹40,000 / project',
+    category: 'core',
   },
   {
     index: '02',
-    slug: 'videography',
-    title: 'Videography',
+    slug: 'video-editing',
+    title: 'Video Editing & Motion',
     description:
-      'Commercial shoots, brand films, and event production. Premium visual storytelling that elevates your brand\'s presence.',
-    icon: Video,
+      'Fast-paced, high-retention reel edits, sound design, dynamic typography, and cinematic color grading engineered for engagement.',
+    icon: Scissors,
+    pricingStarting: 'Starting from ₹15,000 / project',
+    category: 'core',
   },
   {
     index: '03',
-    slug: 'video-editing',
-    title: 'Video Editing',
+    slug: 'social-media',
+    title: 'Social Media Growth',
     description:
-      'Dynamic, motion-driven sequences. From color grading to complex transitions, we shape raw footage into high-retention masterpieces.',
-    icon: Scissors,
+      'Algorithm-informed organic strategies, scroll-stopping Instagram reels, cohesive feed curation, and audience growth systems.',
+    icon: Share2,
+    pricingStarting: 'Starting from ₹25,000 / month',
+    category: 'core',
   },
   {
     index: '04',
-    slug: 'social-media',
-    title: 'Social Media',
+    slug: 'digital-marketing',
+    title: 'Meta & Google Ads',
     description:
-      'Energetic, fast-paced creatives. Viral Instagram reels and engagement-focused social content designed to stop the scroll.',
-    icon: Share2,
+      'High-converting performance marketing funnels, hyper-targeted local campaigns, and lead generation designed for measurable ROI.',
+    icon: Megaphone,
+    pricingStarting: 'Starting from ₹15,000 / month',
+    category: 'core',
   },
   {
     index: '05',
     slug: 'web-design',
-    title: 'Web Design',
+    title: 'Web Design & Dev',
     description:
-      'Minimal, futuristic, elegant. Immersive desktop and mobile interfaces that feel less like websites and more like digital experiences.',
+      'Bespoke, lightning-fast digital storefronts and web apps built with Next.js, tailored for seamless conversion on desktop and mobile.',
     icon: Monitor,
+    pricingStarting: 'Starting from ₹15,000 / project',
+    category: 'growth',
   },
   {
     index: '06',
-    slug: 'graphic-design',
-    title: 'Graphic Design',
+    slug: 'seo-dominance',
+    title: 'SEO & Organic Growth',
     description:
-      'Luxury visual identities. Posters, branding systems, and social creatives engineered with modern typography and asymmetric elegance.',
-    icon: Zap,
+      'Data-driven on-page SEO, technical audits, Google Business Profile optimization, and local search dominance that compounds over time.',
+    icon: TrendingUp,
+    pricingStarting: 'Starting from ₹20,000 / month',
+    category: 'growth',
   },
   {
     index: '07',
-    slug: 'seo-dominance',
-    title: 'SEO',
+    slug: 'graphic-design',
+    title: 'Brand & Graphic Design',
     description:
-      'Clean, trustworthy, and professional. We don\'t guess—we analyze, rank, and grow your organic footprint with data-driven strategy.',
-    icon: TrendingUp,
+      'Cohesive visual identity systems, logos, high-impact ad creatives, and marketing collateral with bold, modern typography.',
+    icon: Zap,
+    pricingStarting: 'Starting from ₹10,000 / project',
+    category: 'growth',
   },
   {
     index: '08',
-    slug: 'digital-marketing',
-    title: 'Ads (Meta/Google)',
+    slug: 'wedding-shooting',
+    title: 'Wedding Cinematography',
     description:
-      'Strategic, conversion-focused campaigns. We build premium ad funnels and performance dashboards that scale profitably.',
-    icon: Megaphone,
+      'Cinematic Indian wedding storytelling with warm luxury tones, emotional narratives, and timeless visual memories.',
+    icon: Sparkles,
+    pricingStarting: 'Starting from ₹1,50,000 / Get a quote',
+    category: 'specialized',
   },
 ];
 
@@ -95,39 +113,39 @@ export interface ServiceDetailContent {
 }
 
 export const SERVICE_DETAILS_MAP: Record<string, ServiceDetailContent> = {
-  'wedding-shooting': {
+  'videography': {
     deliverables: [
-      { title: 'Cinematic Teaser', desc: 'A 1-minute high-energy teaser of your wedding.' },
-      { title: 'Full Feature Film', desc: 'A 20-30 minute emotional and beautifully paced wedding movie.' },
-      { title: 'Candid Photography', desc: 'Unscripted, raw moments captured perfectly.' },
-      { title: 'Drone & Aerials', desc: 'Breathtaking bird’s-eye views of your venue and events.' }
+      { title: 'Commercials', desc: 'High-end advertisements that drive brand value.' },
+      { title: 'Brand Films', desc: 'Documentary-style narratives for your company.' },
+      { title: 'Event Coverage', desc: 'Dynamic, multi-cam capture of live events.' },
+      { title: 'Interviews & Testimonials', desc: 'Professionally lit with crystal-clear audio.' }
     ],
     process: [
-      { step: 'Consultation', desc: 'Understanding your story, preferences, and aesthetic.' },
-      { step: 'Pre-production', desc: 'Scouting locations and preparing the gear and crew.' },
-      { step: 'The Shoot', desc: 'Unobtrusive, cinematic coverage on your big day.' },
-      { step: 'Post-production', desc: 'Color grading, sound design, and emotional editing.' }
+      { step: 'Concept & Scripting', desc: 'Developing the core visual idea, storyboard, and script.' },
+      { step: 'Production Shoot', desc: 'Executing the shoot with our cinema-line 4K/6K gear.' },
+      { step: 'Post-production', desc: 'Editing, color grading, and custom sound design.' },
+      { step: 'Delivery', desc: 'Handing off broadcast and social-ready master files.' }
     ],
     tools: [
-      { name: 'Sony FX3 & RED', color: '#ff3333', icon: 'SiSony' },
-      { name: 'DJI Ronin & Drones', color: '#dddddd', icon: 'SiDji' },
+      { name: 'Sony FX3 & Cinema Line', color: '#ff3333', icon: 'SiSony' },
+      { name: 'DJI Ronin 4D & Drones', color: '#dddddd', icon: 'SiDji' },
       { name: 'Aputure Lighting', color: '#ffaa00', icon: 'Zap' },
-      { name: 'Teradek Wireless', color: '#00aaff', icon: 'Monitor' }
+      { name: 'Sennheiser Pro Audio', color: '#00aaff', icon: 'Monitor' }
     ],
-    pricing: 'Packages start at ₹1,50,000 / $1,800'
+    pricing: 'Starting from ₹40,000 / project (Get a custom quote)'
   },
   'video-editing': {
     deliverables: [
-      { title: 'Color Grading', desc: 'Professional cinematic color correction.' },
-      { title: 'Sound Design', desc: 'Immersive audio mixing and foley.' },
-      { title: 'Motion Graphics', desc: 'Custom lower thirds and animated titles.' },
-      { title: 'Fast Turnaround', desc: 'Optimized workflows for quick delivery.' }
+      { title: 'Color Grading', desc: 'Professional cinematic color correction and mood matching.' },
+      { title: 'Sound Design', desc: 'Immersive audio mixing, SFX, and foley.' },
+      { title: 'Motion Graphics', desc: 'Custom kinetic typography and animated lower thirds.' },
+      { title: 'High Retention Pacing', desc: 'Optimized hooks and pacing for Instagram & YouTube.' }
     ],
     process: [
-      { step: 'Footage Ingest', desc: 'Organizing and proxy generation.' },
-      { step: 'Rough Cut', desc: 'Building the narrative structure.' },
-      { step: 'Refinement', desc: 'Pacing, transitions, and VFX.' },
-      { step: 'Final Polish', desc: 'Color grading and mastering.' }
+      { step: 'Footage Ingest', desc: 'Organizing and high-speed proxy generation.' },
+      { step: 'Rough Cut', desc: 'Building the narrative rhythm and hook structure.' },
+      { step: 'Refinement', desc: 'Pacing, sound design, transitions, and VFX.' },
+      { step: 'Final Polish', desc: 'Color grading, mastering, and multi-format export.' }
     ],
     tools: [
       { name: 'Premiere Pro', color: '#ea77ff', icon: 'Video' },
@@ -135,62 +153,62 @@ export const SERVICE_DETAILS_MAP: Record<string, ServiceDetailContent> = {
       { name: 'DaVinci Resolve', color: '#ff5555', icon: 'SiDavinciresolve' },
       { name: 'CapCut Pro', color: '#ffffff', icon: 'Scissors' }
     ],
-    pricing: 'Starts at ₹15,000 / $200 per project'
-  },
-  'videography': {
-    deliverables: [
-      { title: 'Commercials', desc: 'High-end advertisements that drive brand value.' },
-      { title: 'Brand Films', desc: 'Documentary-style narratives for your company.' },
-      { title: 'Event Coverage', desc: 'Dynamic, multi-cam capture of live events.' },
-      { title: 'Interviews', desc: 'Professionally lit and crystal clear audio.' }
-    ],
-    process: [
-      { step: 'Concept', desc: 'Developing the core visual idea and script.' },
-      { step: 'Production', desc: 'Executing the shoot with our cinema-line gear.' },
-      { step: 'Post-production', desc: 'Editing, color grading, and sound mixing.' },
-      { step: 'Delivery', desc: 'Handing off broadcast-ready files.' }
-    ],
-    tools: [
-      { name: 'Sony FX3 & RED', color: '#ff3333', icon: 'SiSony' },
-      { name: 'DJI Ronin 4D', color: '#dddddd', icon: 'SiDji' },
-      { name: 'Aputure Lights', color: '#ffaa00', icon: 'Zap' },
-      { name: 'Teradek Wireless', color: '#00aaff', icon: 'Monitor' }
-    ],
-    pricing: 'Starts at ₹40,000 / $500 per day'
+    pricing: 'Starting from ₹15,000 / project (Get a custom quote)'
   },
   'social-media': {
     deliverables: [
-      { title: 'Viral Reels', desc: 'Short-form content engineered for the algorithm.' },
-      { title: 'Carousel Posts', desc: 'High-value educational and engaging carousels.' },
-      { title: 'Grid Aesthetics', desc: 'A beautifully curated and cohesive profile.' },
-      { title: 'Growth Strategy', desc: 'Data-driven plans to increase your following.' }
+      { title: 'Viral Reels & Shorts', desc: 'Short-form content engineered for maximum algorithmic reach.' },
+      { title: 'Carousel Sets', desc: 'High-value educational and engaging multi-slide assets.' },
+      { title: 'Grid Aesthetics', desc: 'A curated, premium visual identity for your brand profile.' },
+      { title: 'Growth & Content Strategy', desc: 'Monthly content calendars aligned with sales targets.' }
     ],
     process: [
-      { step: 'Audit', desc: 'Analyzing your current presence and competitors.' },
-      { step: 'Content Plan', desc: 'Mapping out a month of strategic content.' },
-      { step: 'Creation', desc: 'Shooting and designing the assets.' },
-      { step: 'Publishing', desc: 'Scheduling and community management.' }
+      { step: 'Account Audit', desc: 'Analyzing your current presence, audience, and competitors.' },
+      { step: 'Content Plan', desc: 'Mapping out a month of strategic, high-converting topics.' },
+      { step: 'Creation & Polish', desc: 'Shooting, designing, and caption writing.' },
+      { step: 'Publishing & Review', desc: 'Scheduling and analyzing engagement data.' }
     ],
     tools: [
-      { name: 'Meta Suite', color: '#0668e1', icon: 'SiMeta' },
-      { name: 'Hootsuite', color: '#000000', icon: 'SiHootsuite' },
+      { name: 'Meta Business Suite', color: '#0668e1', icon: 'SiMeta' },
+      { name: 'Canva Pro', color: '#00c4cc', icon: 'SiCanva' },
       { name: 'CapCut Pro', color: '#ffffff', icon: 'Video' },
-      { name: 'Canva Pro', color: '#00c4cc', icon: 'SiCanva' }
+      { name: 'Instagram Insights', color: '#ea77ff', icon: 'TrendingUp' }
     ],
-    pricing: 'Retainers from ₹25,000 / $300 per month'
+    pricing: 'Starting from ₹25,000 / month (Get a custom quote)'
+  },
+  'digital-marketing': {
+    deliverables: [
+      { title: 'Meta Ads (FB & Insta)', desc: 'High-ROI campaigns targeting local and national audiences.' },
+      { title: 'Google Search & Maps', desc: 'Intent-driven campaigns capturing customers searching now.' },
+      { title: 'WhatsApp Direct Funnel', desc: 'Zero-friction lead routing directly into your WhatsApp.' },
+      { title: 'Analytics & Reporting', desc: 'Real-time dashboard tracking cost per lead and conversions.' }
+    ],
+    process: [
+      { step: 'Strategy & Audience', desc: 'Defining target cohorts, budgets, and compelling offers.' },
+      { step: 'Creative Production', desc: 'Producing high-converting video and image ad creatives.' },
+      { step: 'Campaign Launch', desc: 'Setting up tracking pixels, events, and testing ad sets.' },
+      { step: 'Optimization & Scaling', desc: 'Pruning underperforming ads and scaling top performers.' }
+    ],
+    tools: [
+      { name: 'Meta Ads Manager', color: '#0668e1', icon: 'SiMeta' },
+      { name: 'Google Ads', color: '#4285f4', icon: 'SiGoogleads' },
+      { name: 'Google Analytics 4', color: '#f4b400', icon: 'SiGoogleanalytics' },
+      { name: 'WhatsApp Business API', color: '#25D366', icon: 'Share2' }
+    ],
+    pricing: 'Starting from ₹15,000 / month management (Get a custom quote)'
   },
   'web-design': {
     deliverables: [
-      { title: 'Custom UI/UX', desc: 'Bespoke designs tailored to your brand identity.' },
-      { title: 'Responsive Dev', desc: 'Flawless performance on desktop and mobile.' },
-      { title: 'Fast Loading', desc: 'Optimized code for maximum speed and SEO.' },
-      { title: 'CMS Integration', desc: 'Easy-to-use backends for content management.' }
+      { title: 'Custom UI/UX', desc: 'Bespoke designs tailored specifically to your brand identity.' },
+      { title: 'Responsive Development', desc: 'Flawless presentation across phones, tablets, and desktops.' },
+      { title: 'Next.js & Performance', desc: 'Sub-second page loads, SEO optimization, and clean code.' },
+      { title: 'CMS Integration', desc: 'Easy-to-use admin dashboard to manage projects and content.' }
     ],
     process: [
-      { step: 'Wireframing', desc: 'Mapping the user journey and layout structure.' },
-      { step: 'UI Design', desc: 'Crafting the visual language and interactions.' },
-      { step: 'Development', desc: 'Writing clean, modern React/Next.js code.' },
-      { step: 'Launch', desc: 'Testing, deploying, and handing over the keys.' }
+      { step: 'Information Architecture', desc: 'Mapping user journeys and conversion funnels.' },
+      { step: 'Figma Prototyping', desc: 'Crafting the visual language, typography, and interactive components.' },
+      { step: 'Modern Codebase', desc: 'Developing with Next.js, Tailwind CSS, and TypeScript.' },
+      { step: 'Launch & Handoff', desc: 'Domain setup, SSL, analytics integration, and training.' }
     ],
     tools: [
       { name: 'Figma', color: '#f24e1e', icon: 'SiFigma' },
@@ -198,71 +216,71 @@ export const SERVICE_DETAILS_MAP: Record<string, ServiceDetailContent> = {
       { name: 'Tailwind CSS', color: '#38bdf8', icon: 'SiTailwindcss' },
       { name: 'Vercel', color: '#ffffff', icon: 'SiVercel' }
     ],
-    pricing: 'Projects start at ₹15,000 / $180'
-  },
-  'graphic-design': {
-    deliverables: [
-      { title: 'Brand Identity', desc: 'Logos, typography, and color systems.' },
-      { title: 'Marketing Assets', desc: 'Flyers, brochures, and digital banners.' },
-      { title: 'Social Creatives', desc: 'Thumb-stopping graphics for ads and posts.' },
-      { title: 'Packaging', desc: 'Premium design for physical products.' }
-    ],
-    process: [
-      { step: 'Discovery', desc: 'Understanding your brand values and audience.' },
-      { step: 'Drafting', desc: 'Exploring different visual directions.' },
-      { step: 'Refinement', desc: 'Polishing the chosen concept.' },
-      { step: 'Handoff', desc: 'Delivering all necessary source files and formats.' }
-    ],
-    tools: [
-      { name: 'Adobe Photoshop', color: '#31a8ff', icon: 'DiPhotoshop' },
-      { name: 'Adobe Illustrator', color: '#ff9a00', icon: 'DiIllustrator' },
-      { name: 'Adobe InDesign', color: '#ff3366', icon: 'PenTool' },
-      { name: 'CorelDRAW', color: '#00cc00', icon: 'SiCoreldraw' }
-    ],
-    pricing: 'Starts at ₹10,000 / $150 per project'
+    pricing: 'Starting from ₹15,000 / project (Get a custom quote)'
   },
   'seo-dominance': {
     deliverables: [
-      { title: 'Technical Audit', desc: 'Finding and fixing site-wide issues.' },
-      { title: 'Keyword Strategy', desc: 'Identifying high-intent search terms.' },
-      { title: 'On-Page SEO', desc: 'Optimizing content, meta tags, and structure.' },
-      { title: 'Link Building', desc: 'Acquiring high-quality backlinks safely.' }
+      { title: 'Technical Audit', desc: 'Eliminating crawl errors, speed bottlenecks, and broken links.' },
+      { title: 'Keyword Strategy', desc: 'Targeting high-intent local and commercial search phrases.' },
+      { title: 'Local GBP Ranking', desc: 'Optimizing Google Business Profile for map pack visibility.' },
+      { title: 'On-Page Content', desc: 'Optimizing titles, headers, schema markup, and internal linking.' }
     ],
     process: [
-      { step: 'Analysis', desc: 'Deep dive into your current search visibility.' },
-      { step: 'Optimization', desc: 'Implementing technical and on-page fixes.' },
-      { step: 'Content', desc: 'Creating assets that attract organic traffic.' },
-      { step: 'Reporting', desc: 'Monthly tracking of rankings and traffic.' }
+      { step: 'Audit & Baseline', desc: 'Deep dive into current rankings, citations, and search gaps.' },
+      { step: 'Technical Fixes', desc: 'Implementing structured data, metadata, and core web vitals.' },
+      { step: 'Local Optimization', desc: 'Enhancing local relevance across Bhilwara and target markets.' },
+      { step: 'Monthly Tracking', desc: 'Transparent reporting of impressions, rankings, and inquiries.' }
     ],
     tools: [
-      { name: 'Ahrefs', color: '#ff6600', icon: 'TrendingUp' },
-      { name: 'SEMrush', color: '#ff8800', icon: 'SiSemrush' },
-      { name: 'Search Console', color: '#4285f4', icon: 'SiGooglesearchconsole' },
-      { name: 'Google Analytics', color: '#f4b400', icon: 'SiGoogleanalytics' }
+      { name: 'Google Search Console', color: '#4285f4', icon: 'SiGooglesearchconsole' },
+      { name: 'Google Analytics 4', color: '#f4b400', icon: 'SiGoogleanalytics' },
+      { name: 'SEMrush / Ahrefs', color: '#ff6600', icon: 'TrendingUp' },
+      { name: 'Schema Markup Validator', color: '#38bdf8', icon: 'Monitor' }
     ],
-    pricing: 'Retainers from ₹20,000 / $250 per month'
+    pricing: 'Starting from ₹20,000 / month (Get a custom quote)'
   },
-  'digital-marketing': {
+  'graphic-design': {
     deliverables: [
-      { title: 'Meta Ads', desc: 'High-ROI campaigns on Facebook and Instagram.' },
-      { title: 'Google Ads', desc: 'Search and Display campaigns to capture intent.' },
-      { title: 'Funnel Building', desc: 'Designing the path from click to conversion.' },
-      { title: 'Analytics', desc: 'Deep tracking of every dollar spent.' }
+      { title: 'Brand Identity Systems', desc: 'Logos, color palettes, typography, and brand usage guidelines.' },
+      { title: 'Ad Creatives', desc: 'Thumb-stopping graphics for Meta, Google, and outdoor boards.' },
+      { title: 'Marketing Collateral', desc: 'Brochures, pitch decks, visiting cards, and product packaging.' },
+      { title: 'Vector Asset Handoff', desc: 'Print-ready CMYK files and high-res digital vectors.' }
     ],
     process: [
-      { step: 'Strategy', desc: 'Defining audiences, budgets, and offers.' },
-      { step: 'Creative', desc: 'Producing ad copy and visual assets.' },
-      { step: 'Launch', desc: 'Setting up the campaigns and tracking pixels.' },
-      { step: 'Optimization', desc: 'A/B testing and scaling winning ads.' }
+      { step: 'Discovery', desc: 'Understanding brand positioning, tone, and visual goals.' },
+      { step: 'Concept Exploration', desc: 'Developing distinct visual directions and moodboards.' },
+      { step: 'Refinement', desc: 'Polishing typography, proportions, and application contexts.' },
+      { step: 'Asset Packaging', desc: 'Delivering full source files across AI, PSD, SVG, and PDF.' }
     ],
     tools: [
-      { name: 'Google Ads', color: '#4285f4', icon: 'SiGoogleads' },
-      { name: 'Meta Ads', color: '#0668e1', icon: 'SiMeta' },
-      { name: 'Google Analytics', color: '#f4b400', icon: 'SiGoogleanalytics' },
-      { name: 'TikTok Ads', color: '#00f2fe', icon: 'SiTiktok' }
+      { name: 'Adobe Illustrator', color: '#ff9a00', icon: 'DiIllustrator' },
+      { name: 'Adobe Photoshop', color: '#31a8ff', icon: 'DiPhotoshop' },
+      { name: 'Figma', color: '#f24e1e', icon: 'SiFigma' },
+      { name: 'CorelDRAW', color: '#00cc00', icon: 'SiCoreldraw' }
     ],
-    pricing: 'Management fee from ₹15,000 / $200 per month'
-  }
+    pricing: 'Starting from ₹10,000 / project (Get a custom quote)'
+  },
+  'wedding-shooting': {
+    deliverables: [
+      { title: 'Cinematic Wedding Teaser', desc: 'A 1–2 minute high-emotion teaser trailer of your wedding.' },
+      { title: 'Full Feature Film', desc: 'A 20–30 minute beautifully scored and paced wedding movie.' },
+      { title: 'Candid & Drone Coverage', desc: 'Unscripted intimate moments and sweeping aerial venue vistas.' },
+      { title: 'Highlight Reels for Instagram', desc: 'Ready-to-share vertical reels delivered rapidly after events.' }
+    ],
+    process: [
+      { step: 'Family Consultation', desc: 'Understanding your wedding timeline, rituals, and aesthetic preferences.' },
+      { step: 'Pre-production Prep', desc: 'Scouting venue lighting, sound coordination, and crew assignments.' },
+      { step: 'Discreet Cinematic Shoot', desc: 'Multi-camera cinema setup with natural candid capture.' },
+      { step: 'Artisan Post-production', desc: 'Grading, sound design, music licensing, and emotional storyline editing.' }
+    ],
+    tools: [
+      { name: 'Sony FX3 & Cinema Cameras', color: '#ff3333', icon: 'SiSony' },
+      { name: 'DJI Ronin & 4K Drones', color: '#dddddd', icon: 'SiDji' },
+      { name: 'Aputure Ambient Lighting', color: '#ffaa00', icon: 'Zap' },
+      { name: '32-Bit Float Audio Systems', color: '#00aaff', icon: 'Monitor' }
+    ],
+    pricing: 'Starting from ₹1,50,000 (Custom quote based on events)'
+  },
 };
 
 // Aliases for database slugs

@@ -30,17 +30,17 @@ export const metadata: Metadata = {
 
 const SERVICES_FAQ = [
   {
-    question: 'What digital marketing services does Rollix Media provide?',
+    question: 'What digital marketing services does Ampledia provide?',
     answer:
-      'Rollix Media provides 8 core services: cinematic wedding videography, professional videography, video editing, social media marketing, website design & development, graphic design, SEO optimization, and digital advertising (Meta Ads & Google Ads).',
+      'Ampledia provides 8 core services: cinematic wedding videography, professional videography, video editing, social media marketing, website design & development, graphic design, SEO optimization, and digital advertising (Meta Ads & Google Ads).',
   },
   {
-    question: 'How much does it cost to hire Rollix Media?',
+    question: 'How much does it cost to hire Ampledia?',
     answer:
       'Pricing varies by service. Video editing starts at ₹15,000, web design from ₹15,000, social media management from ₹25,000/month, SEO from ₹20,000/month, and wedding videography packages from ₹1,50,000. Contact us for a customized quote.',
   },
   {
-    question: 'Does Rollix Media work with clients outside Bhilwara?',
+    question: 'Does Ampledia work with clients outside Bhilwara?',
     answer:
       'Yes! While we are based in Bhilwara, Rajasthan, we work with clients across India and internationally. Our digital marketing, web design, and video editing services are available remotely.',
   },
