@@ -34,7 +34,7 @@ export const SelectionBox = forwardRef<HTMLDivElement, SelectionBoxProps>(
         className="selection-box absolute pointer-events-none"
         style={{
           border: `1.5px solid ${color}`,
-          backgroundColor: `${color}10`,
+          backgroundColor: `${color}15`,
           opacity: 0,
           transformOrigin: 'top left',
           willChange: 'transform, opacity',
@@ -42,19 +42,18 @@ export const SelectionBox = forwardRef<HTMLDivElement, SelectionBoxProps>(
         }}
         aria-hidden="true"
       >
-        {/* Label Chip */}
+        {/* Label Chip (matches reference design: colored tag on top-left) */}
         <div
-          className="absolute -top-5 left-0 px-1.5 py-0.5 rounded text-[10px] font-semibold tracking-wider font-mono uppercase whitespace-nowrap shadow-xs"
+          className="absolute -top-5 left-0 px-1.5 py-0.5 rounded text-[9px] font-bold tracking-wider font-mono uppercase whitespace-nowrap shadow-sm"
           style={{
-            backgroundColor: SELECTION.labelBg,
-            color: color,
-            border: `1px solid ${color}40`,
+            backgroundColor: color,
+            color: '#FFFFFF',
           }}
         >
           {label}
         </div>
 
-        {/* 8 Handles: 4 Corners + 4 Midpoints */}
+        {/* 8 Handles: 4 Corners + 4 Midpoints (Filled white squares with colored border) */}
         {/* Top-Left */}
         <div style={{ ...handleStyle, top: -half, left: -half }} />
         {/* Top-Center */}
