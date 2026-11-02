@@ -117,7 +117,14 @@ export function FaqCtaSection() {
 
       <Container size="wide" className="relative z-10">
         {/* ── PART 1: FAQ (BUYING OBJECTIONS) ── */}
-        <div ref={faqHeaderRef} className="mx-auto mb-12 max-w-3xl text-center sm:mb-16">
+        <div
+          ref={faqHeaderRef}
+          data-agent-layer="faq-header"
+          data-agent-order="27"
+          data-agent-type="text"
+          data-agent-label="FAQ"
+          className="mx-auto mb-12 max-w-3xl text-center sm:mb-16"
+        >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Clear Answers
@@ -200,6 +207,10 @@ export function FaqCtaSection() {
         <div
           ref={ctaCardRef}
           id="cta"
+          data-agent-layer="final-cta-card"
+          data-agent-order="28"
+          data-agent-type="card"
+          data-agent-label="Final CTA Card"
           className="relative mt-20 overflow-hidden rounded-3xl border border-[#A855F7]/35 bg-gradient-to-b from-[#1A0F33] via-[#241445]/90 to-[#1A0F33] p-8 text-center shadow-2xl shadow-[#7C3AED]/15 sm:mt-28 sm:p-14 lg:p-16"
         >
           {/* Subtle inner radial glow */}

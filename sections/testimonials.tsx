@@ -110,7 +110,14 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
 
       <Container size="wide" className="relative z-10">
         {/* Section Header */}
-        <div ref={headerRef} className="mx-auto mb-14 max-w-3xl text-center sm:mb-18">
+        <div
+          ref={headerRef}
+          data-agent-layer="testimonials-header"
+          data-agent-order="25"
+          data-agent-type="text"
+          data-agent-label="Testimonials"
+          className="mx-auto mb-14 max-w-3xl text-center sm:mb-18"
+        >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Verified Client Feedback
@@ -132,6 +139,10 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
         <div className="relative mx-auto max-w-3xl" aria-live="polite">
           <div
             ref={cardRef}
+            data-agent-layer="testimonials-card"
+            data-agent-order="26"
+            data-agent-type="card"
+            data-agent-label="Featured Review"
             className="relative overflow-hidden rounded-3xl border border-[#7C3AED]/25 bg-[#1A0F33] p-8 text-center shadow-xl shadow-[#7C3AED]/10 sm:p-14"
           >
             {/* Background watermark quote icon */}

@@ -163,7 +163,14 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
 
       <Container size="wide" className="relative z-10">
         {/* Section Header */}
-        <div ref={headerRef} className="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
+        <div
+          ref={headerRef}
+          data-agent-layer="portfolio-header"
+          data-agent-order="21"
+          data-agent-type="text"
+          data-agent-label="Portfolio Header"
+          className="mx-auto mb-10 max-w-3xl text-center sm:mb-14"
+        >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Selected Client Work
@@ -225,6 +232,10 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
         {/* Featured Projects Grid */}
         <div
           ref={gridRef}
+          data-agent-layer="portfolio-showcase-grid"
+          data-agent-order="22"
+          data-agent-type="card"
+          data-agent-label="Portfolio Grid"
           className="grid grid-cols-1 gap-6 sm:gap-8 lg:grid-cols-12"
         >
           {filteredProjects.map((project, idx) => {

@@ -11,6 +11,10 @@ export function FloatingWhatsApp() {
 
   return (
     <aside
+      data-agent-layer="floating-whatsapp"
+      data-agent-order="11"
+      data-agent-type="button"
+      data-agent-label="WhatsApp"
       aria-label="Instant WhatsApp Assistance"
       className="fixed bottom-6 right-6 z-40 flex items-center gap-3"
     >

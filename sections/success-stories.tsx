@@ -177,7 +177,14 @@ export function SuccessStoriesSection() {
 
       <Container size="wide" className="relative z-10">
         {/* Section Header */}
-        <div ref={headerRef} className="mx-auto mb-14 max-w-3xl text-center sm:mb-20">
+        <div
+          ref={headerRef}
+          data-agent-layer="success-header"
+          data-agent-order="17"
+          data-agent-type="text"
+          data-agent-label="Results"
+          className="mx-auto mb-14 max-w-3xl text-center sm:mb-20"
+        >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Verified Client Results
@@ -268,6 +275,10 @@ export function SuccessStoriesSection() {
           {/* Right Column: 4 Visual Cards (col-span-7) */}
           <div
             ref={cardsRef}
+            data-agent-layer="success-metrics-grid"
+            data-agent-order="18"
+            data-agent-type="card"
+            data-agent-label="Metrics Grid"
             className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:col-span-7"
           >
             {METRIC_CARDS.map((card) => {

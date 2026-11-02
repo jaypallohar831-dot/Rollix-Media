@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { PAGE_SEO, OG_IMAGE, SOCIAL, HOMEPAGE_FAQ, getCanonicalUrl } from '@/lib/seo.config';
 import { WebPageSchema, FAQSchema } from '@/components/seo/json-ld';
 import { HeroSection } from '@/sections/hero';
+import { AgentOverlay } from '@/components/agents/AgentOverlay';
 
 // Below-fold sections: lazy-loaded to reduce initial JS bundle (not visible at LCP)
 const PhilosophySection = dynamic(() => import('@/sections/philosophy').then(m => ({ default: m.PhilosophySection })));
@@ -52,6 +53,9 @@ export default async function Home() {
 
   return (
     <HomepageLoader>
+      {/* AI Agents Signature Page Build Engine */}
+      <AgentOverlay />
+
       <main className="relative">
         {/* Homepage JSON-LD schemas */}
         <WebPageSchema

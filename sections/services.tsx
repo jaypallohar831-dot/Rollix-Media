@@ -205,7 +205,14 @@ export function ServicesSection({ initialServices }: ServicesSectionProps = {}) 
 
       <Container size="wide" className="relative z-10">
         {/* Section Header */}
-        <div ref={headerRef} className="mx-auto mb-14 max-w-3xl text-center sm:mb-20">
+        <div
+          ref={headerRef}
+          data-agent-layer="services-header"
+          data-agent-order="19"
+          data-agent-type="text"
+          data-agent-label="Services Header"
+          className="mx-auto mb-14 max-w-3xl text-center sm:mb-20"
+        >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Core Capabilities
@@ -237,6 +244,10 @@ export function ServicesSection({ initialServices }: ServicesSectionProps = {}) 
 
           <div
             ref={coreGridRef}
+            data-agent-layer="services-core-grid"
+            data-agent-order="20"
+            data-agent-type="card"
+            data-agent-label="Core Services"
             className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 sm:gap-5"
           >
             {coreServices.map((service) => (

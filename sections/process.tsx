@@ -107,7 +107,14 @@ export function ProcessSection() {
 
       <Container size="wide" className="relative z-10">
         {/* Section Header */}
-        <div ref={headerRef} className="mx-auto mb-16 max-w-3xl text-center sm:mb-20">
+        <div
+          ref={headerRef}
+          data-agent-layer="process-header"
+          data-agent-order="23"
+          data-agent-type="text"
+          data-agent-label="Process Header"
+          className="mx-auto mb-16 max-w-3xl text-center sm:mb-20"
+        >
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Our 5-Step Methodology
@@ -140,6 +147,10 @@ export function ProcessSection() {
           {/* Steps List */}
           <ol
             ref={stepsListRef}
+            data-agent-layer="process-steps-list"
+            data-agent-order="24"
+            data-agent-type="card"
+            data-agent-label="Methodology Steps"
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5 lg:gap-5 relative z-10 list-none p-0 m-0"
           >
             {PROCESS_STEPS.map((step, index) => {

@@ -27,6 +27,10 @@ export const Navbar = memo(function Navbar() {
   return (
     <>
       <header
+        data-agent-layer="navbar"
+        data-agent-order="10"
+        data-agent-type="card"
+        data-agent-label="Navbar"
         className={cn(
           'fixed left-0 right-0 z-50 flex justify-center transition-[top,padding] duration-500 ease-out',
           isScrolled ? 'top-3 px-4 sm:px-6' : 'top-0 px-0'
