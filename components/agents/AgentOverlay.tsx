@@ -54,7 +54,7 @@ export const AgentOverlay: React.FC<AgentOverlayProps> = ({ containerRef }) => {
       <div
         id="agent-animation-overlay"
         aria-hidden="true"
-        className="fixed inset-0 pointer-events-none z-60 overflow-hidden"
+        className="fixed inset-0 pointer-events-none z-[60] overflow-hidden"
       >
         {/* Faint "A" watermark mark at screen center */}
         <div

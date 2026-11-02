@@ -1,10 +1,12 @@
 /**
  * Agent Animation System — GSAP Timeline Builder
  * 
- * Measures all DOM elements with [data-agent-layer] once and constructs
- * master intro timelines using GPU-composited transforms and opacity.
+ * Measures DOM elements with [data-agent-layer] and constructs:
+ * 1. S1 - S6 master intro timeline for hero & chrome
+ * 2. Scroll-driven micro-builds for below-the-fold sections
  */
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   TIMING,
   type LayerInfo,
@@ -14,6 +16,10 @@ import {
   getParallelAgents,
   seededRandom,
 } from './config';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 /**
  * Scans DOM for all [data-agent-layer] elements and caches their bboxes.
@@ -61,7 +67,8 @@ export interface BuildIntroParams {
 }
 
 /**
- * Builds the comprehensive S1 - S6 master timeline.
+ * Builds the comprehensive S1 - S6 master timeline for the Hero intro.
+ * Separates hero layers (orders <= 12) from below-the-fold scroll layers (orders > 12).
  */
 export function buildIntroTimeline({
   layers,
@@ -90,10 +97,14 @@ export function buildIntroTimeline({
   const cx = typeof window !== 'undefined' ? window.innerWidth / 2 : 720;
   const cy = typeof window !== 'undefined' ? window.innerHeight / 2 : 450;
 
+  // Separate hero intro layers (orders 1-12) from below-the-fold scroll layers
+  const heroLayers = layers.filter((l) => l.order <= 12);
+  const scrollLayers = layers.filter((l) => l.order > 12);
+
   // ─────────────────────────────────────────────────────────────
   // Initial Setup: Set Ghost State on target elements & hide cursors
   // ─────────────────────────────────────────────────────────────
-  layers.forEach((l) => {
+  heroLayers.forEach((l) => {
     gsap.set(l.element, { opacity: 0.12, willChange: 'opacity, transform' });
   });
 
@@ -232,7 +243,7 @@ export function buildIntroTimeline({
       masterTl.fromTo(
         scanBar,
         { opacity: 0, y: 0 },
-        { opacity: 1, y: 300, duration: 0.9, ease: 'power1.inOut' },
+        { opacity: 1, y: 350, duration: 0.9, ease: 'power1.inOut' },
         's3-blueprint+=0.1'
       );
       masterTl.to(scanBar, { opacity: 0, duration: 0.2 }, 's3-blueprint+=0.9');
@@ -240,7 +251,7 @@ export function buildIntroTimeline({
   }
 
   // ─────────────────────────────────────────────────────────────
-  // S4 & S5: BUILD & ASSEMBLE (3.2s - 7.5s)
+  // S4 & S5: BUILD & ASSEMBLE HERO (3.2s - 7.5s)
   // ─────────────────────────────────────────────────────────────
   const buildStartTime = TIMING.bootDuration + TIMING.scatterDuration + TIMING.blueprintDuration;
   masterTl.addLabel('s4-build', buildStartTime);
@@ -248,15 +259,14 @@ export function buildIntroTimeline({
 
   let currentRevealed = 0;
 
-  // Distribute layers among parallel agent workers
-  layers.forEach((layer, idx) => {
+  // Build hero layers
+  heroLayers.forEach((layer, idx) => {
     const workerIndex = idx % parallelWorkers;
     const cursor = activeCursors[workerIndex];
     const selectionBox = selectionBoxRefs.get(layer.id);
-
     const layerStartTime = buildStartTime + idx * (TIMING.cursorFly * 0.7);
 
-    // 1. Agent flies to layer top-left
+    // 1. Agent cursor travels to layer
     if (cursor) {
       masterTl.to(
         cursor,
@@ -269,9 +279,20 @@ export function buildIntroTimeline({
         },
         layerStartTime
       );
+
+      // Visible click ripple when selecting
+      const ripple = cursor.querySelector('.agent-ripple');
+      if (ripple) {
+        masterTl.fromTo(
+          ripple,
+          { scale: 0, opacity: 0.8 },
+          { scale: 2.2, opacity: 0, duration: 0.35, ease: 'power1.out' },
+          layerStartTime + TIMING.cursorFly
+        );
+      }
     }
 
-    // 2. Selection rectangle draws around bbox
+    // 2. Selection rectangle draws around bbox with 8 handles
     if (selectionBox) {
       masterTl.fromTo(
         selectionBox,
@@ -295,7 +316,7 @@ export function buildIntroTimeline({
       );
     }
 
-    // 3. Reveal element from ghost state (opacity 0.12 -> 1, subtle y lift)
+    // 3. Reveal element from ghost state
     masterTl.to(
       layer.element,
       {
@@ -311,7 +332,7 @@ export function buildIntroTimeline({
       layerStartTime + TIMING.cursorFly * 0.8 + 0.1
     );
 
-    // 4. Selection box fades
+    // 4. Selection box fades out
     if (selectionBox) {
       masterTl.to(
         selectionBox,
@@ -326,9 +347,9 @@ export function buildIntroTimeline({
   });
 
   // ─────────────────────────────────────────────────────────────
-  // S6: SETTLE (7.5s - 9.0s)
+  // S6: SETTLE HERO (7.5s - 9.0s)
   // ─────────────────────────────────────────────────────────────
-  const settleStartTime = buildStartTime + layers.length * (TIMING.cursorFly * 0.7) + 0.5;
+  const settleStartTime = buildStartTime + heroLayers.length * (TIMING.cursorFly * 0.7) + 0.5;
   masterTl.addLabel('s6-settle', settleStartTime);
   masterTl.call(() => onPhaseChange?.('settle'), [], 's6-settle');
 
@@ -337,13 +358,13 @@ export function buildIntroTimeline({
     masterTl.to(wireframeRef, { opacity: 0, duration: TIMING.wireframeFade }, 's6-settle');
   }
 
-  // All agents converge to primary CTA or center and vanish
+  // Cursors converge to primary CTA button then fade
   activeCursors.forEach((c) => {
     masterTl.to(
       c,
       {
         x: cx,
-        y: cy + 120,
+        y: cy + 100,
         scale: 0,
         opacity: 0,
         duration: TIMING.cursorConverge,
@@ -356,3 +377,137 @@ export function buildIntroTimeline({
   return masterTl;
 }
 
+/**
+ * Initializes ScrollTrigger-driven animations for below-the-fold sections (orders > 12).
+ * When a section enters the viewport, 2 recycled agent cursors fly in, highlight content,
+ * and reveal elements progressively within max 1.6s.
+ */
+export function setupScrollDrivenAgentBuild({
+  layers,
+  cursorRefs,
+  selectionBoxRefs,
+  onLayerRevealed,
+  currentCountRef,
+}: {
+  layers: LayerInfo[];
+  cursorRefs: (HTMLDivElement | null)[];
+  selectionBoxRefs: Map<string, HTMLDivElement>;
+  onLayerRevealed?: (count: number) => void;
+  currentCountRef: { current: number };
+}) {
+  if (typeof window === 'undefined') return () => {};
+
+  const scrollLayers = layers.filter((l) => l.order > 12);
+  const activeCursors = cursorRefs.slice(0, 2).filter(Boolean) as HTMLDivElement[];
+  const triggers: ScrollTrigger[] = [];
+
+  // Group layers by parent section
+  const sectionGroups = new Map<HTMLElement, LayerInfo[]>();
+  scrollLayers.forEach((l) => {
+    const section = (l.element.closest('section') || l.element.parentElement) as HTMLElement;
+    if (section) {
+      const existing = sectionGroups.get(section) || [];
+      existing.push(l);
+      sectionGroups.set(section, existing);
+    }
+  });
+
+  sectionGroups.forEach((groupLayers, sectionEl) => {
+    // Set ghost state initially on scroll layers
+    groupLayers.forEach((l) => {
+      gsap.set(l.element, { opacity: 0.15 });
+    });
+
+    const trigger = ScrollTrigger.create({
+      trigger: sectionEl,
+      start: 'top 75%',
+      once: true,
+      onEnter: () => {
+        const tl = gsap.timeline();
+
+        groupLayers.forEach((layer, idx) => {
+          const cursor = activeCursors[idx % activeCursors.length];
+          const selectionBox = selectionBoxRefs.get(layer.id);
+          const freshBbox = layer.element.getBoundingClientRect();
+          const targetX = freshBbox.left + window.scrollX;
+          const targetY = freshBbox.top + window.scrollY;
+
+          // 1. Agent cursor flies in to element
+          if (cursor) {
+            tl.fromTo(
+              cursor,
+              { opacity: 0, scale: 0.5, x: targetX - 60, y: targetY - 40 },
+              { opacity: 1, scale: 1, x: targetX, y: targetY, duration: 0.35, ease: 'power2.out' },
+              idx * 0.25
+            );
+
+            // Click ripple
+            const ripple = cursor.querySelector('.agent-ripple');
+            if (ripple) {
+              tl.fromTo(
+                ripple,
+                { scale: 0, opacity: 0.8 },
+                { scale: 2, opacity: 0, duration: 0.3, ease: 'power1.out' },
+                idx * 0.25 + 0.35
+              );
+            }
+          }
+
+          // 2. Selection box highlights element
+          if (selectionBox) {
+            tl.fromTo(
+              selectionBox,
+              {
+                opacity: 0,
+                scaleX: 0,
+                scaleY: 0,
+                x: targetX,
+                y: targetY,
+                width: freshBbox.width,
+                height: freshBbox.height,
+              },
+              { opacity: 1, scaleX: 1, scaleY: 1, duration: 0.25, ease: 'power2.out' },
+              idx * 0.25 + 0.2
+            );
+          }
+
+          // 3. Reveal element
+          tl.to(
+            layer.element,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.35,
+              ease: 'power2.out',
+              onStart: () => {
+                currentCountRef.current += 1;
+                onLayerRevealed?.(currentCountRef.current);
+              },
+            },
+            idx * 0.25 + 0.3
+          );
+
+          // 4. Selection box fades
+          if (selectionBox) {
+            tl.to(
+              selectionBox,
+              { opacity: 0, duration: 0.2, ease: 'power1.out' },
+              idx * 0.25 + 0.5
+            );
+          }
+
+          // 5. Cursor fades after last element in section
+          if (cursor && idx === groupLayers.length - 1) {
+            tl.to(cursor, { opacity: 0, scale: 0, duration: 0.3, ease: 'power2.in' }, '+=0.2');
+          }
+        });
+      },
+    });
+
+    triggers.push(trigger);
+  });
+
+  return () => {
+    triggers.forEach((t) => t.kill());
+  };
+}

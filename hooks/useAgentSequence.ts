@@ -9,7 +9,7 @@ import {
   type LayerInfo,
   getAgentCount,
 } from '@/lib/agents/config';
-import { measureLayers, buildIntroTimeline } from '@/lib/agents/timeline';
+import { measureLayers, buildIntroTimeline, setupScrollDrivenAgentBuild } from '@/lib/agents/timeline';
 
 interface UseAgentSequenceReturn {
   phase: AgentPhase;
@@ -58,15 +58,19 @@ export function useAgentSequence(containerRef?: React.RefObject<HTMLElement | nu
     }
   }, []);
 
-  // Instant Reveal / Skip helper
   const instantRevealAll = useCallback((targetLayers: LayerInfo[]) => {
     targetLayers.forEach((l) => {
-      gsap.set(l.element, { opacity: 1, y: 0, clearProps: 'transform' });
+      gsap.killTweensOf(l.element);
+      gsap.set(l.element, { opacity: 1, y: 0, clearProps: 'all' });
     });
     cursorRefs.current.forEach((c) => {
-      if (c) gsap.set(c, { opacity: 0, scale: 0 });
+      if (c) {
+        gsap.killTweensOf(c);
+        gsap.set(c, { opacity: 0, scale: 0 });
+      }
     });
     if (wireframeRef.current) {
+      gsap.killTweensOf(wireframeRef.current);
       gsap.set(wireframeRef.current, { opacity: 0 });
     }
   }, []);
@@ -76,13 +80,14 @@ export function useAgentSequence(containerRef?: React.RefObject<HTMLElement | nu
       timelineRef.current.kill();
       timelineRef.current = null;
     }
-    instantRevealAll(layers);
+    const measured = measureLayers(containerRef?.current);
+    instantRevealAll(measured);
     setPhase('skipped');
-    setRevealedCount(layers.length);
+    setRevealedCount(measured.length);
     if (typeof window !== 'undefined') {
       sessionStorage.setItem(SESSION_KEY, 'true');
     }
-  }, [layers, instantRevealAll]);
+  }, [containerRef, instantRevealAll]);
 
   const closePill = useCallback(() => {
     setIsPillVisible(false);
@@ -143,10 +148,10 @@ export function useAgentSequence(containerRef?: React.RefObject<HTMLElement | nu
       return;
     }
 
-    // Launch sequence with a brief delay for clean initial paint
+    // Launch sequence with a brief delay for clean initial paint and ref mounting
     const timer = setTimeout(() => {
       startSequence(measured);
-    }, 150);
+    }, 250);
 
     // Escape key listener for skipping
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -156,14 +161,25 @@ export function useAgentSequence(containerRef?: React.RefObject<HTMLElement | nu
     };
     window.addEventListener('keydown', handleKeyDown);
 
+    // Setup ScrollTrigger-driven agent build for below-the-fold sections
+    const cleanupScroll = setupScrollDrivenAgentBuild({
+      layers: measured,
+      cursorRefs: cursorRefs.current,
+      selectionBoxRefs: selectionBoxRefs.current,
+      onLayerRevealed: (c) => setRevealedCount(c),
+      currentCountRef: { current: Math.min(12, measured.length) },
+    });
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener('keydown', handleKeyDown);
+      cleanupScroll();
       if (timelineRef.current) {
         timelineRef.current.kill();
       }
     };
-  }, [containerRef, instantRevealAll, skip, startSequence]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     phase,
