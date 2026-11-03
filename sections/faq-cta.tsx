@@ -145,9 +145,9 @@ export function FaqCtaSection() {
           </p>
         </div>
 
-        {/* Accordion List */}
+        {/* Accordion List (Top 4 Crucial Objections) */}
         <div ref={faqListRef} className="mx-auto max-w-3xl space-y-3.5 sm:space-y-4">
-          {HOMEPAGE_FAQ.map((faq, index) => {
+          {HOMEPAGE_FAQ.slice(0, 4).map((faq, index) => {
             const isOpen = openIndex === index;
             const answerId = `faq-answer-${index}`;
             const questionId = `faq-question-${index}`;

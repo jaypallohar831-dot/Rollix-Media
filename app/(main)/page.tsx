@@ -9,7 +9,6 @@ import { HeroSection } from '@/sections/hero';
 import { AgentOverlay } from '@/components/agents/AgentOverlay';
 
 // Below-fold sections: lazy-loaded to reduce initial JS bundle (not visible at LCP)
-const PhilosophySection = dynamic(() => import('@/sections/philosophy').then(m => ({ default: m.PhilosophySection })));
 const ServicesSection = dynamic(() => import('@/sections/services').then(m => ({ default: m.ServicesSection })));
 const PortfolioSection = dynamic(() => import('@/sections/portfolio').then(m => ({ default: m.PortfolioSection })));
 const TestimonialsSection = dynamic(() => import('@/sections/testimonials').then(m => ({ default: m.TestimonialsSection })));
@@ -66,14 +65,11 @@ export default async function Home() {
         />
         <FAQSchema faqs={HOMEPAGE_FAQ} />
 
-        <HeroSection portfolioProjects={portfolioProjects} />
-
-        {/* Brand Philosophy — emotional manifesto */}
-        <PhilosophySection />
+        <HeroSection />
 
         <Divider />
 
-        {/* Success Stories — featured case study */}
+        {/* Success Stories — verified case study numbers */}
         <SuccessStoriesSection />
 
         <Divider />
