@@ -125,14 +125,14 @@ export function FaqCtaSection() {
           data-agent-label="FAQ"
           className="mx-auto mb-12 max-w-3xl text-center sm:mb-16"
         >
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Clear Answers
           </div>
 
           <h2
             id="faq-heading"
-            className="font-heading text-3xl font-bold tracking-tight text-[#F5F0FF] sm:text-4xl lg:text-5xl"
+            className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
           >
             Frequently Asked{' '}
             <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
@@ -140,7 +140,7 @@ export function FaqCtaSection() {
             </span>
           </h2>
 
-          <p className="mt-4 text-base text-[#B7A9D6] sm:text-lg">
+          <p className="mt-4 text-base text-white sm:text-lg">
             Everything you need to know about our workflow, ad budgets, contract terms, and expected timelines.
           </p>
         </div>
@@ -169,7 +169,7 @@ export function FaqCtaSection() {
                   onClick={() => toggleAccordion(index)}
                   className="flex w-full items-center justify-between gap-4 p-5 text-left transition-colors sm:p-6 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:ring-offset-2 focus:ring-offset-[#0A0614] rounded-2xl"
                 >
-                  <span className="font-heading text-base font-semibold text-[#F5F0FF] sm:text-lg">
+                  <span className="font-heading text-base font-semibold text-white sm:text-lg">
                     {faq.question}
                   </span>
 
@@ -177,7 +177,7 @@ export function FaqCtaSection() {
                     className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-transform duration-300 ${
                       isOpen
                         ? 'rotate-180 border-[#A855F7] bg-[#7C3AED] text-white'
-                        : 'border-[#7C3AED]/30 bg-[#241445] text-[#C4B5FD]'
+                        : 'border-[#7C3AED]/30 bg-[#241445] text-white'
                     }`}
                   >
                     <ChevronDown className="h-4 w-4" />
@@ -193,7 +193,7 @@ export function FaqCtaSection() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <div className="border-t border-[#7C3AED]/15 px-5 pb-5 pt-3.5 text-sm leading-relaxed text-[#B7A9D6] sm:px-6 sm:pb-6 sm:pt-4 sm:text-base">
+                    <div className="border-t border-[#7C3AED]/15 px-5 pb-5 pt-3.5 text-sm leading-relaxed text-white sm:px-6 sm:pb-6 sm:pt-4 sm:text-base">
                       {faq.answer}
                     </div>
                   </div>
@@ -221,19 +221,19 @@ export function FaqCtaSection() {
 
           <div className="relative z-10 mx-auto max-w-2xl">
             {/* Top pill */}
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#A855F7]/40 bg-[#241445] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#DDD6FE]">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#A855F7]/40 bg-[#241445] px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white">
               <Sparkles className="h-3.5 w-3.5 text-[#A855F7]" />
               <span>Direct Founder Collaboration</span>
             </div>
 
-            <h3 className="font-heading text-3xl font-extrabold tracking-tight text-[#F5F0FF] sm:text-4xl lg:text-5xl">
+            <h3 className="font-heading text-3xl font-extrabold tracking-tight text-white sm:text-4xl lg:text-5xl">
               Your Brand Deserves More.{' '}
               <span className="block mt-1 bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
                 Let&apos;s Build Together.
               </span>
             </h3>
 
-            <p className="mt-4 text-sm leading-relaxed text-[#B7A9D6] sm:text-base">
+            <p className="mt-4 text-sm leading-relaxed text-white sm:text-base">
               Skip agency middlemen. Speak directly with Jaypal. Get a tailored 15-minute growth blueprint with zero commitment.
             </p>
 
@@ -251,7 +251,7 @@ export function FaqCtaSection() {
 
               <Link
                 href="/contact"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#7C3AED]/40 bg-[#241445]/80 px-7 py-4 text-xs font-semibold uppercase tracking-wider text-[#F5F0FF] transition-all duration-300 hover:border-[#A855F7] hover:bg-[#7C3AED]/20 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:ring-offset-2 focus:ring-offset-[#0A0614] sm:w-auto sm:text-sm"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[#7C3AED]/40 bg-[#241445]/80 px-7 py-4 text-xs font-semibold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#A855F7] hover:bg-[#7C3AED]/20 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:ring-offset-2 focus:ring-offset-[#0A0614] sm:w-auto sm:text-sm"
               >
                 <span>Send Brief via Form</span>
                 <ArrowRight className="h-4 w-4" />
@@ -259,7 +259,7 @@ export function FaqCtaSection() {
             </div>
 
             {/* Trust Assurances */}
-            <div className="mt-10 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-[#B7A9D6]">
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-white">
               <span className="flex items-center gap-1.5">
                 <Zap className="h-3.5 w-3.5 text-[#A855F7]" />
                 15-Minute Free Audit

@@ -46,7 +46,7 @@ export const StatusPill: React.FC<StatusPillProps> = ({
         WebkitBackdropFilter: `blur(${PILL.blur})`,
       }}
     >
-      <div className="flex items-center gap-3 sm:gap-4 text-xs font-mono text-[#F5F0FF]">
+      <div className="flex items-center gap-3 sm:gap-4 text-xs font-mono text-white">
         {/* Stacked agent dots */}
         <div className="flex items-center -space-x-1" aria-hidden="true">
           {AGENT_COLORS.slice(0, agentCount).map((color, i) => (
@@ -65,10 +65,10 @@ export const StatusPill: React.FC<StatusPillProps> = ({
           {phase !== 'boot' && !isDone && (
             <>
               <span className="font-semibold text-violet-300">{agentCount} agents</span>
-              <span className="text-[#B7A9D6]/40">·</span>
+              <span className="text-white/40">·</span>
               <span>
                 <span className="text-white font-bold">{revealedCount}</span>
-                <span className="text-[#B7A9D6]/60"> / {totalCount} layers</span>
+                <span className="text-white/70"> / {totalCount} layers</span>
               </span>
             </>
           )}
@@ -108,7 +108,7 @@ export const StatusPill: React.FC<StatusPillProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Close status pill"
-            className="rounded-full p-1 text-[#B7A9D6]/60 hover:text-white hover:bg-white/10 transition-colors"
+            className="rounded-full p-1 text-white/70 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="h-3 w-3" />
           </button>

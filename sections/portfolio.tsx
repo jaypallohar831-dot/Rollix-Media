@@ -171,14 +171,14 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
           data-agent-label="Portfolio Header"
           className="mx-auto mb-10 max-w-3xl text-center sm:mb-14"
         >
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Selected Client Work
           </div>
 
           <h2
             id="portfolio-heading"
-            className="font-heading text-3xl font-bold tracking-tight text-[#F5F0FF] sm:text-4xl lg:text-5xl"
+            className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
           >
             Crafted for Impact.{' '}
             <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
@@ -186,7 +186,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
             </span>
           </h2>
 
-          <p className="mt-4 text-base text-[#B7A9D6] sm:text-lg">
+          <p className="mt-4 text-base text-white sm:text-lg">
             Real campaigns, measurable student acquisitions, and digital creative executions engineered for ambitious brands.
           </p>
         </div>
@@ -210,7 +210,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
                   className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#A855F7] ${
                     activeCategory === cat
                       ? 'border border-[#A855F7] bg-[#7C3AED] text-white shadow-lg shadow-[#7C3AED]/30'
-                      : 'border border-[#7C3AED]/20 bg-[#1A0F33]/80 text-[#B7A9D6] hover:border-[#7C3AED]/40 hover:text-[#F5F0FF]'
+                      : 'border border-[#7C3AED]/20 bg-[#1A0F33]/80 text-white hover:border-[#7C3AED]/40 hover:text-white'
                   }`}
                 >
                   <span>{cat}</span>
@@ -218,7 +218,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
                     className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono ${
                       activeCategory === cat
                         ? 'bg-black/25 text-white'
-                        : 'bg-[#241445] text-[#C4B5FD]'
+                        : 'bg-[#241445] text-white'
                     }`}
                   >
                     {count}
@@ -290,11 +290,11 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
                         <span>{project.year || '2024'}</span>
                       </div>
 
-                      <h3 className="font-heading text-2xl font-bold text-[#F5F0FF] transition-colors duration-300 group-hover:text-[#DDD6FE] sm:text-3xl">
+                      <h3 className="font-heading text-2xl font-bold text-white transition-colors duration-300 group-hover:text-white sm:text-3xl">
                         {project.title}
                       </h3>
 
-                      <p className="mt-3 text-sm leading-relaxed text-[#B7A9D6]">
+                      <p className="mt-3 text-sm leading-relaxed text-white">
                         {project.description ||
                           'Targeted Instagram and Meta ad campaigns engineered for hyper-local lead generation, driving verified student inquiries.'}
                       </p>
@@ -306,7 +306,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
                             <Eye className="h-3 w-3" />
                             <span>Total Views</span>
                           </div>
-                          <div className="mt-1 font-heading text-lg font-bold text-[#F5F0FF]">
+                          <div className="mt-1 font-heading text-lg font-bold text-white">
                             129K+
                           </div>
                         </div>
@@ -316,7 +316,7 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
                             <Target className="h-3 w-3" />
                             <span>Leads Generated</span>
                           </div>
-                          <div className="mt-1 font-heading text-lg font-bold text-[#F5F0FF]">
+                          <div className="mt-1 font-heading text-lg font-bold text-white">
                             40–60
                           </div>
                         </div>
@@ -368,17 +368,17 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
           className="mt-12 flex flex-col items-center justify-between gap-4 rounded-2xl border border-[#7C3AED]/20 bg-[#1A0F33]/60 p-6 sm:flex-row sm:p-7"
         >
           <div className="text-center sm:text-left">
-            <h4 className="font-heading text-lg font-bold text-[#F5F0FF]">
+            <h4 className="font-heading text-lg font-bold text-white">
               Looking for our complete catalog of creative work?
             </h4>
-            <p className="mt-1 text-xs text-[#B7A9D6] sm:text-sm">
+            <p className="mt-1 text-xs text-white sm:text-sm">
               Explore past commercial productions, client video deliverables, and web applications.
             </p>
           </div>
 
           <Link
             href="/portfolio"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#7C3AED]/40 bg-[#241445] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#F5F0FF] transition-all duration-300 hover:border-[#A855F7] hover:bg-[#7C3AED] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#7C3AED]/40 bg-[#241445] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white transition-all duration-300 hover:border-[#A855F7] hover:bg-[#7C3AED] hover:text-white focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
           >
             <span>Explore Portfolio Archive</span>
             <ArrowRight className="h-4 w-4" />

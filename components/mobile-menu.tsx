@@ -62,7 +62,7 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
 
           {/* Close button */}
           <button
-            className="absolute right-6 top-6 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 text-[#F5F0FF] transition-colors duration-300 hover:border-[#A855F7] hover:text-[#A855F7] sm:right-8 sm:top-8 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
+            className="absolute right-6 top-6 z-50 flex h-11 w-11 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 text-white transition-colors duration-300 hover:border-[#A855F7] hover:text-[#A855F7] sm:right-8 sm:top-8 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
             onClick={onClose}
             aria-label="Close menu"
           >
@@ -91,8 +91,8 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
                     onClick={onClose}
                     className={`flex items-center gap-3 ${
                       isActive
-                        ? 'text-[#F5F0FF]'
-                        : 'text-[#B7A9D6]/60 hover:text-[#F5F0FF]'
+                        ? 'text-white'
+                        : 'text-white/80 hover:text-white'
                     }`}
                   >
                     {/* Index number */}
@@ -130,7 +130,7 @@ export function MobileMenu({ isOpen, pathname, onClose }: MobileMenuProps) {
               <Link
                 href="/contact"
                 onClick={onClose}
-                className="flex items-center justify-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#F5F0FF]"
+                className="flex items-center justify-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white"
               >
                 <span>Contact Page</span>
               </Link>

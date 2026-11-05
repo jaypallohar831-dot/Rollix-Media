@@ -18,10 +18,10 @@ export const NavLink = memo(function NavLink({ href, label, isActive, onClick }:
       href={href}
       onClick={onClick}
       className={cn(
-        'group relative py-2 text-[12px] font-semibold uppercase tracking-[0.2em] transition-colors duration-300 focus:outline-none focus:text-[#F5F0FF]',
+        'group relative py-2 text-[12px] font-semibold uppercase tracking-[0.2em] transition-colors duration-300 focus:outline-none focus:text-white',
         isActive
-          ? 'text-[#F5F0FF]'
-          : 'text-[#B7A9D6] hover:text-[#F5F0FF]'
+          ? 'text-white'
+          : 'text-white hover:text-white'
       )}
     >
       {label}

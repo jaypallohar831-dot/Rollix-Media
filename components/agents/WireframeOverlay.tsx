@@ -56,7 +56,7 @@ export const WireframeOverlay: React.FC<WireframeOverlayProps> = ({ layers }) =>
           >
             {/* Dimension Label */}
             <span
-              className="absolute -top-4 right-0 font-mono text-[9px] text-[#B7A9D6]/70 tracking-tighter"
+              className="absolute -top-4 right-0 font-mono text-[9px] text-white/80 tracking-tighter"
               style={{ fontFamily: 'var(--font-inter, monospace)' }}
             >
               {width} × {height}

@@ -192,7 +192,7 @@ export function SuccessStoriesSection() {
 
           <h2
             id="results-heading"
-            className="font-heading text-3xl font-bold tracking-tight text-[#F5F0FF] sm:text-4xl lg:text-5xl"
+            className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
           >
             Proof Over Promises.{' '}
             <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
@@ -200,7 +200,7 @@ export function SuccessStoriesSection() {
             </span>
           </h2>
 
-          <p className="mt-4 text-base text-[#B7A9D6] sm:text-lg">
+          <p className="mt-4 text-base text-white sm:text-lg">
             We don&apos;t inflate numbers. Every view, reach metric, and qualified student inquiry below was tracked live during active campaign delivery.
           </p>
         </div>
@@ -215,16 +215,16 @@ export function SuccessStoriesSection() {
               <span>Coaching & Education</span>
             </div>
 
-            <h3 className="font-heading text-2xl font-bold text-[#F5F0FF] sm:text-3xl">
+            <h3 className="font-heading text-2xl font-bold text-white sm:text-3xl">
               Vision Classes Bhilwara
             </h3>
 
-            <p className="mt-3 text-sm font-medium text-[#C4B5FD]">
+            <p className="mt-3 text-sm font-medium text-white">
               Meta Ads & Video Creative Funnel for Institute Admissions
             </p>
 
-            <p className="mt-4 text-sm leading-relaxed text-[#B7A9D6] sm:text-base">
-              Ampledia designed and executed a hyper-local Meta ad campaign for Vision Classes Bhilwara. By combining authentic student testimonial videos with tight geographic radius targeting and a direct WhatsApp inquiry funnel, we delivered <strong className="text-[#F5F0FF]">40–60 high-intent student leads</strong> at an estimated cost of <strong className="text-[#F5F0FF]">~₹100–150 per lead</strong> from a ₹6,000 ad budget.
+            <p className="mt-4 text-sm leading-relaxed text-white sm:text-base">
+              Ampledia designed and executed a hyper-local Meta ad campaign for Vision Classes Bhilwara. By combining authentic student testimonial videos with tight geographic radius targeting and a direct WhatsApp inquiry funnel, we delivered <strong className="text-white">40–60 high-intent student leads</strong> at an estimated cost of <strong className="text-white">~₹100–150 per lead</strong> from a ₹6,000 ad budget.
             </p>
 
             {/* Quick Summary Pill Grid */}
@@ -234,10 +234,10 @@ export function SuccessStoriesSection() {
                   key={stat.label}
                   className="rounded-xl border border-[#7C3AED]/20 bg-[#1A0F33]/70 p-3.5 backdrop-blur-sm"
                 >
-                  <div className="text-xl font-bold text-[#F5F0FF] sm:text-2xl">
+                  <div className="text-xl font-bold text-white sm:text-2xl">
                     {stat.value}
                   </div>
-                  <div className="mt-0.5 text-xs text-[#B7A9D6]">
+                  <div className="mt-0.5 text-xs text-white">
                     {stat.label}
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export function SuccessStoriesSection() {
             </div>
 
             {/* Key Outcomes Checklist */}
-            <ul className="mt-6 space-y-2.5 text-xs text-[#B7A9D6] sm:text-sm">
+            <ul className="mt-6 space-y-2.5 text-xs text-white sm:text-sm">
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-[#A855F7]" />
                 <span>Hyper-targeted radius within Bhilwara educational zones</span>
@@ -309,15 +309,15 @@ export function SuccessStoriesSection() {
                     <Icon className="h-6 w-6" />
                   </div>
 
-                  <div className="font-heading text-3xl font-extrabold text-[#F5F0FF] sm:text-4xl">
+                  <div className="font-heading text-3xl font-extrabold text-white sm:text-4xl">
                     {card.value}
                   </div>
 
-                  <div className="mt-2 text-sm font-semibold text-[#F5F0FF]">
+                  <div className="mt-2 text-sm font-semibold text-white">
                     {card.label}
                   </div>
 
-                  <p className="mt-1 text-xs text-[#B7A9D6]">
+                  <p className="mt-1 text-xs text-white">
                     {card.detail}
                   </p>
                 </div>
@@ -331,7 +331,7 @@ export function SuccessStoriesSection() {
           ref={bannerRef}
           className="mt-12 rounded-2xl border border-[#7C3AED]/25 bg-gradient-to-r from-[#1A0F33] via-[#241445]/60 to-[#1A0F33] p-5 text-center sm:p-6"
         >
-          <div className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-[#B7A9D6] sm:text-sm">
+          <div className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs text-white sm:text-sm">
             <span className="flex items-center gap-1.5">
               <span className="h-2 w-2 rounded-full bg-[#10B981]" />
               <strong>Campaign Period:</strong> 30 Days Live Run

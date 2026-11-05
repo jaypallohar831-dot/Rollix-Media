@@ -25,7 +25,7 @@ export function NavLogo() {
       </span>
 
       {/* Logo text */}
-      <span className="font-heading text-[15px] font-bold uppercase tracking-[0.3em] text-[#F5F0FF] transition-colors duration-300 group-hover:text-[#DDD6FE]">
+      <span className="font-heading text-[15px] font-bold uppercase tracking-[0.3em] text-white transition-colors duration-300 group-hover:text-white">
         {SITE_NAME}
       </span>
     </Link>

@@ -20,7 +20,7 @@ export function FloatingWhatsApp() {
     >
       {/* Expandable Desktop Tooltip / Pill */}
       <div
-        className={`hidden items-center rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/90 px-4 py-2 text-xs font-semibold text-[#F5F0FF] shadow-xl backdrop-blur-md transition-all duration-300 md:flex ${
+        className={`hidden items-center rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/90 px-4 py-2 text-xs font-semibold text-white shadow-xl backdrop-blur-md transition-all duration-300 md:flex ${
           isHovered ? 'translate-x-0 opacity-100' : 'pointer-events-none translate-x-3 opacity-0'
         }`}
       >

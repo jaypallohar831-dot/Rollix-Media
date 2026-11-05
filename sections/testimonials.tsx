@@ -118,19 +118,19 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
           data-agent-label="Testimonials"
           className="mx-auto mb-14 max-w-3xl text-center sm:mb-18"
         >
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Verified Client Feedback
           </div>
 
-          <h2 className="font-heading text-3xl font-bold tracking-tight text-[#F5F0FF] sm:text-4xl lg:text-5xl">
+          <h2 className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
             Words from Our{' '}
             <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
               Growth Partners.
             </span>
           </h2>
 
-          <p className="mt-4 text-base text-[#B7A9D6] sm:text-lg">
+          <p className="mt-4 text-base text-white sm:text-lg">
             Direct feedback from founders, institutions, and brand leaders scaling with Ampledia.
           </p>
         </div>
@@ -163,7 +163,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                     className={`h-4 w-4 ${
                       i < current.rating
                         ? 'fill-[#F59E0B] text-[#F59E0B]'
-                        : 'text-[#B7A9D6]/30'
+                        : 'text-white/20'
                     }`}
                     aria-hidden="true"
                   />
@@ -172,7 +172,7 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
             </div>
 
             {/* Testimonial Content */}
-            <blockquote className="font-heading text-lg font-normal leading-relaxed text-[#F5F0FF] italic sm:text-2xl sm:leading-relaxed">
+            <blockquote className="font-heading text-lg font-normal leading-relaxed text-white italic sm:text-2xl sm:leading-relaxed">
               &ldquo;{current.content}&rdquo;
             </blockquote>
 
@@ -195,11 +195,11 @@ export function TestimonialsSection({ testimonials }: TestimonialsSectionProps) 
                 )}
               </div>
 
-              <h4 className="font-heading text-base font-bold text-[#F5F0FF] sm:text-lg">
+              <h4 className="font-heading text-base font-bold text-white sm:text-lg">
                 {current.name}
               </h4>
 
-              <p className="mt-0.5 text-xs text-[#B7A9D6] sm:text-sm">
+              <p className="mt-0.5 text-xs text-white sm:text-sm">
                 {current.role}
                 {current.company ? ` • ${current.company}` : ''}
               </p>

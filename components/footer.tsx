@@ -48,7 +48,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-[#0A0614] border-t border-[#7C3AED]/20 text-[#B7A9D6]" role="contentinfo">
+    <footer className="relative overflow-hidden bg-[#0A0614] border-t border-[#7C3AED]/20 text-white" role="contentinfo">
       {/* Top subtle hairline divider */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#7C3AED]/30 to-transparent" />
 
@@ -58,12 +58,12 @@ export function Footer() {
           {/* Brand + Contact Info */}
           <div className="lg:col-span-4">
             <Link href="/" className="inline-block" aria-label={`${SITE_NAME} — Home`}>
-              <span className="font-heading text-2xl font-bold tracking-tight text-[#F5F0FF]">
+              <span className="font-heading text-2xl font-bold tracking-tight text-white">
                 {SITE_NAME}
               </span>
             </Link>
 
-            <p className="mt-3 max-w-xs text-xs sm:text-sm leading-relaxed text-[#B7A9D6]">
+            <p className="mt-3 max-w-xs text-xs sm:text-sm leading-relaxed text-white">
               Digital marketing and cinematic creative agency integrating 4K video production, high-retention editing, and precision Meta ad funnels.
             </p>
 
@@ -71,7 +71,7 @@ export function Footer() {
             <address className="mt-6 not-italic space-y-2.5 text-xs sm:text-sm">
               <a
                 href={`tel:${BUSINESS.phone}`}
-                className="flex items-center gap-2.5 text-[#B7A9D6] transition-colors hover:text-[#A855F7]"
+                className="flex items-center gap-2.5 text-white transition-colors hover:text-[#A855F7]"
                 aria-label={`Call ${SITE_NAME} at ${BUSINESS.phone}`}
               >
                 <Phone className="h-4 w-4 shrink-0 text-[#A855F7]" aria-hidden="true" />
@@ -79,13 +79,13 @@ export function Footer() {
               </a>
               <a
                 href={`mailto:${BUSINESS.email}`}
-                className="flex items-center gap-2.5 text-[#B7A9D6] transition-colors hover:text-[#A855F7]"
+                className="flex items-center gap-2.5 text-white transition-colors hover:text-[#A855F7]"
                 aria-label={`Email ${SITE_NAME} at ${BUSINESS.email}`}
               >
                 <Mail className="h-4 w-4 shrink-0 text-[#A855F7]" aria-hidden="true" />
                 {BUSINESS.email}
               </a>
-              <span className="flex items-start gap-2.5 text-[#B7A9D6]">
+              <span className="flex items-start gap-2.5 text-white">
                 <MapPin className="h-4 w-4 shrink-0 mt-0.5 text-[#A855F7]" aria-hidden="true" />
                 <span>
                   {BUSINESS.address.streetAddress}, {BUSINESS.address.addressRegion},{' '}
@@ -118,7 +118,7 @@ export function Footer() {
               aria-label={`${group.title} navigation`}
               className="lg:col-span-2 lg:col-start-auto"
             >
-              <h3 className="mb-4 font-mono text-xs font-semibold uppercase tracking-wider text-[#F5F0FF]">
+              <h3 className="mb-4 font-mono text-xs font-semibold uppercase tracking-wider text-white">
                 {group.title}
               </h3>
               <ul className="space-y-2.5">
@@ -126,7 +126,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-xs sm:text-sm text-[#B7A9D6] transition-colors duration-200 hover:text-[#A855F7]"
+                      className="text-xs sm:text-sm text-white transition-colors duration-200 hover:text-[#A855F7]"
                     >
                       {link.label}
                     </Link>
@@ -138,13 +138,13 @@ export function Footer() {
 
           {/* Business Hours & Quick CTA */}
           <div className="lg:col-span-2">
-            <h3 className="mb-4 font-mono text-xs font-semibold uppercase tracking-wider text-[#F5F0FF]">
+            <h3 className="mb-4 font-mono text-xs font-semibold uppercase tracking-wider text-white">
               Studio Hours
             </h3>
-            <dl className="space-y-2 text-xs sm:text-sm text-[#B7A9D6]">
+            <dl className="space-y-2 text-xs sm:text-sm text-white">
               <div className="flex justify-between gap-4">
                 <dt>Mon – Sat</dt>
-                <dd className="font-mono text-[#F5F0FF]">9:00 AM – 7:00 PM</dd>
+                <dd className="font-mono text-white">9:00 AM – 7:00 PM</dd>
               </div>
               <div className="flex justify-between gap-4">
                 <dt>Sunday</dt>
@@ -167,14 +167,14 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-[#7C3AED]/15 pt-8 text-xs sm:flex-row text-[#B7A9D6]">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-[#7C3AED]/15 pt-8 text-xs sm:flex-row text-white">
           <p>
             &copy; {currentYear} {SITE_NAME} (formerly Rollix Media). All rights reserved.
           </p>
 
           <p>
             Founded by{' '}
-            <span className="text-[#F5F0FF] font-medium">Jaypal</span>
+            <span className="text-white font-medium">Jaypal</span>
           </p>
 
           <p>

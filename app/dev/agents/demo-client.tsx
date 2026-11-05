@@ -9,7 +9,7 @@ export default function DevAgentsDemo() {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-[#0A0614] text-[#F5F0FF] px-6 py-16 sm:px-12 sm:py-24 font-sans select-none"
+      className="relative min-h-screen bg-[#0A0614] text-white px-6 py-16 sm:px-12 sm:py-24 font-sans select-none"
     >
       {/* Portalled Agent Engine */}
       <AgentOverlay containerRef={containerRef} />
@@ -54,7 +54,7 @@ export default function DevAgentsDemo() {
           data-agent-order="4"
           data-agent-type="text"
           data-agent-label="Subtitle"
-          className="max-w-2xl text-lg text-[#B7A9D6] leading-relaxed"
+          className="max-w-2xl text-lg text-white leading-relaxed"
         >
           This isolated playground demonstrates the full multi-agent swarm architecture:
           boot clustering, seeded scatter, blueprint wireframing, and synchronized element reveals.
@@ -73,7 +73,7 @@ export default function DevAgentsDemo() {
               01
             </div>
             <h3 className="font-semibold text-lg mb-1">Architecture</h3>
-            <p className="text-xs text-[#B7A9D6]">Parallel worker queue with single GSAP master timeline.</p>
+            <p className="text-xs text-white">Parallel worker queue with single GSAP master timeline.</p>
           </div>
 
           <div
@@ -87,7 +87,7 @@ export default function DevAgentsDemo() {
               02
             </div>
             <h3 className="font-semibold text-lg mb-1">Precision</h3>
-            <p className="text-xs text-[#B7A9D6]">Cached bounding box reading with zero layout thrashing.</p>
+            <p className="text-xs text-white">Cached bounding box reading with zero layout thrashing.</p>
           </div>
 
           <div
@@ -101,7 +101,7 @@ export default function DevAgentsDemo() {
               03
             </div>
             <h3 className="font-semibold text-lg mb-1">Accessibility</h3>
-            <p className="text-xs text-[#B7A9D6]">Strict aria-hidden decoration, polite live status pill, Esc to skip.</p>
+            <p className="text-xs text-white">Strict aria-hidden decoration, polite live status pill, Esc to skip.</p>
           </div>
         </div>
 

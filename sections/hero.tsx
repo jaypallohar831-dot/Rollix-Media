@@ -30,13 +30,13 @@ export function HeroSection() {
           className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-violet-500/25 bg-violet-950/40 px-4 py-1.5 backdrop-blur-md"
         >
           <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[11px] sm:text-xs font-semibold tracking-wider text-violet-300">
+          <span className="text-[11px] sm:text-xs font-semibold tracking-wider text-white">
             Digital · Creative · Growth // Bhilwara Studio
           </span>
         </div>
 
         {/* Real Punchy SEO H1 Headline */}
-        <h1 className="font-heading text-[clamp(2.75rem,7vw,5.5rem)] font-extrabold tracking-[-0.035em] leading-[1.06] text-[#F5F0FF]">
+        <h1 className="font-heading text-[clamp(2.75rem,7vw,5.5rem)] font-extrabold tracking-[-0.035em] leading-[1.06] text-white">
           <span
             data-agent-layer="hero-h1-line1"
             data-agent-order="2"
@@ -63,7 +63,7 @@ export function HeroSection() {
           data-agent-order="4"
           data-agent-type="text"
           data-agent-label="Value Proposition"
-          className="mt-6 sm:mt-7 max-w-[680px] mx-auto text-base sm:text-lg leading-[1.65] text-[#B7A9D6]"
+          className="mt-6 sm:mt-7 max-w-[680px] mx-auto text-base sm:text-lg leading-[1.65] text-white"
         >
           Cinema-grade video production &amp; high-converting Meta ad funnels engineered 
           to turn local attention into measurable business revenue.
@@ -97,7 +97,7 @@ export function HeroSection() {
             <MagneticButton
               href="/portfolio"
               strength={18}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-violet-500/25 bg-[#1A0F33]/60 px-7 py-4 text-sm font-medium text-[#F5F0FF] backdrop-blur-md transition-all duration-300 hover:border-violet-500/50 hover:bg-[#241445]"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-violet-500/25 bg-[#1A0F33]/60 px-7 py-4 text-sm font-medium text-white backdrop-blur-md transition-all duration-300 hover:border-violet-500/50 hover:bg-[#241445]"
             >
               <span>View Selected Work</span>
             </MagneticButton>
@@ -105,7 +105,7 @@ export function HeroSection() {
         </div>
 
         {/* Minimal Proof Badges below CTA */}
-        <div className="mt-12 pt-8 border-t border-violet-500/15 flex flex-wrap items-center justify-center gap-8 text-xs font-mono text-[#B7A9D6]">
+        <div className="mt-12 pt-8 border-t border-violet-500/15 flex flex-wrap items-center justify-center gap-8 text-xs font-mono text-white">
           <div className="flex items-center gap-2">
             <Video className="h-4 w-4 text-violet-400" />
             <span>Cinema 4K Production</span>
@@ -116,7 +116,7 @@ export function HeroSection() {
             <span>₹100–150 Cost Per Lead</span>
           </div>
           <span className="text-violet-500/40">·</span>
-          <div className="text-violet-300 font-semibold">
+          <div className="text-white font-semibold">
             Direct Founder Access
           </div>
         </div>

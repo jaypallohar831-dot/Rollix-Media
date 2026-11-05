@@ -122,14 +122,14 @@ export function ProcessSection() {
           data-agent-label="Process Header"
           className="mx-auto mb-16 max-w-3xl text-center sm:mb-20"
         >
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Clear 3-Stage Roadmap
           </div>
 
           <h2
             id="process-heading"
-            className="font-heading text-3xl font-bold tracking-tight text-[#F5F0FF] sm:text-4xl lg:text-5xl"
+            className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
           >
             How We Build.{' '}
             <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
@@ -137,7 +137,7 @@ export function ProcessSection() {
             </span>
           </h2>
 
-          <p className="mt-4 text-base text-[#B7A9D6] sm:text-lg">
+          <p className="mt-4 text-base text-white sm:text-lg">
             A battle-tested 3-stage execution cycle that transforms audience curiosity into predictable brand revenue.
           </p>
         </div>
@@ -168,18 +168,18 @@ export function ProcessSection() {
                   key={step.number}
                   className="group relative flex flex-col items-center rounded-2xl border border-[#7C3AED]/20 bg-[#1A0F33]/90 p-6 text-center transition-all duration-300 hover:border-[#A855F7]/60 hover:bg-[#1A0F33] hover:shadow-xl hover:shadow-[#7C3AED]/15 sm:p-8"
                 >
-                  <div className="relative mb-5 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#7C3AED]/30 bg-[#241445] text-[#C4B5FD] shadow-lg shadow-[#0A0614] transition-all duration-300 group-hover:border-[#A855F7] group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105">
+                  <div className="relative mb-5 flex h-20 w-20 items-center justify-center rounded-2xl border border-[#7C3AED]/30 bg-[#241445] text-white shadow-lg shadow-[#0A0614] transition-all duration-300 group-hover:border-[#A855F7] group-hover:bg-[#7C3AED] group-hover:text-white group-hover:scale-105">
                     <Icon className="h-8 w-8 transition-transform duration-300 group-hover:scale-110" strokeWidth={1.75} />
                     <span className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#0A0614] border border-[#7C3AED]/40 font-mono text-[10px] font-bold text-[#A855F7] shadow-sm">
                       {step.number}
                     </span>
                   </div>
 
-                  <h3 className="font-heading text-lg font-bold text-[#F5F0FF] sm:text-xl">
+                  <h3 className="font-heading text-lg font-bold text-white sm:text-xl">
                     {step.title}
                   </h3>
 
-                  <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-[#B7A9D6]">
+                  <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-white">
                     {step.description}
                   </p>
                 </li>

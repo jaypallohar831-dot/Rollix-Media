@@ -85,7 +85,7 @@ export const Navbar = memo(function Navbar() {
 
               {/* Mobile hamburger */}
               <button
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 text-[#F5F0FF] transition-colors duration-300 hover:border-[#A855F7] hover:bg-[#241445] lg:hidden cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 text-white transition-colors duration-300 hover:border-[#A855F7] hover:bg-[#241445] lg:hidden cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#A855F7]"
                 onClick={toggleMobile}
                 aria-label="Open navigation menu"
               >

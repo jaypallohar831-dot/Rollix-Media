@@ -60,8 +60,8 @@ export function PhilosophySection() {
                     {founder.name.charAt(0)}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground leading-tight">{founder.name}</p>
-                    <p className="text-[11px] text-muted-foreground tracking-wide">{founder.role}</p>
+                    <p className="text-sm font-medium text-white leading-tight">{founder.name}</p>
+                    <p className="text-[11px] text-white/90 tracking-wide">{founder.role}</p>
                   </div>
                 </div>
               ))}
@@ -80,13 +80,13 @@ export function PhilosophySection() {
                   data-agent-label={`Pillar ${pillar.index}`}
                   className="group flex flex-col"
                 >
-                  <span className="mb-4 block text-[11px] font-medium tracking-[0.1em] text-muted-foreground transition-colors duration-500 group-hover:text-[#A855F7]">
+                  <span className="mb-4 block text-[11px] font-medium tracking-[0.1em] text-white/90 transition-colors duration-500 group-hover:text-[#A855F7]">
                     {pillar.index}
                   </span>
-                  <h3 className="mb-3 font-heading text-lg sm:text-xl font-medium tracking-[-0.01em] text-foreground">
+                  <h3 className="mb-3 font-heading text-lg sm:text-xl font-medium tracking-[-0.01em] text-white">
                     {pillar.title}
                   </h3>
-                  <p className="text-sm leading-[1.7] text-muted-foreground sm:text-[15px]">
+                  <p className="text-sm leading-[1.7] text-white sm:text-[15px]">
                     {pillar.body}
                   </p>
                 </div>

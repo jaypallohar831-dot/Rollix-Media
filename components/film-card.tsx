@@ -155,7 +155,7 @@ export const FilmCard = memo(function FilmCard({
 
       {/* ── METADATA ROW & STRATEGY TRIGGER ── */}
       <div className="mt-3.5 flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-[#B7A9D6]">
+        <div className="flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-white">
           <span>{item.month ? `${item.month} ${item.year}` : item.year}</span>
           {item.location && (
             <>
@@ -186,7 +186,7 @@ export const FilmCard = memo(function FilmCard({
       <Link href={href ?? `/portfolio/${item.id}`} className="block">
         <h3
           className={cn(
-            'mt-1.5 py-0.5 font-heading font-bold tracking-tight text-[#F5F0FF] transition-colors duration-300',
+            'mt-1.5 py-0.5 font-heading font-bold tracking-tight text-white transition-colors duration-300',
             highlightOnHover && 'group-hover:text-[#A855F7]',
             size === 'hero'
               ? 'text-2xl sm:text-3xl'

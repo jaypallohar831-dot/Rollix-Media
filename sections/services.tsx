@@ -158,14 +158,14 @@ export function ServicesSection({ initialServices }: ServicesSectionProps = {}) 
           data-agent-label="Services Header"
           className="mx-auto mb-14 max-w-3xl text-center sm:mb-18"
         >
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-pulse" />
             Core Growth Disciplines
           </div>
 
           <h2
             id="services-heading"
-            className="font-heading text-3xl font-bold tracking-tight text-[#F5F0FF] sm:text-4xl lg:text-5xl"
+            className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
           >
             Engineered for Reach.{' '}
             <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
@@ -173,7 +173,7 @@ export function ServicesSection({ initialServices }: ServicesSectionProps = {}) 
             </span>
           </h2>
 
-          <p className="mt-4 text-base text-[#B7A9D6] sm:text-lg">
+          <p className="mt-4 text-base text-white sm:text-lg">
             We integrate cinema-grade video, retention editing, and precision Meta ad funnels into an unified growth engine for modern brands.
           </p>
         </div>
@@ -206,7 +206,7 @@ export function ServicesSection({ initialServices }: ServicesSectionProps = {}) 
         <div className="mt-12 text-center">
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/60 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#C4B5FD] backdrop-blur-md transition-all duration-300 hover:border-[#A855F7] hover:bg-[#241445] hover:text-white"
+            className="inline-flex items-center gap-2 rounded-full border border-[#7C3AED]/30 bg-[#1A0F33]/60 px-6 py-3 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md transition-all duration-300 hover:border-[#A855F7] hover:bg-[#241445] hover:text-white"
           >
             <span>Explore All Capabilities &amp; Specialized Services</span>
             <ArrowRight className="h-4 w-4" />

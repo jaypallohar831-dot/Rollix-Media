@@ -81,7 +81,7 @@ export const ServiceCard = memo(function ServiceCard({
         {/* Title */}
         <h3
           className={cn(
-            'font-heading font-bold tracking-tight text-[#F5F0FF] transition-colors duration-300 group-hover:text-[#F5F0FF]',
+            'font-heading font-bold tracking-tight text-white transition-colors duration-300 group-hover:text-white',
             featured
               ? 'text-2xl sm:text-3xl lg:text-4xl'
               : 'text-lg sm:text-xl'
@@ -93,7 +93,7 @@ export const ServiceCard = memo(function ServiceCard({
         {/* Description */}
         <p
           className={cn(
-            'mt-2.5 leading-relaxed text-[#B7A9D6] transition-colors duration-300 group-hover:text-[#DDD6FE]',
+            'mt-2.5 leading-relaxed text-white transition-colors duration-300 group-hover:text-white',
             featured
               ? 'max-w-xl text-sm sm:text-base'
               : 'text-xs sm:text-sm'
@@ -104,7 +104,7 @@ export const ServiceCard = memo(function ServiceCard({
 
         {/* Pricing indicator */}
         {pricingStarting && (
-          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#7C3AED]/25 bg-[#241445]/60 px-3 py-1 text-[11px] font-medium text-[#C4B5FD]">
+          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#7C3AED]/25 bg-[#241445]/60 px-3 py-1 text-[11px] font-medium text-white">
             <span className="h-1 w-1 rounded-full bg-[#A855F7]" />
             <span>{pricingStarting}</span>
           </div>
