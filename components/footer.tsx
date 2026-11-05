@@ -174,8 +174,6 @@ export function Footer() {
 
           <p>
             Founded by{' '}
-            <span className="text-[#F5F0FF] font-medium">Rishabh Singh</span>
-            {' '}&amp;{' '}
             <span className="text-[#F5F0FF] font-medium">Jaypal</span>
           </p>
 

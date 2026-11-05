@@ -26,7 +26,7 @@ export function FloatingWhatsApp() {
       >
         <span className="flex items-center gap-1.5">
           <span className="h-2 w-2 rounded-full bg-[#10B981] animate-pulse" />
-          <span>Chat directly with Rishabh &amp; Jaypal</span>
+          <span>Chat directly with Jaypal</span>
         </span>
       </div>
 

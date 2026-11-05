@@ -234,7 +234,7 @@ export function FaqCtaSection() {
             </h3>
 
             <p className="mt-4 text-sm leading-relaxed text-[#B7A9D6] sm:text-base">
-              Skip agency middlemen. Speak directly with Rishabh and Jaypal. Get a tailored 15-minute growth blueprint with zero commitment.
+              Skip agency middlemen. Speak directly with Jaypal. Get a tailored 15-minute growth blueprint with zero commitment.
             </p>
 
             {/* CTAs Group */}

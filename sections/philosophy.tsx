@@ -50,11 +50,10 @@ export function PhilosophySection() {
               high-end <span className="text-[#A855F7] italic font-normal">artistry.</span>
             </h2>
 
-            {/* Co-Founders */}
+            {/* Founder */}
             <div className="mt-10 sm:mt-14 flex flex-col gap-5">
               {[
-                { name: 'Rishabh Singh', role: 'Co-Founder' },
-                { name: 'Jaypal', role: 'Co-Founder' },
+                { name: 'Jaypal', role: 'Founder' },
               ].map((founder) => (
                 <div key={founder.name} className="flex items-center gap-4">
                   <div className="h-10 w-10 rounded-full bg-[#A855F7]/10 border border-[#A855F7]/20 flex items-center justify-center text-[#A855F7] font-heading text-sm font-medium">

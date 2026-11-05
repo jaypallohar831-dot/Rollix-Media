@@ -149,7 +149,7 @@ export const PAGE_SEO = {
   about: {
     title: 'About Ampledia — Our Story, Mission & Leadership | Digital Agency',
     description:
-      'Learn about Ampledia — a premier digital agency co-founded by Rishabh Singh and Jaypal in Bhilwara, Rajasthan. We blend bold creativity with data-driven strategy to deliver exponential growth for modern brands.',
+      'Learn about Ampledia — a premier digital agency founded by Jaypal in Bhilwara, Rajasthan. We blend bold creativity with data-driven strategy to deliver exponential growth for modern brands.',
     keywords: [
       'about Ampledia',
       'digital marketing agency Bhilwara',
@@ -268,7 +268,7 @@ export const HOMEPAGE_FAQ = [
   {
     question: 'Why choose Ampledia over traditional agencies or freelancers?',
     answer:
-      'Traditional agencies outsource video production and charge bloated retainers without direct accountability. Freelancers lack full-stack execution. Ampledia integrates cinema-grade 4K filming, dynamic retention editing, performance Meta ad funnels, and modern web development under one roof with direct founder access (Rishabh & Jaypal).',
+      'Traditional agencies outsource video production and charge bloated retainers without direct accountability. Freelancers lack full-stack execution. Ampledia integrates cinema-grade 4K filming, dynamic retention editing, performance Meta ad funnels, and modern web development under one roof with direct founder access (Jaypal).',
   },
   {
     question: 'Are there any long-term lock-in contracts?',

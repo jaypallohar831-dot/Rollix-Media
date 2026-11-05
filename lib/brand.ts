@@ -19,8 +19,7 @@ export const BRAND = {
   whatsapp: 'https://wa.me/919024675831',
   foundingYear: '2026',
   founders: [
-    { name: 'Rishabh Singh', role: 'Co-Founder' },
-    { name: 'Jaypal', role: 'Co-Founder' },
+    { name: 'Jaypal', role: 'Founder' },
   ],
   address: {
     streetAddress: 'Bhilwara',
