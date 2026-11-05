@@ -33,8 +33,15 @@ export const ServiceCard = memo(function ServiceCard({
   tools,
   pricingStarting,
 }: ServiceCardProps) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
+
   return (
     <div
+      onMouseMove={handleMouseMove}
       className={cn(
         'group relative flex cursor-pointer overflow-hidden rounded-2xl border transition-[border-color,background-color,transform,box-shadow] duration-300',
         // Ampledia Dark Canvas & Surface
@@ -48,6 +55,15 @@ export const ServiceCard = memo(function ServiceCard({
         className
       )}
     >
+      {/* ── INTERACTIVE MOUSE SPOTLIGHT GLOW ── */}
+      <div
+        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(320px circle at var(--mouse-x, 100px) var(--mouse-y, 100px), rgba(168, 85, 247, 0.25), transparent 70%)`,
+        }}
+        aria-hidden="true"
+      />
+
       <Link
         href={`/services/${slug}`}
         className="absolute inset-0 z-20 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:ring-offset-2 focus:ring-offset-[#0A0614] rounded-2xl"
@@ -116,13 +132,13 @@ export const ServiceCard = memo(function ServiceCard({
             {tools.map((tool, idx) => {
               const ToolIcon = (toolIconMap[tool.icon] || Wrench) as React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
               return (
-                <div 
+                <div
                   key={idx}
                   className="group/tool relative flex h-7 w-7 items-center justify-center rounded-lg border border-[#7C3AED]/20 bg-[#241445]/80 transition-transform duration-200 hover:scale-110 shadow-sm"
                   title={tool.name}
                 >
-                  <ToolIcon 
-                    className="relative z-10 h-3.5 w-3.5 transition-colors duration-200" 
+                  <ToolIcon
+                    className="relative z-10 h-3.5 w-3.5 transition-colors duration-200"
                     style={{ color: tool.color }}
                   />
                 </div>

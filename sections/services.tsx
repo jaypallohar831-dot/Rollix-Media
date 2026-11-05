@@ -22,6 +22,7 @@ import {
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { isReducedMotion } from '@/lib/motion';
+import { ScrollWordReveal } from '@/components/animations/scroll-word-reveal';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -163,15 +164,12 @@ export function ServicesSection({ initialServices }: ServicesSectionProps = {}) 
             Core Growth Disciplines
           </div>
 
-          <h2
-            id="services-heading"
+          <ScrollWordReveal
+            as="h2"
+            text="Engineered for Reach. Built for Revenue."
+            gradientWord="Revenue."
             className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
-          >
-            Engineered for Reach.{' '}
-            <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
-              Built for Revenue.
-            </span>
-          </h2>
+          />
 
           <p className="mt-4 text-base text-white sm:text-lg">
             We integrate cinema-grade video, retention editing, and precision Meta ad funnels into an unified growth engine for modern brands.

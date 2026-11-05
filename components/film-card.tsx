@@ -62,8 +62,15 @@ export const FilmCard = memo(function FilmCard({
     }
   };
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
+
   return (
     <div
+      onMouseMove={handleMouseMove}
       className={cn(
         'group relative block rounded-2xl transition-transform duration-300 ease-out hover:-translate-y-1.5',
         className
@@ -82,6 +89,14 @@ export const FilmCard = memo(function FilmCard({
             aspectMap[size]
           )}
         >
+          {/* Spotlight cursor glow overlay */}
+          <div
+            className="pointer-events-none absolute -inset-px z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style={{
+              background: `radial-gradient(280px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(168, 85, 247, 0.28), transparent 75%)`,
+            }}
+            aria-hidden="true"
+          />
           <Image
             src={imgSrc}
             alt={`${item.title} — ${item.category} project by Ampledia`}

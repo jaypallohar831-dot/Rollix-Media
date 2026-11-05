@@ -7,6 +7,8 @@ import { ArrowRight, Eye, Users, Target, Zap, CheckCircle2 } from 'lucide-react'
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { isReducedMotion } from '@/lib/motion';
+import { DottedGlobe } from '@/components/animations/dotted-globe';
+import { ScrollWordReveal } from '@/components/animations/scroll-word-reveal';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -190,15 +192,12 @@ export function SuccessStoriesSection() {
             Verified Client Results
           </div>
 
-          <h2
-            id="results-heading"
+          <ScrollWordReveal
+            as="h2"
+            text="Proof Over Promises. Real Local Growth."
+            gradientWord="Growth."
             className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
-          >
-            Proof Over Promises.{' '}
-            <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
-              Real Local Growth.
-            </span>
-          </h2>
+          />
 
           <p className="mt-4 text-base text-white sm:text-lg">
             We don&apos;t inflate numbers. Every view, reach metric, and qualified student inquiry below was tracked live during active campaign delivery.
@@ -350,6 +349,9 @@ export function SuccessStoriesSection() {
             </span>
           </div>
         </div>
+
+        {/* ── 3D INTERACTIVE DOTTED GLOBE / PAN-INDIA REACH ── */}
+        <DottedGlobe />
       </Container>
 
       {/* Bottom subtle hairline divider */}

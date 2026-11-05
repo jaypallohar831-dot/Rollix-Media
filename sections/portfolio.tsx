@@ -10,6 +10,7 @@ import { VISION_CLASSES_PROJECT } from '@/lib/portfolio';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { isReducedMotion } from '@/lib/motion';
+import { ScrollWordReveal } from '@/components/animations/scroll-word-reveal';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -176,15 +177,12 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
             Selected Client Work
           </div>
 
-          <h2
-            id="portfolio-heading"
+          <ScrollWordReveal
+            as="h2"
+            text="Crafted for Impact. Engineered to Scale."
+            gradientWord="Scale."
             className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
-          >
-            Crafted for Impact.{' '}
-            <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
-              Engineered to Scale.
-            </span>
-          </h2>
+          />
 
           <p className="mt-4 text-base text-white sm:text-lg">
             Real campaigns, measurable student acquisitions, and digital creative executions engineered for ambitious brands.
@@ -207,19 +205,17 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#A855F7] ${
-                    activeCategory === cat
+                  className={`flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#A855F7] ${activeCategory === cat
                       ? 'border border-[#A855F7] bg-[#7C3AED] text-white shadow-lg shadow-[#7C3AED]/30'
                       : 'border border-[#7C3AED]/20 bg-[#1A0F33]/80 text-white hover:border-[#7C3AED]/40 hover:text-white'
-                  }`}
+                    }`}
                 >
                   <span>{cat}</span>
                   <span
-                    className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono ${
-                      activeCategory === cat
+                    className={`rounded-full px-1.5 py-0.2 text-[10px] font-mono ${activeCategory === cat
                         ? 'bg-black/25 text-white'
                         : 'bg-[#241445] text-white'
-                    }`}
+                      }`}
                   >
                     {count}
                   </span>
@@ -244,16 +240,14 @@ export function PortfolioSection({ projects }: PortfolioSectionProps) {
             return (
               <div
                 key={project.id}
-                className={`group relative overflow-hidden rounded-3xl border border-[#7C3AED]/25 bg-[#1A0F33] p-6 sm:p-8 transition-all duration-300 hover:border-[#A855F7]/60 hover:shadow-2xl hover:shadow-[#7C3AED]/20 ${
-                  isFeatured ? 'lg:col-span-12' : 'lg:col-span-6'
-                }`}
+                className={`group relative overflow-hidden rounded-3xl border border-[#7C3AED]/25 bg-[#1A0F33] p-6 sm:p-8 transition-all duration-300 hover:border-[#A855F7]/60 hover:shadow-2xl hover:shadow-[#7C3AED]/20 ${isFeatured ? 'lg:col-span-12' : 'lg:col-span-6'
+                  }`}
               >
                 <div className={`grid grid-cols-1 items-center gap-6 sm:gap-8 ${isFeatured ? 'lg:grid-cols-12' : ''}`}>
                   {/* Thumbnail / Media Container */}
                   <div
-                    className={`relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[#7C3AED]/20 bg-[#241445] ${
-                      isFeatured ? 'lg:col-span-7' : ''
-                    }`}
+                    className={`relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[#7C3AED]/20 bg-[#241445] ${isFeatured ? 'lg:col-span-7' : ''
+                      }`}
                   >
                     <Image
                       src={project.image || '/assets/portfolio/motion.webp'}

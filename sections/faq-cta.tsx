@@ -8,6 +8,7 @@ import { ChevronDown, MessageCircle, ArrowRight, ShieldCheck, Zap, Sparkles } fr
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { isReducedMotion } from '@/lib/motion';
+import { ScrollWordReveal } from '@/components/animations/scroll-word-reveal';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -130,15 +131,12 @@ export function FaqCtaSection() {
             Clear Answers
           </div>
 
-          <h2
-            id="faq-heading"
+          <ScrollWordReveal
+            as="h2"
+            text="Frequently Asked Questions."
+            gradientWord="Questions."
             className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
-          >
-            Frequently Asked{' '}
-            <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
-              Questions.
-            </span>
-          </h2>
+          />
 
           <p className="mt-4 text-base text-white sm:text-lg">
             Everything you need to know about our workflow, ad budgets, contract terms, and expected timelines.

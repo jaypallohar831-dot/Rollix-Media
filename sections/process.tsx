@@ -6,6 +6,7 @@ import { Compass, Video, TrendingUp } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { isReducedMotion } from '@/lib/motion';
+import { ScrollWordReveal } from '@/components/animations/scroll-word-reveal';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -127,15 +128,12 @@ export function ProcessSection() {
             Clear 3-Stage Roadmap
           </div>
 
-          <h2
-            id="process-heading"
+          <ScrollWordReveal
+            as="h2"
+            text="How We Build. How You Scale."
+            gradientWord="Scale."
             className="font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
-          >
-            How We Build.{' '}
-            <span className="bg-gradient-to-r from-[#A855F7] via-[#C084FC] to-[#DDD6FE] bg-clip-text text-transparent">
-              How You Scale.
-            </span>
-          </h2>
+          />
 
           <p className="mt-4 text-base text-white sm:text-lg">
             A battle-tested 3-stage execution cycle that transforms audience curiosity into predictable brand revenue.

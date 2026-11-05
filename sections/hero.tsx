@@ -3,6 +3,7 @@
 import React from 'react';
 import { MagneticButton } from '@/components/magnetic-button';
 import { BRAND } from '@/lib/brand';
+import { HeroGrowthEngine } from '@/components/hero/hero-growth-engine';
 import { MessageCircle, ArrowRight, Video, Target } from 'lucide-react';
 
 export function HeroSection() {
@@ -65,7 +66,7 @@ export function HeroSection() {
           data-agent-label="Value Proposition"
           className="mt-6 sm:mt-7 max-w-[680px] mx-auto text-base sm:text-lg leading-[1.65] text-white"
         >
-          Cinema-grade video production &amp; high-converting Meta ad funnels engineered 
+          Cinema-grade video production &amp; high-converting Meta ad funnels engineered
           to turn local attention into measurable business revenue.
         </p>
 
@@ -120,6 +121,9 @@ export function HeroSection() {
             Direct Founder Access
           </div>
         </div>
+
+        {/* ── INTERACTIVE GROWTH ENGINE & CIRCUIT PULSE VISUALIZER ── */}
+        <HeroGrowthEngine />
       </div>
     </section>
   );
